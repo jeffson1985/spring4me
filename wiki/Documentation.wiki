@@ -1,3 +1,5 @@
 ==Documentation==
   
   * [Introduction Introduction]
+  * [UserGuide UserGuide]
+  * [DeveloperGuide DeveloperGuide]
