@@ -198,6 +198,13 @@
 				<version>1.1.2</version>
 			</dependency>
 			<!-- Jave EE End -->
+			<!-- Freemarker Begin -->
+			<dependency>
+				<groupId>org.freemarker</groupId>
+				<artifactId>freemarker</artifactId>
+				<version>2.3.16</version>
+			</dependency>
+			<!-- Freemarker End -->
 		</dependencies>
 	</dependencyManagement>
 </project>

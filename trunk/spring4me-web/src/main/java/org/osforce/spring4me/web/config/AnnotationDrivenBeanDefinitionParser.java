@@ -32,7 +32,7 @@ import org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMa
 import org.w3c.dom.Element;
 
 /**
- * 
+ *
  * @author <a href="mailto:haozhonghu@hotmail.com">gavin</a>
  * @since 0.1
  * @create May 13, 2011 - 4:37:16 PM
@@ -167,6 +167,7 @@ public class AnnotationDrivenBeanDefinitionParser implements BeanDefinitionParse
 		return messageConverters;
 	}
 
+	@SuppressWarnings("unchecked")
 	private RootBeanDefinition createConverterBeanDefinition(Class<? extends HttpMessageConverter> converterClass,
 			Object source) {
 		RootBeanDefinition beanDefinition = new RootBeanDefinition(converterClass);

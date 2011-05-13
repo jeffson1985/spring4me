@@ -37,12 +37,35 @@
     </bean>
     -->
 
+    <!-- View Revolver Begin -->
+	<bean id="freemarkerConfigurer"
+		class="org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer">
+		<property name="templateLoaderPath" value="/"/>
+		<property name="freemarkerSettings">
+			<props>
+				<prop key="number_format">0.######</prop>
+				<prop key="defaultEncoding">UTF-8</prop>
+				<prop key="template_update_delay">0</prop>
+			</props>
+		</property>
+	</bean>
+
 	<!-- View Revolver Begin -->
+	<!--
 	<bean id="jspViewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
 		<property name="viewClass" value="org.osforce.spring4me.web.view.ExtendsInternalResourceView"/>
-		<property name="order" value="1"/>
+		<property name="order" value="2"/>
 		<property name="prefix" value="/WEB-INF/views/"/>
 		<property name="suffix" value=".jsp"/>
+	</bean>
+	 -->
+
+	<bean id="ftlViewResolver" class="org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver">
+		<property name="viewClass" value="org.osforce.spring4me.web.view.ExtendsFreeMarkerView"/>
+		<property name="contentType" value="text/html;charset=UTF-8"/>
+		<property name="order" value="1"/>
+		<property name="prefix" value="/WEB-INF/views/"/>
+		<property name="suffix" value=".ftl"/>
 	</bean>
 	<!-- View Resolver End -->
 </beans>
