@@ -19,7 +19,11 @@ public class PortalController {
 	private String getRequestPage(HttpServletRequest request) {
 		String requestUri = request.getRequestURI();
 		String contextPath = request.getContextPath();
-		return StringUtils.substringAfter(requestUri, contextPath);
+		String requestPath = StringUtils.substringAfter(requestUri, contextPath);
+		if(StringUtils.isBlank("") || StringUtils.equals(requestPath, "/")) {
+			requestPath = "/home";
+		}
+		return requestPath;
 	}
 
 }

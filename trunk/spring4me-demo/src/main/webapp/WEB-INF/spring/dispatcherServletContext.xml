@@ -18,7 +18,7 @@
 		<!-- Changes the locale when a 'locale' request parameter is sent; e.g. /?locale=de -->
 		<bean class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor" />
 	</mvc:interceptors>
-
+	
 	<!-- Handles HTTP GET requests for /resources/** by efficiently serving up static resources in the ${webappRoot}/resources/ directory-->
 	<mvc:resources mapping="static/**" location="/"/>
 
@@ -52,20 +52,32 @@
 
 	<!-- View Revolver Begin -->
 	<!--
-	<bean id="jspViewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+	<bean id="jspViewResolver" class="org.osforce.spring4me.web.view.ExtendsInternalResourceViewResolver">
 		<property name="viewClass" value="org.osforce.spring4me.web.view.ExtendsInternalResourceView"/>
 		<property name="order" value="2"/>
 		<property name="prefix" value="/WEB-INF/views/"/>
 		<property name="suffix" value=".jsp"/>
+		<property name="themePrefix" value="/WEB-INF/themes/"/>
+		<property name="themeSuffix" value=".ftl"/>
 	</bean>
 	 -->
-
-	<bean id="ftlViewResolver" class="org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver">
+	<bean id="jspViewResolver" class="org.osforce.spring4me.web.view.ExtendsInternalResourceViewResolver">
+		<property name="order" value="1"/>
+	</bean>
+	<!-- 
+	<bean id="ftlViewResolver" class="org.osforce.spring4me.web.view.ExtendsFreeMarkerViewResolver">
 		<property name="viewClass" value="org.osforce.spring4me.web.view.ExtendsFreeMarkerView"/>
 		<property name="contentType" value="text/html;charset=UTF-8"/>
 		<property name="order" value="1"/>
 		<property name="prefix" value="/WEB-INF/views/"/>
 		<property name="suffix" value=".ftl"/>
+		<property name="themePrefix" value="/WEB-INF/themes/"/>
+		<property name="themeSuffix" value=".ftl"/>
+	</bean>
+	 -->
+	<bean id="ftlViewResolver" class="org.osforce.spring4me.web.view.freemarker.ExtendsFreeMarkerViewResolver">
+		<property name="contentType" value="text/html;charset=UTF-8"/>
+		<property name="order" value="2"/>
 	</bean>
 	<!-- View Resolver End -->
 </beans>

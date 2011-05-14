@@ -29,7 +29,7 @@ public class ExtendsViewUtil {
 		this.webApplicationContext = webApplicationContext;
 	}
 
-	protected String getUrl(String beanName, HttpServletRequest request) throws Exception {
+	public String getUrl(String beanName, HttpServletRequest request) throws Exception {
 		if(StringUtils.startsWith(beanName, PREFIX_PAGE)) {
 			String viewName = StringUtils.substringAfter(beanName, PREFIX_PAGE);
 			ConfigFactory configFactory = getConfigFactory();

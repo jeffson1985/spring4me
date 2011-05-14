@@ -1,4 +1,4 @@
-<#assign w=JspTaglibs["/WEB-INF/widget.tld"]>
+<#assign w=JspTaglibs["/WEB-INF/spring4me.tld"]>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -7,6 +7,6 @@
 <title>Default Theme</title>
 </head>
 <body>
-	<@w.placeholder name="body"/>
+	<@s4m.placeholder name="body"/>
 </body>
 </html>

@@ -17,7 +17,6 @@
 		<hibernate.version>3.6.2.Final</hibernate.version>
 		<hibernate.search.version>3.3.0.Final</hibernate.search.version>
 		<aspectj.version>1.6.10</aspectj.version>
-		<spring4me.version>0.1.0-SNAPSHOT</spring4me.version>
 	</properties>
 
 	<dependencyManagement>
@@ -26,12 +25,12 @@
 			<dependency>
 				<groupId>org.osforce</groupId>
 				<artifactId>spring4me-dao</artifactId>
-				<version>${spring4me.version}</version>
+				<version>${project.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.osforce</groupId>
 				<artifactId>spring4me-web</artifactId>
-				<version>${spring4me.version}</version>
+				<version>${project.version}</version>
 			</dependency>
 			<!-- Spring4Me End -->
 			<!-- Spring Begin -->
@@ -198,13 +197,6 @@
 				<version>1.1.2</version>
 			</dependency>
 			<!-- Jave EE End -->
-			<!-- Freemarker Begin -->
-			<dependency>
-				<groupId>org.freemarker</groupId>
-				<artifactId>freemarker</artifactId>
-				<version>2.3.16</version>
-			</dependency>
-			<!-- Freemarker End -->
 		</dependencies>
 	</dependencyManagement>
 </project>

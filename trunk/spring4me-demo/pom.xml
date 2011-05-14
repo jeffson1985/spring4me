@@ -32,6 +32,7 @@
 			<artifactId>freemarker</artifactId>
 		</dependency>
 	</dependencies>
+	
 	<build>
 		<finalName>spring4me-demo</finalName>
 	</build>

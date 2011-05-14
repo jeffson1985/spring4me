@@ -20,13 +20,15 @@ public class ExtendsInternalResourceView extends InternalResourceView {
 	public ExtendsInternalResourceView() {
 	}
 
-	public void setThemePrefix(String themePrefix) {
-		this.themePrefix = themePrefix;
+	public void setThemePrefix(String prefix) {
+		this.themePrefix = prefix;
+	}
+	
+	public void setThemeSuffix(String suffix) {
+		this.themeSuffix = suffix;
 	}
 
-	public void setThemeSuffix(String themeSuffix) {
-		this.themeSuffix = themeSuffix;
-	}
+	
 
 	@Override
 	protected String prepareForRendering(HttpServletRequest request,

@@ -1,6 +1,6 @@
 package org.osforce.spring4me.web.config;
 
-import org.osforce.spring4me.web.bind.support.PrefAnnotationArgumentResolver;
+import org.osforce.spring4me.web.bind.support.WidgetCustomArgumentResolver;
 import org.osforce.spring4me.web.widget.ConfigFactory;
 import org.osforce.spring4me.web.widget.impl.XmlConfigFactory;
 import org.springframework.beans.factory.config.BeanDefinition;
@@ -182,7 +182,7 @@ public class AnnotationDrivenBeanDefinitionParser implements BeanDefinitionParse
 		if (element.hasAttribute("custom-argument-resolver")) {
 			refs.add(new RuntimeBeanReference(element.getAttribute("custom-argument-resolver")));
 		}
-		RootBeanDefinition argResolverDef = new RootBeanDefinition(PrefAnnotationArgumentResolver.class);
+		RootBeanDefinition argResolverDef = new RootBeanDefinition(WidgetCustomArgumentResolver.class);
 		argResolverDef.setSource(source);
 		argResolverDef.setRole(BeanDefinition.ROLE_INFRASTRUCTURE);
 		argResolverDef.getPropertyValues().add("conversionService", getConversionService(element, source, parserContext));
