@@ -3,4 +3,4 @@
   * [Introduction Introduction]
   * [UserGuide UserGuide]
   * [DeveloperGuide DeveloperGuide]
-  * [Downloads http://code.google.com/p/spring4me/downloads/list]
+  * [http://code.google.com/p/spring4me/downloads/list Downloads]
