@@ -9,5 +9,7 @@
   	<module>spring4me-web</module>
   	<module>spring4me-dao</module>
   	<module>spring4me-demo</module>
+  	<module>spring4me-task</module>
+  	<module>spring4me-social</module>
   </modules>
 </project>

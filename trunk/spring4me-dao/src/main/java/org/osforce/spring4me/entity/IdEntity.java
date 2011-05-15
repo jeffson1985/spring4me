@@ -7,7 +7,7 @@ import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 
 @MappedSuperclass
-public abstract class IdEntity implements IdAdapter, Serializable {
+public abstract class IdEntity implements Serializable {
 
 	private static final long serialVersionUID = -2020105896329726846L;
 

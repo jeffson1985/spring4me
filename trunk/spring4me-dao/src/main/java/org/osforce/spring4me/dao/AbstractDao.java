@@ -13,9 +13,9 @@ import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaQuery;
 
 import org.apache.commons.lang.StringUtils;
-import org.osforce.spring4me.entity.IdAdapter;
+import org.osforce.spring4me.entity.IdEntity;
 
-public abstract class AbstractDao<E extends IdAdapter>
+public abstract class AbstractDao<E extends IdEntity>
 	implements BaseDao<E> {
 
 	protected EntityManager entityManager;

@@ -1,8 +1,8 @@
 package org.osforce.spring4me.dao;
 
-import org.osforce.spring4me.entity.IdAdapter;
+import org.osforce.spring4me.entity.IdEntity;
 
-public interface BaseDao<T extends IdAdapter> {
+public interface BaseDao<T extends IdEntity> {
 
 	<PK> T get(PK id);
 
