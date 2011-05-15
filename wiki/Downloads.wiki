@@ -1,1 +1,1 @@
-=== 去 SVN 仓库 Check Out 源码吧！ ===
+=== 去 [http://code.google.com/p/spring4me/source/checkout SVN 仓库] Check Out 源码吧！ ===
