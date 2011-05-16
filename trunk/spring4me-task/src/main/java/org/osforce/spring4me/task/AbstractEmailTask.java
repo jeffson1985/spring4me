@@ -11,11 +11,11 @@ import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.mail.javamail.MimeMessagePreparator;
 
 /**
- *
- * @author gavin
- * @since 1.0.0
- * @create May 5, 2011 - 4:01:31 PM
- *  <a href="http://www.opensourceforce.org">开源力量</a>
+ * 
+ * @author <a href="mailto:haozhonghu@hotmail.com">gavin</a>
+ * @since 0.1.0
+ * @create May 16, 2011 - 3:53:53 PM
+ * <a href="http://www.opensourceforce.org">开源力量</a>
  */
 public abstract class AbstractEmailTask extends AbstractTask {
 

@@ -34,7 +34,7 @@ import org.w3c.dom.Element;
 /**
  *
  * @author <a href="mailto:haozhonghu@hotmail.com">gavin</a>
- * @since 0.1
+ * @since 0.1.0
  * @create May 13, 2011 - 4:37:16 PM
  * <a href="http://www.opensourceforce.org">开源力量</a>
  */

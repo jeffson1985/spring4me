@@ -8,6 +8,13 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+/**
+ * 
+ * @author <a href="mailto:haozhonghu@hotmail.com">gavin</a>
+ * @since 0.1.0
+ * @create May 16, 2011 - 3:52:47 PM
+ * <a href="http://www.opensourceforce.org">开源力量</a>
+ */
 @Widget
 @RequestMapping("test")
 public class DemoWidget {

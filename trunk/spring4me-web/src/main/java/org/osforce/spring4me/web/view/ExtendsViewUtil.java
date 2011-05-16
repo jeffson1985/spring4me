@@ -11,6 +11,13 @@ import org.springframework.beans.factory.NoSuchBeanDefinitionException;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.servlet.support.RequestContextUtils;
 
+/**
+ * 
+ * @author <a href="mailto:haozhonghu@hotmail.com">gavin</a>
+ * @since 0.1.0
+ * @create May 16, 2011 - 3:55:20 PM
+ * <a href="http://www.opensourceforce.org">开源力量</a>
+ */
 public class ExtendsViewUtil {
 	private static final String PREFIX_PAGE = "page:";
 

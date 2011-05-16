@@ -6,7 +6,7 @@ import org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver;
 /**
  * 
  * @author <a href="mailto:haozhonghu@hotmail.com">gavin</a>
- * @since 0.1
+ * @since 0.1.0
  * @create May 14, 2011 - 6:04:59 PM
  * <a href="http://www.opensourceforce.org">开源力量</a>
  */

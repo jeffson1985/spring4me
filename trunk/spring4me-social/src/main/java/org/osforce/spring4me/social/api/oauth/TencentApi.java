@@ -10,10 +10,11 @@ import org.scribe.model.Verb;
 import org.scribe.oauth.OAuthService;
 
 /**
- * @author gavin
- * @since 1.0.3
- * @create May 10, 2011 - 5:55:36 PM
- *  <a href="http://www.opensourceforce.org">开源力量</a>
+ * 
+ * @author <a href="mailto:haozhonghu@hotmail.com">gavin</a>
+ * @since 0.1.0
+ * @create May 16, 2011 - 3:53:10 PM
+ * <a href="http://www.opensourceforce.org">开源力量</a>
  */
 public class TencentApi extends DefaultApi10a {
 

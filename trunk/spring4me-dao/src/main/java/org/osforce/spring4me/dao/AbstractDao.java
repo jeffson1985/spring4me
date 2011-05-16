@@ -15,6 +15,13 @@ import javax.persistence.criteria.CriteriaQuery;
 import org.apache.commons.lang.StringUtils;
 import org.osforce.spring4me.entity.IdEntity;
 
+/**
+ * 
+ * @author <a href="mailto:haozhonghu@hotmail.com">gavin</a>
+ * @since 0.1.0
+ * @create May 16, 2011 - 3:50:49 PM
+ * <a href="http://www.opensourceforce.org">开源力量</a>
+ */
 public abstract class AbstractDao<E extends IdEntity>
 	implements BaseDao<E> {
 

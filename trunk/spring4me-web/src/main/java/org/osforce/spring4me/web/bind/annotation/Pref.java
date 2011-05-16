@@ -8,7 +8,7 @@ import java.lang.annotation.Target;
 /**
  * 
  * @author <a href="mailto:haozhonghu@hotmail.com">gavin</a>
- * @since 0.1
+ * @since 0.1.0
  * @create May 13, 2011 - 4:36:19 PM
  * <a href="http://www.opensourceforce.org">开源力量</a>
  */

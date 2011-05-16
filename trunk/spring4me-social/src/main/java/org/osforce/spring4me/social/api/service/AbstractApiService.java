@@ -10,10 +10,11 @@ import org.scribe.model.Response;
 import org.scribe.model.Token;
 
 /**
- * @author gavin
- * @since 1.0.3
- * @create May 10, 2011 - 4:24:35 PM
- *  <a href="http://www.opensourceforce.org">开源力量</a>
+ * 
+ * @author <a href="mailto:haozhonghu@hotmail.com">gavin</a>
+ * @since 0.1.0
+ * @create May 16, 2011 - 3:53:36 PM
+ * <a href="http://www.opensourceforce.org">开源力量</a>
  */
 public abstract class AbstractApiService implements ApiService {
 

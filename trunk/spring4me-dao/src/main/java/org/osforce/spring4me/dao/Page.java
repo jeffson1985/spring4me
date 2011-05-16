@@ -3,9 +3,16 @@ package org.osforce.spring4me.dao;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * 
+ * @author <a href="mailto:haozhonghu@hotmail.com">gavin</a>
+ * @since 0.1.0
+ * @create May 16, 2011 - 3:51:31 PM
+ * <a href="http://www.opensourceforce.org">开源力量</a>
+ */
 public class Page<T> {
 
-	protected Integer pageNO = 1;
+	protected Integer pageNo = 1;
 	protected Integer pageSize = -1;
 	protected Boolean autoCount = Boolean.TRUE;
 
@@ -19,14 +26,14 @@ public class Page<T> {
 		this.pageSize = pageSize;
 	}
 
-	public Integer getPageNO() {
-		return pageNO;
+	public Integer getPageNo() {
+		return pageNo;
 	}
 
-	public Page<T> setPageNO(Integer pageNO) {
-		this.pageNO = pageNO;
-		if (pageNO < 1) {
-			this.pageNO = 1;
+	public Page<T> setPageNo(Integer pageNo) {
+		this.pageNo = pageNo;
+		if (pageNo < 1) {
+			this.pageNo = 1;
 		}
 		return this;
 	}
@@ -41,7 +48,7 @@ public class Page<T> {
 	}
 
 	public Integer getFirst() {
-		return ((pageNO - 1) * pageSize) + 1;
+		return ((pageNo - 1) * pageSize) + 1;
 	}
 
 	public Boolean getAutoCount() {
@@ -84,26 +91,26 @@ public class Page<T> {
 	}
 
 	public Boolean getHasNext() {
-		return (pageNO + 1 <= getTotalPages());
+		return (pageNo + 1 <= getTotalPages());
 	}
 
 	public Integer getNextPage() {
 		if (getHasNext()) {
-			return pageNO + 1;
+			return pageNo + 1;
 		} else {
-			return pageNO;
+			return pageNo;
 		}
 	}
 
 	public Boolean getHasPre() {
-		return (pageNO - 1 >= 1);
+		return (pageNo - 1 >= 1);
 	}
 
 	public Integer getPrePage() {
 		if (getHasPre()) {
-			return pageNO - 1;
+			return pageNo - 1;
 		} else {
-			return pageNO;
+			return pageNo;
 		}
 	}
 }
