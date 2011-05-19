@@ -22,10 +22,9 @@ public class DemoWidget {
 	public DemoWidget() {
 	}
 
-	@RequestMapping(value="/demo/{name}")
+	@RequestMapping(value="/demo")
 	public String test(@Pref Long numberValue, @Pref Boolean boolValue, 
-			@Pref String stringValue, WidgetConfig widgetConfig, PageConfig pageConfig,
-			@RequestParam Long userId, @PathVariable String name) {
+			@Pref String stringValue, WidgetConfig widgetConfig, PageConfig pageConfig) {
 		System.out.println(numberValue);
 		System.out.println(boolValue);
 		System.out.println(stringValue);

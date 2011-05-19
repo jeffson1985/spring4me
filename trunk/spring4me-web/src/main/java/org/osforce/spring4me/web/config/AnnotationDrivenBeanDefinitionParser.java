@@ -1,8 +1,11 @@
 package org.osforce.spring4me.web.config;
 
+import org.apache.commons.lang.StringUtils;
 import org.osforce.spring4me.web.bind.support.WidgetCustomArgumentResolver;
 import org.osforce.spring4me.web.widget.ConfigFactory;
-import org.osforce.spring4me.web.widget.impl.XmlConfigFactory;
+import org.osforce.spring4me.web.widget.ConfigParser;
+import org.osforce.spring4me.web.widget.impl.DefaultConfigFactory;
+import org.osforce.spring4me.web.widget.impl.XmlConfigParser;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.beans.factory.config.RuntimeBeanReference;
 import org.springframework.beans.factory.parsing.BeanComponentDefinition;
@@ -75,7 +78,7 @@ public class AnnotationDrivenBeanDefinitionParser implements BeanDefinitionParse
 		bindingDef.getPropertyValues().add("conversionService", conversionService);
 		bindingDef.getPropertyValues().add("validator", validator);
 
-		ManagedList<RuntimeBeanReference> argResolvers = getCustomArgumentResolvers(element, source, parserContext);
+		ManagedList<RuntimeBeanReference> argResolvers = getCustomArgumentResolvers(element, source, parserContext, conversionService);
 
 		RootBeanDefinition annAdapterDef = new RootBeanDefinition(AnnotationMethodHandlerAdapter.class);
 		annAdapterDef.setSource(source);
@@ -96,9 +99,16 @@ public class AnnotationDrivenBeanDefinitionParser implements BeanDefinitionParse
 		String mappedInterceptorName = parserContext.getReaderContext().registerWithGeneratedName(mappedCsInterceptorDef);
 
 		//
-		RootBeanDefinition configFactoryDef = new RootBeanDefinition(XmlConfigFactory.class);
+		RootBeanDefinition configParserDef = new RootBeanDefinition(XmlConfigParser.class);
+		configParserDef.setSource(source);
+		configParserDef.setRole(BeanDefinition.ROLE_INFRASTRUCTURE);
+		parserContext.getReaderContext().registerWithGeneratedName(configParserDef);
+		parserContext.registerBeanComponent(new BeanComponentDefinition(configParserDef, ConfigParser.KEY));
+		//
+		RootBeanDefinition configFactoryDef = new RootBeanDefinition(DefaultConfigFactory.class);
 		configFactoryDef.setSource(source);
 		configFactoryDef.setRole(BeanDefinition.ROLE_INFRASTRUCTURE);
+		configFactoryDef.getPropertyValues().add("configParser", configParserDef);
 		parserContext.getReaderContext().registerWithGeneratedName(configFactoryDef);
 		parserContext.registerBeanComponent(new BeanComponentDefinition(configFactoryDef, ConfigFactory.KEY));
 
@@ -177,15 +187,19 @@ public class AnnotationDrivenBeanDefinitionParser implements BeanDefinitionParse
 		return beanDefinition;
 	}
 
-	private ManagedList<RuntimeBeanReference> getCustomArgumentResolvers(Element element, Object source, ParserContext parserContext) {
+	private ManagedList<RuntimeBeanReference> getCustomArgumentResolvers(
+			Element element, Object source, ParserContext parserContext, RuntimeBeanReference conversionService) {
 		ManagedList<RuntimeBeanReference> refs = new ManagedList<RuntimeBeanReference>();
-		if (element.hasAttribute("custom-argument-resolver")) {
-			refs.add(new RuntimeBeanReference(element.getAttribute("custom-argument-resolver")));
+		if (element.hasAttribute("custom-argument-resolvers")) {
+			String[] customArgumentResolvers = StringUtils.split(element.getAttribute("custom-argument-resolvers"), ",");
+			for(String customArgumentResolver : customArgumentResolvers) {
+				refs.add(new RuntimeBeanReference(customArgumentResolver));
+			}
 		}
 		RootBeanDefinition argResolverDef = new RootBeanDefinition(WidgetCustomArgumentResolver.class);
 		argResolverDef.setSource(source);
 		argResolverDef.setRole(BeanDefinition.ROLE_INFRASTRUCTURE);
-		argResolverDef.getPropertyValues().add("conversionService", getConversionService(element, source, parserContext));
+		argResolverDef.getPropertyValues().add("conversionService", conversionService);
 		String argResolverName = parserContext.getReaderContext().registerWithGeneratedName(argResolverDef);
 		refs.add(new RuntimeBeanReference(argResolverName));
 		return refs;

@@ -30,7 +30,7 @@ public class ExtendsViewUtil {
 		this.themePrefix = prefix;
 		this.themeSuffix = suffix;
 	}
-
+	
 	public void setWebApplicationContext(
 			WebApplicationContext webApplicationContext) {
 		this.webApplicationContext = webApplicationContext;

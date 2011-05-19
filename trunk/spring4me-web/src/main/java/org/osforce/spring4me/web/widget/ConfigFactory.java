@@ -13,6 +13,13 @@ public interface ConfigFactory {
 
 	static final String KEY = ConfigFactory.class.getName();
 
+	/**
+	 * Get page config  by ConfigFactory
+	 * @param path pattern /home?qualifier=people
+	 * @param locale
+	 * @return
+	 * @throws Exception
+	 */
 	PageConfig getPageConfig(String path, Locale locale) throws Exception;
 
 }

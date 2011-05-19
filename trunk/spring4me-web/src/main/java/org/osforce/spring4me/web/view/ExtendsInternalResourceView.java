@@ -14,12 +14,12 @@ import org.springframework.web.servlet.view.InternalResourceView;
  */
 public class ExtendsInternalResourceView extends InternalResourceView {
 
-	private String themePrefix = "/WEB-INF/themes/";
-	private String themeSuffix = ".jsp";
+	private String themePrefix;
+	private String themeSuffix;
 
 	public ExtendsInternalResourceView() {
 	}
-
+	
 	public void setThemePrefix(String prefix) {
 		this.themePrefix = prefix;
 	}

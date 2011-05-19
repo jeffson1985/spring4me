@@ -8,6 +8,7 @@
 		<param-name>contextConfigLocation</param-name>
 		<param-value>
 			classpath:webApplicationContext.xml
+			classpath:webApplicationContext-social.xml
 		</param-value>
 	</context-param>
 

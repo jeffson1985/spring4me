@@ -45,10 +45,10 @@
 					</xsd:appinfo>
 				</xsd:annotation>
 			</xsd:attribute>
-			<xsd:attribute name="custom-argument-resolver" type="xsd:string">
+			<xsd:attribute name="custom-argument-resolvers" type="xsd:string">
 				<xsd:annotation>
 					<xsd:documentation source="java:org.springframework.web.bind.support.WebArgumentResolver"><![CDATA[
-					The bean name of the WebArgumentResolver
+					The bean names of the WebArgumentResolvers split by comma
 					]]></xsd:documentation>
 					<xsd:appinfo>
 						<tool:annotation kind="ref">

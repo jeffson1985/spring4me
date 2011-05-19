@@ -1,4 +1,4 @@
-package org.osforce.spring4me.web.widget;
+package org.osforce.spring4me.web.util;
 
 import java.io.ByteArrayInputStream;
 import java.io.File;
@@ -23,6 +23,7 @@ import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
 
+import org.apache.commons.lang.StringUtils;
 import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -252,5 +253,17 @@ public class XMLUtil {
 
 	public static String getValue(Element element) {
 		return element.getTextContent();
+	}
+	
+	public static Boolean hasAttribute(Element element, String attrName) {
+		return element.hasAttribute(attrName);
+	}
+	
+	public static Boolean hasAttributeValue(Element element, String attrName, String attrValue) {
+		if(element.hasAttribute(attrName) && 
+				StringUtils.equals(getAttribute(element, attrName), attrValue)) {
+			return true;
+		}
+		return false;
 	}
 }

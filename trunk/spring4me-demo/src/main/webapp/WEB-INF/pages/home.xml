@@ -1,13 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<page parent="从页面定义文件中继承">
-	<placeholder name="body" layout="vertical">
-		<widget id="demoWidget" path="/test/demo" cssClass="">
-			<title>Demo Widget</title>
-			<prefs>
-				<numberValue>5</numberValue>
-				<boolValue>true</boolValue>
-				<stringValue>this is String value</stringValue>
-			</prefs>
-		</widget>
-	</placeholder>
-</page>
+<pages>
+	<page>
+		<placeholder name="body">
+			<widget name="demoWidget" path="/test/demo" cssClass="">
+				<title>Demo Widget</title>
+				<prefs>
+					<numberValue>5</numberValue>
+					<boolValue>true</boolValue>
+					<stringValue>this is String value</stringValue>
+				</prefs>
+			</widget>
+		</placeholder>
+	</page>
+</pages>

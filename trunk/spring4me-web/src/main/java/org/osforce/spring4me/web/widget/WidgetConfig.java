@@ -2,6 +2,9 @@ package org.osforce.spring4me.web.widget;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
+
+import org.apache.commons.lang.StringUtils;
 
 /**
  * 
@@ -11,27 +14,39 @@ import java.util.Map;
  * <a href="http://www.opensourceforce.org">开源力量</a>
  */
 public class WidgetConfig {
-
 	public static final String KEY = WidgetConfig.class.getName();
+	public static final String NAME = StringUtils.uncapitalize(WidgetConfig.class.getSimpleName());
 
 	private String id;
+	private String name;
 	private String path;
 	private String cssClass;
 	private String title;
 	private Map<String, String> prefs = new HashMap<String, String>();
 
-	public WidgetConfig(String id, String path, String cssClass) {
-		this.id = id;
+	public WidgetConfig(String name, String path, String cssClass) {
+		this.name = name;
 		this.path = path;
 		this.cssClass = cssClass;
 	}
 
 	public String getId() {
+		if(id==null) {
+			id = UUID.randomUUID().toString();
+		}
 		return id;
 	}
 
 	public void setId(String id) {
 		this.id = id;
+	}
+	
+	public String getName() {
+		return name;
+	}
+	
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	public String getPath() {

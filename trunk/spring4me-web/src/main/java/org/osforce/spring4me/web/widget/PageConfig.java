@@ -17,10 +17,12 @@ public class PageConfig {
 	public static final String KEY = PageConfig.class.getName();
 
 	private String parent;
+	private String qualifier;
 	private Map<String, List<WidgetConfig>> placeholders = new HashMap<String, List<WidgetConfig>>();
 
-	public PageConfig(String parent) {
+	public PageConfig(String parent, String qualifier) {
 		this.parent = parent;
+		this.qualifier = qualifier;
 	}
 
 	public String getParent() {
@@ -29,6 +31,14 @@ public class PageConfig {
 
 	public void setParent(String parent) {
 		this.parent = parent;
+	}
+	
+	public String getQualifier() {
+		return qualifier;
+	}
+	
+	public void setQualifier(String qualifier) {
+		this.qualifier = qualifier;
 	}
 
 	public void add(String placeholder, WidgetConfig widgetConfig) {
@@ -42,6 +52,14 @@ public class PageConfig {
 
 	public List<WidgetConfig> getWidgetConfigs(String placeholder) {
 		return placeholders.get(placeholder);
+	}
+	
+	public void addPlaceholder(String placeholder, List<WidgetConfig> widgetConfigs) {
+		placeholders.put(placeholder, widgetConfigs);
+	}
+	
+	public Map<String, List<WidgetConfig>> getPlaceholders() {
+		return placeholders;
 	}
 
 }

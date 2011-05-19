@@ -2,6 +2,7 @@ package org.osforce.spring4me.dao;
 
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -68,6 +69,30 @@ public abstract class AbstractDao<E extends IdEntity>
 		TypedQuery<Long> countQuery = entityManager.createQuery(qlString, Long.class);
 		setParametersToQuery(countQuery, paramValues);
 		return countQuery.getSingleResult();
+	}
+	
+	protected E findOne(String qlString, Object... values) {
+		TypedQuery<E> query = entityManager.createQuery(qlString, entityClass);
+		setParametersToQuery(query, values);
+		return query.getSingleResult();
+	}
+	
+	protected E findOne(String qlString, Map<String, Object> paramValues) {
+		TypedQuery<E> query = entityManager.createQuery(qlString, entityClass);
+		setParametersToQuery(query, paramValues);
+		return query.getSingleResult();
+	}
+	
+	protected List<E> findList(String qlString, Object... values) {
+		TypedQuery<E> query = entityManager.createQuery(qlString, entityClass);
+		setParametersToQuery(query, values);
+		return query.getResultList();
+	}
+	
+	protected List<E> findList(String qlString, Map<String, Object> paramValues) {
+		TypedQuery<E> query = entityManager.createQuery(qlString, entityClass);
+		setParametersToQuery(query, paramValues);
+		return query.getResultList();
 	}
 
 	protected Page<E> findPage(Page<E> page, String qlString, Object... values) {

@@ -41,6 +41,13 @@
 	<bean id="freemarkerConfigurer"
 		class="org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer">
 		<property name="templateLoaderPath" value="/"/>
+		<property name="freemarkerVariables">
+			<map>
+				<entry key="placeholder">
+					<bean class="org.osforce.spring4me.web.tag.freemarker.PlaceholderTag"/>
+				</entry>
+			</map>
+		</property>
 		<property name="freemarkerSettings">
 			<props>
 				<prop key="number_format">0.######</prop>
@@ -61,9 +68,11 @@
 		<property name="themeSuffix" value=".ftl"/>
 	</bean>
 	 -->
+	 <!-- 
 	<bean id="jspViewResolver" class="org.osforce.spring4me.web.view.ExtendsInternalResourceViewResolver">
 		<property name="order" value="1"/>
 	</bean>
+	 -->
 	<!-- 
 	<bean id="ftlViewResolver" class="org.osforce.spring4me.web.view.ExtendsFreeMarkerViewResolver">
 		<property name="viewClass" value="org.osforce.spring4me.web.view.ExtendsFreeMarkerView"/>

@@ -21,13 +21,12 @@ public class ExtendsFreeMarkerView extends FreeMarkerView {
 
 	private static final String PREFIX_PAGE = "page:";
 
-	private String themePrefix = "/WEB-INF/themes/";
-	private String themeSuffix = ".ftl";
-
+	private String themePrefix;
+	private String themeSuffix;
 
 	public ExtendsFreeMarkerView() {
 	}
-
+	
 	public void setThemePrefix(String prefix) {
 		this.themePrefix = prefix;
 	}

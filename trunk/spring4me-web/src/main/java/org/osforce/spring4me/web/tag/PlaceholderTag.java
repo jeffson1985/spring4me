@@ -38,15 +38,21 @@ public class PlaceholderTag extends TagSupport {
 		PageConfig pageConfig = (PageConfig) pageContext
 				.getRequest().getAttribute(PageConfig.KEY);
 		List<WidgetConfig> widgetConfigList = pageConfig.getWidgetConfigs(name);
+		if(widgetConfigList==null || widgetConfigList.isEmpty()) {
+			return EVAL_PAGE;
+		}
 		for(WidgetConfig widgetConfig : widgetConfigList) {
 			pageContext.getRequest().setAttribute(WidgetConfig.KEY, widgetConfig);
+			pageContext.getRequest().setAttribute(WidgetConfig.NAME, widgetConfig);
 			try {
-				pageContext.include(widgetConfig.getPath());
+				pageContext.include(widgetConfig.getPath() + "?includeRequet=true");
 			} catch (ServletException e) {
 				e.printStackTrace();
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
+			pageContext.getRequest().removeAttribute(WidgetConfig.NAME);
+			pageContext.getRequest().removeAttribute(WidgetConfig.KEY);
 		}
 		return EVAL_PAGE;
 	}

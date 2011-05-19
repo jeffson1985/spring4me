@@ -5,7 +5,7 @@
 
 	<description>Widget Tag Library</description>
 	<tlib-version>1.0</tlib-version>
-	<short-name>s4m</short-name>
+	<short-name>w</short-name>
 	<uri>http://www.opensourceforce.org/spring4me/tags</uri>
 
 	<tag>
