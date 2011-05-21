@@ -1,7 +1,7 @@
 package org.osforce.spring4me.web.config;
 
-import org.apache.commons.lang.StringUtils;
 import org.osforce.spring4me.web.bind.support.WidgetCustomArgumentResolver;
+import org.osforce.spring4me.web.handler.ExtendsAnnotationMethodHandlerAdapter;
 import org.osforce.spring4me.web.widget.ConfigFactory;
 import org.osforce.spring4me.web.widget.ConfigParser;
 import org.osforce.spring4me.web.widget.impl.DefaultConfigFactory;
@@ -30,7 +30,6 @@ import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 import org.springframework.web.bind.support.ConfigurableWebBindingInitializer;
 import org.springframework.web.servlet.handler.ConversionServiceExposingInterceptor;
 import org.springframework.web.servlet.handler.MappedInterceptor;
-import org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter;
 import org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping;
 import org.w3c.dom.Element;
 
@@ -78,14 +77,14 @@ public class AnnotationDrivenBeanDefinitionParser implements BeanDefinitionParse
 		bindingDef.getPropertyValues().add("conversionService", conversionService);
 		bindingDef.getPropertyValues().add("validator", validator);
 
-		ManagedList<RuntimeBeanReference> argResolvers = getCustomArgumentResolvers(element, source, parserContext, conversionService);
-
-		RootBeanDefinition annAdapterDef = new RootBeanDefinition(AnnotationMethodHandlerAdapter.class);
+		ManagedList<RuntimeBeanReference> customArgResolverRefs = getCustomArgumentResolvers(element, source, parserContext, conversionService);
+		
+		RootBeanDefinition annAdapterDef = new RootBeanDefinition(ExtendsAnnotationMethodHandlerAdapter.class);
 		annAdapterDef.setSource(source);
 		annAdapterDef.setRole(BeanDefinition.ROLE_INFRASTRUCTURE);
 		annAdapterDef.getPropertyValues().add("webBindingInitializer", bindingDef);
 		annAdapterDef.getPropertyValues().add("messageConverters", getMessageConverters(source));
-		annAdapterDef.getPropertyValues().add("customArgumentResolvers", argResolvers);
+		annAdapterDef.getPropertyValues().add("customArgumentResolvers", customArgResolverRefs);
 		String annAdapterName = parserContext.getReaderContext().registerWithGeneratedName(annAdapterDef);
 
 		RootBeanDefinition csInterceptorDef = new RootBeanDefinition(ConversionServiceExposingInterceptor.class);
@@ -186,22 +185,19 @@ public class AnnotationDrivenBeanDefinitionParser implements BeanDefinitionParse
 
 		return beanDefinition;
 	}
-
+	
 	private ManagedList<RuntimeBeanReference> getCustomArgumentResolvers(
 			Element element, Object source, ParserContext parserContext, RuntimeBeanReference conversionService) {
 		ManagedList<RuntimeBeanReference> refs = new ManagedList<RuntimeBeanReference>();
-		if (element.hasAttribute("custom-argument-resolvers")) {
-			String[] customArgumentResolvers = StringUtils.split(element.getAttribute("custom-argument-resolvers"), ",");
-			for(String customArgumentResolver : customArgumentResolvers) {
-				refs.add(new RuntimeBeanReference(customArgumentResolver));
-			}
-		}
+		//
 		RootBeanDefinition argResolverDef = new RootBeanDefinition(WidgetCustomArgumentResolver.class);
 		argResolverDef.setSource(source);
 		argResolverDef.setRole(BeanDefinition.ROLE_INFRASTRUCTURE);
 		argResolverDef.getPropertyValues().add("conversionService", conversionService);
 		String argResolverName = parserContext.getReaderContext().registerWithGeneratedName(argResolverDef);
 		refs.add(new RuntimeBeanReference(argResolverName));
+		//
+		refs.add(new RuntimeBeanReference("customArgumentResolver"));
 		return refs;
 	}
 }

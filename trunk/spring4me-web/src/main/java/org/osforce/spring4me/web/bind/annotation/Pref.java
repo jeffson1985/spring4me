@@ -18,5 +18,7 @@ public @interface Pref {
 
 	// default pref value
 	String value() default "";
+	
+	boolean required() default true;
 
 }

@@ -21,13 +21,15 @@ public class WidgetConfig {
 	private String name;
 	private String path;
 	private String cssClass;
+	private String cache;
 	private String title;
 	private Map<String, String> prefs = new HashMap<String, String>();
 
-	public WidgetConfig(String name, String path, String cssClass) {
+	public WidgetConfig(String name, String path, String cssClass, String cache) {
 		this.name = name;
 		this.path = path;
 		this.cssClass = cssClass;
+		this.cache = cache;
 	}
 
 	public String getId() {
@@ -64,7 +66,15 @@ public class WidgetConfig {
 	public void setCssClass(String cssClass) {
 		this.cssClass = cssClass;
 	}
-
+	
+	public String getCache() {
+		return cache;
+	}
+	
+	public void setCache(String cache) {
+		this.cache = cache;
+	}
+	
 	public String getTitle() {
 		return title;
 	}

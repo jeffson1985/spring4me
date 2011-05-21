@@ -45,18 +45,6 @@
 					</xsd:appinfo>
 				</xsd:annotation>
 			</xsd:attribute>
-			<xsd:attribute name="custom-argument-resolvers" type="xsd:string">
-				<xsd:annotation>
-					<xsd:documentation source="java:org.springframework.web.bind.support.WebArgumentResolver"><![CDATA[
-					The bean names of the WebArgumentResolvers split by comma
-					]]></xsd:documentation>
-					<xsd:appinfo>
-						<tool:annotation kind="ref">
-							<tool:expected-type type="java:org.springframework.web.bind.support.WebArgumentResolver" />
-						</tool:annotation>
-					</xsd:appinfo>
-				</xsd:annotation>
-			</xsd:attribute>
 		</xsd:complexType>
 	</xsd:element>
 

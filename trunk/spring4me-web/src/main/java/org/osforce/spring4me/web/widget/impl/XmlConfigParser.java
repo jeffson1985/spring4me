@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.osforce.spring4me.web.util.XMLUtil;
+import org.osforce.spring4me.commons.xml.XMLUtil;
 import org.osforce.spring4me.web.widget.ConfigParser;
 import org.osforce.spring4me.web.widget.PageConfig;
 import org.osforce.spring4me.web.widget.WidgetConfig;
@@ -58,7 +58,8 @@ public class XmlConfigParser implements ConfigParser {
 				String nameW = XMLUtil.getAttribute(widgetEle, "name");
 				String pathW = XMLUtil.getAttribute(widgetEle, "path");
 				String cssClassW = XMLUtil.getAttribute(widgetEle, "cssClass");
-				WidgetConfig widgetConfig = new WidgetConfig(nameW, pathW, cssClassW);
+				String cacheW = XMLUtil.getAttribute(widgetEle, "cache");
+				WidgetConfig widgetConfig = new WidgetConfig(nameW, pathW, cssClassW, cacheW);
 				//
 				Element titleEle = XMLUtil.getChildElement(widgetEle, "title");
 				if(titleEle!=null) {
