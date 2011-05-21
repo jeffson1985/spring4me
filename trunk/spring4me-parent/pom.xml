@@ -24,6 +24,11 @@
 			<!-- Spring4Me Begin -->
 			<dependency>
 				<groupId>org.osforce</groupId>
+				<artifactId>spring4me-commons</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.osforce</groupId>
 				<artifactId>spring4me-dao</artifactId>
 				<version>${project.version}</version>
 			</dependency>
@@ -113,6 +118,18 @@
 				</exclusions>
 			</dependency>
 			<!-- Hibernate End -->
+			<!-- EhCache Begin -->
+			<dependency>
+				<groupId>net.sf.ehcache</groupId>
+				<artifactId>ehcache-core</artifactId>
+				<version>2.3.1</version>
+			</dependency>
+			<dependency>
+				<groupId>net.sf.ehcache</groupId>
+				<artifactId>ehcache-web</artifactId>
+				<version>2.0.3</version>
+			</dependency>
+			<!-- EhCache End -->
 			<!-- Hibernate Search Begin -->
 			<dependency>
 				<groupId>org.hibernate</groupId>

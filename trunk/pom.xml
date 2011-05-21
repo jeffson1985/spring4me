@@ -11,5 +11,6 @@
   	<module>spring4me-demo</module>
   	<module>spring4me-task</module>
   	<module>spring4me-social</module>
+  	<module>spring4me-commons</module>
   </modules>
 </project>

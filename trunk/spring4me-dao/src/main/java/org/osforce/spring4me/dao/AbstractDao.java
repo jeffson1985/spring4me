@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.Parameter;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
@@ -74,7 +75,11 @@ public abstract class AbstractDao<E extends IdEntity>
 	protected E findOne(String qlString, Object... values) {
 		TypedQuery<E> query = entityManager.createQuery(qlString, entityClass);
 		setParametersToQuery(query, values);
-		return query.getSingleResult();
+		try {
+		 return query.getSingleResult();
+		} catch(NoResultException e) {
+			return null;
+		}
 	}
 	
 	protected E findOne(String qlString, Map<String, Object> paramValues) {
@@ -91,6 +96,18 @@ public abstract class AbstractDao<E extends IdEntity>
 	
 	protected List<E> findList(String qlString, Map<String, Object> paramValues) {
 		TypedQuery<E> query = entityManager.createQuery(qlString, entityClass);
+		setParametersToQuery(query, paramValues);
+		return query.getResultList();
+	}
+	
+	protected <X> List<X> findList(String qlString, Class<X> retType, Object... values) {
+		TypedQuery<X> query = entityManager.createQuery(qlString, retType);
+		setParametersToQuery(query, values);
+		return query.getResultList();
+	}
+	
+	protected <X> List<X> findList(String qlString, Class<X> retType, Map<String, Object> paramValues) {
+		TypedQuery<X> query = entityManager.createQuery(qlString, retType);
 		setParametersToQuery(query, paramValues);
 		return query.getResultList();
 	}
