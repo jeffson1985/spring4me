@@ -10,7 +10,7 @@
 	<artifactId>spring4me-parent</artifactId>
 	<packaging>pom</packaging>
 	<name>Spring4me Parent</name>
-
+	
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<spring.version>3.0.5.RELEASE</spring.version>
