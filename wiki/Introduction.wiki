@@ -1,6 +1,6 @@
 === 关于 Spring4Me ===
 
-Spring4Me 是从另一个开源项目 [http://code.google.com/p/enterpriseconnect/ Enterprise Connect] 中提炼出来的，以 Spring 为核心，在 Spring MVC 的基础上实现了一套基于组件的编程模型。
+Spring4Me 是以 Spring 为核心，在 Spring MVC 的基础上实现了一套基于组件的编程模型。
 
 === 未来发展方向 ===
 
