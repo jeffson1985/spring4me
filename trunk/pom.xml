@@ -11,8 +11,8 @@
 	</organization>
 
 	<scm>
-		<connection>scm:svn:https://spring4me.googlecode.com/svn/tags/</connection>
-		<developerConnection>scm:svn:https://spring4me.googlecode.com/svn/tags/</developerConnection>
+		<connection>scm:svn:http://spring4me.googlecode.com/svn/trunk/</connection>
+		<developerConnection>scm:svn:https://spring4me.googlecode.com/svn/trunk/</developerConnection>
 	</scm>
 
 	<repositories>
