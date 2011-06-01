@@ -4,15 +4,14 @@
 	xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
-		<artifactId>spring4me-parent</artifactId>
+		<artifactId>spring4me</artifactId>
 		<groupId>org.osforce</groupId>
 		<version>0.1.0-SNAPSHOT</version>
-		<relativePath>../spring4me-parent/pom.xml</relativePath>
 	</parent>
 	<groupId>org.osforce</groupId>
 	<artifactId>spring4me-demo</artifactId>
 	<packaging>war</packaging>
-	<name>spring4me-demo Maven Webapp</name>
+	<name>Spring4Me Demo</name>
 	<url>http://maven.apache.org</url>
 	<dependencies>
 		<dependency>
