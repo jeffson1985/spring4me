@@ -2,11 +2,7 @@ package org.osforce.spring4me.demo.widget;
 
 import org.osforce.spring4me.web.bind.annotation.PrefParam;
 import org.osforce.spring4me.web.stereotype.Widget;
-import org.osforce.spring4me.web.widget.PageConfig;
-import org.osforce.spring4me.web.widget.WidgetConfig;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 /**
  * 
@@ -16,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
  * <a href="http://www.opensourceforce.org">开源力量</a>
  */
 @Widget
-@RequestMapping("test")
+@RequestMapping("/test")
 public class DemoWidget {
 
 	public DemoWidget() {
@@ -24,12 +20,10 @@ public class DemoWidget {
 
 	@RequestMapping(value="/demo")
 	public String test(@PrefParam Long numberValue, @PrefParam Boolean boolValue, 
-			@PrefParam String stringValue, WidgetConfig widgetConfig, PageConfig pageConfig) {
+			@PrefParam String stringValue) {
 		System.out.println(numberValue);
 		System.out.println(boolValue);
 		System.out.println(stringValue);
-		System.out.println(widgetConfig);
-		System.out.println(pageConfig);
 		return "test/demo";
 	}
 

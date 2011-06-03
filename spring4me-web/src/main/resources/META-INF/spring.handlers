@@ -1,1 +1,1 @@
-http\://www.springframework.org/schema/mvc=org.osforce.spring4me.web.config.MvcNamespaceHandler
+http\://www.opensourceforce.org/schema/widget=org.osforce.spring4me.web.config.WidgetNamespaceHandler

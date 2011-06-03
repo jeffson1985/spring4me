@@ -7,7 +7,6 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.commons.lang.StringUtils;
 import org.osforce.spring4me.web.widget.ConfigFactory;
 import org.osforce.spring4me.web.widget.PageConfig;
-import org.springframework.beans.factory.NoSuchBeanDefinitionException;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.servlet.support.RequestContextUtils;
 
@@ -74,14 +73,7 @@ public class ExtendsViewUtil {
 	private ConfigFactory configFactory;
 	protected ConfigFactory getConfigFactory() {
 		if(configFactory == null) {
-			try {
-				configFactory = webApplicationContext
-						.getBean("configFactory", ConfigFactory.class);
-			} catch(NoSuchBeanDefinitionException e) {
-					// if configFactory is null, get default config
-				configFactory = webApplicationContext
-						.getBean(ConfigFactory.KEY, ConfigFactory.class);
-			}
+			configFactory = webApplicationContext.getBean(ConfigFactory.class);
 		}
 		return configFactory;
 	}
