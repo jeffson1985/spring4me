@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<xsd:schema xmlns="http://www.springframework.org/schema/mvc"
+<xsd:schema xmlns="http://www.opensourceforce.org/schema/widget"
 	xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:beans="http://www.springframework.org/schema/beans"
 	xmlns:tool="http://www.springframework.org/schema/tool"
-	targetNamespace="http://www.springframework.org/schema/mvc"
+	targetNamespace="http://www.opensourceforce.org/schema/widget"
 	elementFormDefault="qualified" attributeFormDefault="unqualified">
 
 	<xsd:import namespace="http://www.springframework.org/schema/beans" schemaLocation="http://www.springframework.org/schema/beans/spring-beans-3.0.xsd" />
@@ -43,6 +43,27 @@
 							<tool:expected-type type="java:org.springframework.validation.Validator" />
 						</tool:annotation>
 					</xsd:appinfo>
+				</xsd:annotation>
+			</xsd:attribute>
+			<xsd:attribute name="custom-argument-resolvers" type="xsd:string">
+				<xsd:annotation>
+					<xsd:documentation><![CDATA[
+	The bean name of the WebArgumentResolver that is to be used to resolve custom argument from method.
+					]]></xsd:documentation>
+				</xsd:annotation>
+			</xsd:attribute>
+			<xsd:attribute name="config-factory" type="xsd:string">
+				<xsd:annotation>
+					<xsd:documentation><![CDATA[
+					The bean name of the ConfigFactory that is to be used to define widget.
+					]]></xsd:documentation>
+				</xsd:annotation>
+			</xsd:attribute>
+			<xsd:attribute name="cache" type="xsd:string">
+				<xsd:annotation>
+					<xsd:documentation><![CDATA[
+					Whether enable global cache
+					]]></xsd:documentation>
 				</xsd:annotation>
 			</xsd:attribute>
 		</xsd:complexType>
@@ -200,5 +221,4 @@
 			</xsd:attribute>
 		</xsd:complexType>
 	</xsd:element>
-
 </xsd:schema>
