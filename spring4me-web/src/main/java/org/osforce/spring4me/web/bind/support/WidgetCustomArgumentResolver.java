@@ -2,6 +2,9 @@ package org.osforce.spring4me.web.bind.support;
 
 import org.apache.commons.lang.StringUtils;
 import org.osforce.spring4me.web.bind.annotation.PrefParam;
+import org.osforce.spring4me.web.bind.annotation.RequestAttr;
+import org.osforce.spring4me.web.bind.annotation.SessionAttr;
+import org.osforce.spring4me.web.bind.annotation.SessionParam;
 import org.osforce.spring4me.web.widget.PageConfig;
 import org.osforce.spring4me.web.widget.WidgetConfig;
 import org.springframework.core.MethodParameter;
@@ -32,9 +35,18 @@ public class WidgetCustomArgumentResolver implements WebArgumentResolver {
 	public Object resolveArgument(MethodParameter methodParameter,
 			NativeWebRequest webRequest) throws Exception {
 		PrefParam prefParamType = methodParameter.getParameterAnnotation(PrefParam.class);
+		RequestAttr requestAttrType = methodParameter.getParameterAnnotation(RequestAttr.class);
+		SessionAttr sessionAttrType = methodParameter.getParameterAnnotation(SessionAttr.class);
+		SessionParam sessionParamType = methodParameter.getParameterAnnotation(SessionParam.class);
 		if(prefParamType!=null) {
 			return resolvePrefValue(methodParameter, webRequest, prefParamType);
-		} else if(methodParameter.getParameterType().isAssignableFrom(WidgetConfig.class)) {
+		} else if(requestAttrType!=null) {
+			return resolveRequestValue(methodParameter, webRequest, requestAttrType);
+		} else if(sessionAttrType!=null) {
+			return resolveSessionValue(methodParameter, webRequest, sessionAttrType);
+		} else if(sessionParamType!=null){
+			return resolveSessionValue(methodParameter, webRequest, sessionParamType);
+		}else if(methodParameter.getParameterType().isAssignableFrom(WidgetConfig.class)) {
 			return getWidgetConfig(webRequest);
 		} else if(methodParameter.getParameterType().isAssignableFrom(PageConfig.class)) {
 			return getPageConfig(webRequest);
@@ -45,19 +57,61 @@ public class WidgetCustomArgumentResolver implements WebArgumentResolver {
 	protected Object resolvePrefValue(MethodParameter methodParameter,
 			NativeWebRequest webRequest, PrefParam prefParam) {
 		String paramName = methodParameter.getParameterName();
-		WidgetConfig widgetConfig = (WidgetConfig) webRequest
-				.getAttribute(WidgetConfig.KEY, WebRequest.SCOPE_REQUEST);
-		
+		//
 		Class<?> targetType = methodParameter.getParameterType();
 		if(conversionService.canConvert(String.class, targetType)) {
-			String source = widgetConfig.getPrefs().get(paramName);
+			String source = getWidgetConfig(webRequest).getPrefs().get(paramName);
 			source = StringUtils.isNotBlank(source) ? source : prefParam.value();
 			if(prefParam.required()) {
 				Assert.hasText(source);
 			}
 			return conversionService.convert(source, targetType);
 		}
-		return WebArgumentResolver.UNRESOLVED;
+		return null;
+	}
+	
+	protected Object resolveRequestValue(MethodParameter methodParameter,
+			NativeWebRequest webRequest, RequestAttr requestAttr) {
+		String attrName = methodParameter.getParameterName();
+		if(StringUtils.isNotBlank(requestAttr.value())) {
+			attrName = requestAttr.value();
+		}
+		return webRequest.getAttribute(attrName, WebRequest.SCOPE_REQUEST);
+	}
+	
+	protected Object resolveSessionValue(MethodParameter methodParameter,
+			NativeWebRequest webRequest, SessionAttr sessionAttr) {
+		String attrName = methodParameter.getParameterName();
+		if(StringUtils.isNotBlank(sessionAttr.value())) {
+			attrName = sessionAttr.value();
+		}
+		return webRequest.getAttribute(attrName, WebRequest.SCOPE_SESSION);
+	}
+	
+	protected Object resolveSessionValue(MethodParameter methodParameter,
+			NativeWebRequest webRequest, SessionParam sessionParam) {
+		String paramName = methodParameter.getParameterName();
+		if(StringUtils.isNotBlank(sessionParam.value())) {
+			paramName = sessionParam.value();
+		}
+		//
+		Object value = null;
+		String source = webRequest.getParameter(paramName);
+		Class<?> targetType = methodParameter.getParameterType();
+		if(conversionService.canConvert(String.class, targetType)) {
+			if(StringUtils.isNotBlank(source)) {
+				value = conversionService.convert(source, targetType);
+			}
+		}
+		//
+		if(value==null) {
+			value = webRequest.getAttribute(paramName, WebRequest.SCOPE_SESSION);
+		}
+		//
+		if(value!=null) {
+			webRequest.setAttribute(paramName, value, WebRequest.SCOPE_SESSION);
+		}
+		return value;
 	}
 	
 	private WidgetConfig getWidgetConfig(WebRequest webRequest) {
