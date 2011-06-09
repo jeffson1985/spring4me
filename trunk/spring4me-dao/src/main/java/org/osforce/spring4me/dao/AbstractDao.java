@@ -102,21 +102,35 @@ public abstract class AbstractDao<E extends IdEntity>
 		Object[] values = getParameterValues(query);
 		org.hibernate.Query nativeQuery = query.unwrap(org.hibernate.Query.class);
 		String qlString = nativeQuery.getQueryString();
-		qlString = appendOrders(page, qlString);
 		return findPage(page, qlString, values);
 	}
 
+	@SuppressWarnings("unchecked")
 	protected Page<E> findPage(Page<E> page, String qlString, Object...values) {
 		String countString = getCountQuery(qlString);
 		if(page.getAutoCount()) {
 			Long totalCount = count(countString, values);
 			page.setTotalCount(totalCount);
 		}
-		TypedQuery<E> query = entityManager.createQuery(qlString, entityClass);
+		qlString = appendOrders(page, qlString);
+		Query query = entityManager.createQuery(qlString);
 		setParametersToQuery(query, values);
 		query.setFirstResult(page.getFirst()-1);
 		query.setMaxResults(page.getPageSize());
-		return page.setResult(query.getResultList());
+		List<Object> resultList = query.getResultList();
+		List<E> tmp = new ArrayList<E>();
+		for(Object result : resultList) {
+			if(result!=null && result instanceof Object[]) {
+				for(Object value : (Object[])result) {
+					if(value!=null && value.getClass().isAssignableFrom(entityClass)) {
+						tmp.add((E)value);
+					}
+				}
+			} else {
+				tmp.add((E)result);
+			}
+		}
+		return page.setResult(tmp);
 	}
 	
 	private void setParametersToQuery(Query query, Object...values) {
