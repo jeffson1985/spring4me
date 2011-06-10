@@ -1,12 +1,52 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <page>
-	<placeholder name="center">
-		<widget name="demoWidget" path="/test/demo">
-			<title>Demo Widget</title>
+	<placeholder name="north">
+		<widget name="contentWidget" path="/commons/content">
+			<title>North Widget</title>
 			<prefs>
-				<numberValue>5</numberValue>
-				<boolValue>true</boolValue>
-				<stringValue>this is String value</stringValue>
+				<content><![CDATA[
+				this is north content
+				]]></content>
+			</prefs>
+		</widget>
+	</placeholder>
+	<placeholder name="west">
+		<widget name="contentWidget" path="/commons/content">
+			<title>West Widget</title>
+			<prefs>
+				<content><![CDATA[
+				this is west content
+				]]></content>
+			</prefs>
+		</widget>
+	</placeholder>
+	<placeholder name="center">
+		<widget name="contentWidget" path="/commons/content">
+			<title>Center Widget</title>
+			<prefs>
+				<content><![CDATA[
+				this is center content
+				]]></content>
+			</prefs>
+		</widget>
+	</placeholder>
+	<placeholder name="east">
+		<widget name="contentWidget" path="/commons/content">
+			<title>East Widget</title>
+			<prefs>
+				<content><![CDATA[
+				this is east content
+				]]></content>
+			</prefs>
+		</widget>
+	</placeholder>
+	<placeholder name="south">
+		<widget name="contentWidget" path="/commons/content">
+			<title>South Widget</title>
+			<prefs>
+				<content><![CDATA[
+				this is south content
+				]]></content>
 			</prefs>
 		</widget>
 	</placeholder>

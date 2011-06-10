@@ -40,14 +40,24 @@
 		background: #AAA; 
 	} 
 
-
+	.widget-head {
+		padding: 0 5px;
+		background-color: #F6F6F6;
+		border-bottom: 1px solid #CCC;
+	}
+	.widget-head h2 {
+		margin: 0;
+	}
+	.widget-body {
+		padding: 5px;
+	}
 	</style>
 </head>
 <body>
-	<div class="ui-layout-north"></div>
+	<div class="ui-layout-north"><@w.placeholder name="north"/></div>
 	<div class="ui-layout-center"><@w.placeholder name="center"/></div>
-	<div class="ui-layout-east"></div>
-	<div class="ui-layout-west"></div>
-	<div class="ui-layout-south"></div>
+	<div class="ui-layout-east"><@w.placeholder name="east"/></div>
+	<div class="ui-layout-west"><@w.placeholder name="west"/></div>
+	<div class="ui-layout-south"><@w.placeholder name="south"/></div>
 </body>
 </html>

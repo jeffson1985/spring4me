@@ -2,6 +2,7 @@ package org.osforce.spring4me.demo.widget;
 
 import org.osforce.spring4me.web.bind.annotation.PrefParam;
 import org.osforce.spring4me.web.stereotype.Widget;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 /**
@@ -12,19 +13,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
  * <a href="http://www.opensourceforce.org">开源力量</a>
  */
 @Widget
-@RequestMapping("/test")
-public class DemoWidget {
+@RequestMapping("/commons")
+public class ContentWidget {
 
-	public DemoWidget() {
+	public ContentWidget() {
 	}
 
-	@RequestMapping(value="/demo")
-	public String test(@PrefParam Long numberValue, @PrefParam Boolean boolValue, 
-			@PrefParam String stringValue) {
-		System.out.println(numberValue);
-		System.out.println(boolValue);
-		System.out.println(stringValue);
-		return "test/demo";
+	@RequestMapping(value="/content")
+	public String test(@PrefParam String content, Model model) {
+		model.addAttribute("content", content);
+		return "commons/content";
 	}
 
 }
