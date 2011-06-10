@@ -13,13 +13,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
  * <a href="http://www.opensourceforce.org">开源力量</a>
  */
 @Widget
-@RequestMapping("/commons")
+@RequestMapping("/commons/content")
 public class ContentWidget {
 
 	public ContentWidget() {
 	}
 
-	@RequestMapping(value="/content")
+	@RequestMapping(value="/detail-view")
 	public String test(@PrefParam String content, Model model) {
 		model.addAttribute("content", content);
 		return "commons/content";

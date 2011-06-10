@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <page>
 	<placeholder name="north">
-		<widget name="contentWidget" path="/commons/content">
+		<widget name="contentWidget" path="/commons/content/detail-view">
 			<title>North Widget</title>
 			<prefs>
 				<content><![CDATA[
@@ -11,7 +11,7 @@
 		</widget>
 	</placeholder>
 	<placeholder name="west">
-		<widget name="contentWidget" path="/commons/content">
+		<widget name="contentWidget" path="/commons/content/detail-view">
 			<title>West Widget</title>
 			<prefs>
 				<content><![CDATA[
@@ -21,7 +21,7 @@
 		</widget>
 	</placeholder>
 	<placeholder name="center">
-		<widget name="contentWidget" path="/commons/content">
+		<widget name="contentWidget" path="/commons/content/detail-view">
 			<title>Center Widget</title>
 			<prefs>
 				<content><![CDATA[
@@ -31,7 +31,7 @@
 		</widget>
 	</placeholder>
 	<placeholder name="east">
-		<widget name="contentWidget" path="/commons/content">
+		<widget name="contentWidget" path="/commons/content/detail-view">
 			<title>East Widget</title>
 			<prefs>
 				<content><![CDATA[
@@ -41,7 +41,7 @@
 		</widget>
 	</placeholder>
 	<placeholder name="south">
-		<widget name="contentWidget" path="/commons/content">
+		<widget name="contentWidget" path="/commons/content/detail-view">
 			<title>South Widget</title>
 			<prefs>
 				<content><![CDATA[
