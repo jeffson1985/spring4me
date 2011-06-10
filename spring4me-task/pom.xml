@@ -3,7 +3,7 @@
 	<parent>
 		<artifactId>spring4me</artifactId>
 		<groupId>org.osforce</groupId>
-		<version>0.2.0</version>
+		<version>0.2.1-SNAPSHOT</version>
 	</parent>
 	<groupId>org.osforce</groupId>
 	<artifactId>spring4me-task</artifactId>
