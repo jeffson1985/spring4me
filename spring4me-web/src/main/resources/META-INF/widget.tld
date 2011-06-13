@@ -16,5 +16,13 @@
 			<name>name</name>
 			<required>true</required>
 		</attribute>
+		<attribute>
+			<name>openWith</name>
+			<required>false</required>
+		</attribute>
+		<attribute>
+			<name>closeWith</name>
+			<required>false</required>
+		</attribute>
 	</tag>
 </taglib>

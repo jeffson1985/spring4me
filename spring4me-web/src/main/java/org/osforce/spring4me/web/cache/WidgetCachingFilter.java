@@ -32,6 +32,7 @@ import org.slf4j.LoggerFactory;
  * @create May 21, 2011 - 8:24:02 PM
  * <a href="http://www.opensourceforce.org">开源力量</a>
  */
+@Deprecated
 public class WidgetCachingFilter extends PageFragmentCachingFilter {
 	private static final String NAME = WidgetCachingFilter.class.getSimpleName();
 	private static final String CACHE_CONFIG_LOCATION = "cacheConfigLocation";
