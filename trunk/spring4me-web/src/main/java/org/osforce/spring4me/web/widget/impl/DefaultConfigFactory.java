@@ -1,6 +1,7 @@
 package org.osforce.spring4me.web.widget.impl;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -29,8 +30,9 @@ public class DefaultConfigFactory implements ConfigFactory, ResourceLoaderAware 
 
 	private Map<String, PageConfig> simpleCache = new HashMap<String, PageConfig>();
 	
-	private String prefix = "/WEB-INF/pages";
-	private String suffix = ".xml";
+	private String prefix = "/WEB-INF/pages/";
+	private String sitePrefix = "/WEB-INF/sites/";
+	private String SUFFIX = ".xml";
 
 	private ConfigParser configParser;
 	private ResourceLoader resourceLoader;
@@ -43,8 +45,8 @@ public class DefaultConfigFactory implements ConfigFactory, ResourceLoaderAware 
 		this.prefix = prefix;
 	}
 
-	public void setSuffix(String suffix) {
-		this.suffix = suffix;
+	public void setSitePrefix(String sitePrefix) {
+		this.sitePrefix = sitePrefix;
 	}
 	
 	public void setCache(Boolean cache) {
@@ -104,17 +106,37 @@ public class DefaultConfigFactory implements ConfigFactory, ResourceLoaderAware 
 		return xmlPage;
 	}
 
-	protected String getPath(String path, String locale) {
+	protected String getPath(String path, String locale) throws FileNotFoundException {
+		Map<String, String> paramMap = getParamMap(path);
 		String retPath = StringUtils.substringBefore(path, "?");
-		if(StringUtils.isNotBlank(locale)) {
-			retPath += "_" + locale;
+		StringBuffer pathBuffer = new StringBuffer();
+		//
+		if(paramMap.containsKey("domain")) {
+			String domain = paramMap.get("domain");
+			if(retPath.startsWith("/")) {
+				pathBuffer.append(sitePrefix).append(domain)
+						.append(retPath);
+			} else {
+				pathBuffer.append(sitePrefix).append(domain)
+						.append("/").append(retPath);
+			}
+		} 
+		//
+		if(exist(pathBuffer, locale)) {
+			return pathBuffer.toString();
 		}
-		if(path.startsWith("/")) {
-			retPath = prefix + retPath + suffix;
+		//
+		pathBuffer = new StringBuffer();
+		if(retPath.startsWith("/")) {
+			pathBuffer.append(prefix).append(retPath);
 		} else {
-			retPath = prefix + "/" + retPath + suffix;
+			pathBuffer.append(prefix).append("/").append(retPath);
 		}
-		return retPath;
+		//
+		if(exist(pathBuffer, locale)) {
+			return pathBuffer.toString();
+		}
+		throw new FileNotFoundException(String.format("Page define file %s can not be found!", path));
 	}
 	
 	protected Map<String, String> getParamMap(String path) {
@@ -129,6 +151,21 @@ public class DefaultConfigFactory implements ConfigFactory, ResourceLoaderAware 
 			}
 		}
 		return paramMap;
+	}
+	
+	private Boolean exist(StringBuffer pathBuffer, String locale) {
+		String path = pathBuffer.toString() + "_" + locale + SUFFIX;
+		if(resourceLoader.getResource(path).exists()) {
+			pathBuffer.append("_").append(locale).append(SUFFIX);
+			return true;
+		}
+		//
+		path = pathBuffer.toString() + SUFFIX;
+		if(resourceLoader.getResource(path).exists()) {
+			pathBuffer.append(SUFFIX);
+			return true; 
+		}
+		return false;
 	}
 
 }

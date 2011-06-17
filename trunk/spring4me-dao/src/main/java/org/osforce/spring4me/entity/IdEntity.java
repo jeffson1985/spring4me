@@ -6,6 +6,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 
+import org.hibernate.search.annotations.DocumentId;
+
 /**
  * 
  * @author <a href="mailto:haozhonghu@hotmail.com">gavin</a>
@@ -23,7 +25,7 @@ public abstract class IdEntity implements Serializable {
 	public IdEntity() {
 	}
 
-	@Id
+	@Id@DocumentId
 	@GeneratedValue
 	public Long getId() {
 		return id;

@@ -54,12 +54,15 @@ public class ExtendsViewUtil {
 	protected String getViewName(String beanName, HttpServletRequest request) {
 		String viewName = StringUtils.substringAfter(beanName, PREFIX_PAGE);
 		String domain = (String) request.getAttribute("domain");
-		if(StringUtils.isNotBlank(domain)) {
-			if(viewName.startsWith("/")) {
-				viewName = domain + viewName;
-			} else {
-				viewName = domain + "/" + viewName;
-			}
+		String qualifier = (String) request.getAttribute("qualifier");
+		if(StringUtils.contains(viewName, "?")) {
+			viewName += "&domain=" + domain; 
+		} else {
+			viewName += "?domain=" + domain;
+		}
+		//
+		if(StringUtils.isNotBlank(qualifier)) {
+			viewName +=  "&qualifier=" + qualifier;
 		}
 		return viewName;
 	}
