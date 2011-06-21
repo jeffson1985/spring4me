@@ -1,7 +1,8 @@
 package org.osforce.spring4me.dao;
 
-import java.util.ArrayList;
 import java.util.List;
+
+import org.osforce.spring4me.commons.collection.CollectionUtil;
 
 /**
  * 
@@ -15,9 +16,11 @@ public class Page<T> {
 	protected Integer pageNo = 1;
 	protected Integer pageSize = -1;
 	protected Boolean autoCount = Boolean.TRUE;
-	protected List<String> orderList = new ArrayList<String>();
+	protected List<String> orderList = CollectionUtil.newArrayList();
+	protected List<String> ascOrderList = CollectionUtil.newArrayList();
+	protected List<String> descOrderList = CollectionUtil.newArrayList();
 
-	protected List<T> result = new ArrayList<T>();
+	protected List<T> result = CollectionUtil.newArrayList();
 	protected Long totalCount = -1L;
 
 	public Page() {
@@ -120,13 +123,23 @@ public class Page<T> {
 		return orderList;
 	}
 	
+	public List<String> getAscOrderList() {
+		return ascOrderList;
+	}
+	
+	public List<String> getDescOrderList() {
+		return descOrderList;
+	}
+	
 	public Page<T> asc(String column) {
 		orderList.add(column + " ASC");
+		ascOrderList.add(column);
 		return this;
 	}
 	
 	public Page<T> desc(String column) {
 		orderList.add(column + " DESC");
+		descOrderList.add(column);
 		return this;
 	}
 	

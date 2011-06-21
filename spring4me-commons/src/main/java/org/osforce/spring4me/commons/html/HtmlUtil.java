@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.osforce.spring4me.commons.collection.CollectionUtil;
+
 /**
  * 
  * @author <a href="mailto:haozhonghu@hotmail.com">gavin</a>
@@ -61,7 +63,7 @@ public class HtmlUtil {
 		Pattern p = Pattern.compile("<([a-zA-Z]+)[^<>]*>");
 		Matcher m = p.matcher(temp_result);
 
-		List<String> endHTML = new ArrayList<String>();
+		List<String> endHTML = CollectionUtil.newArrayList();
 
 		while (m.find()) {
 			endHTML.add(m.group(1));

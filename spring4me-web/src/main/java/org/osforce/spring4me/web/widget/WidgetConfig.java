@@ -1,10 +1,10 @@
 package org.osforce.spring4me.web.widget;
 
-import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
 import org.apache.commons.lang.StringUtils;
+import org.osforce.spring4me.commons.collection.CollectionUtil;
 
 /**
  * 
@@ -23,7 +23,7 @@ public class WidgetConfig {
 	private String cssClass;
 	private String cache;
 	private String title;
-	private Map<String, String> prefs = new HashMap<String, String>();
+	private Map<String, String> prefs = CollectionUtil.newHashMap();
 
 	public WidgetConfig(String name, String path, String cssClass, String cache) {
 		this.name = name;

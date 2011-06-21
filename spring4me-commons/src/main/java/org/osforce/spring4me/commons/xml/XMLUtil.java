@@ -5,8 +5,6 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.StringWriter;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -23,6 +21,7 @@ import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
 
+import org.osforce.spring4me.commons.collection.CollectionUtil;
 import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -92,7 +91,7 @@ public class XMLUtil {
 	}
 
 	public static List<Element> selectElements(Element element, String tagName) {
-		List<Element> elementList = new ArrayList<Element>();
+		List<Element> elementList = CollectionUtil.newArrayList();
 		NodeList nodeList = null;
 		if(tagName==null) {
 			nodeList = element.getChildNodes();
@@ -109,7 +108,7 @@ public class XMLUtil {
 	}
 
 	public static List<Element> selectElements(Document xmlDoc, String xpath) {
-		List<Element> elements = new ArrayList<Element>();
+		List<Element> elements = CollectionUtil.newArrayList();
 		try {
 			Object result = XPathFactory.newInstance().newXPath().evaluate(
 					xpath, xmlDoc, XPathConstants.NODESET);
@@ -138,7 +137,7 @@ public class XMLUtil {
 	}
 
 	public static List<Attr> attributes(Element element) {
-		List<Attr> attrList = new ArrayList<Attr>();
+		List<Attr> attrList = CollectionUtil.newArrayList();
 		NamedNodeMap attributes = element.getAttributes();
 		for(int i=0;i<attributes.getLength();i++) {
 			Node node = attributes.item(i);
@@ -192,7 +191,7 @@ public class XMLUtil {
 	}
 
 	public static List<Element> getChildElements(Element element) {
-		List<Element> childEles = new ArrayList<Element>();
+		List<Element> childEles = CollectionUtil.newArrayList();
 		NodeList nodeList = element.getChildNodes();
 		for(int i=0; i<nodeList.getLength(); i++) {
 			Node node = nodeList.item(i);
@@ -216,7 +215,7 @@ public class XMLUtil {
 	}
 
 	public static List<Element> getChildElements(Element  element, String tagName) {
-		List<Element> childEles = new ArrayList<Element>();
+		List<Element> childEles = CollectionUtil.newArrayList();
 		NodeList nodeList = element.getChildNodes();
 		for(int i=0; i<nodeList.getLength(); i++) {
 			Node node = nodeList.item(i);
@@ -233,7 +232,7 @@ public class XMLUtil {
 	}
 
 	public static Map<String, String> getAttributes(Element element) {
-		Map<String, String> attributes = new HashMap<String, String>();
+		Map<String, String> attributes = CollectionUtil.newHashMap();
 		NamedNodeMap attrMap = element.getAttributes();
 		for(int i=0; i<attrMap.getLength(); i++) {
 			Node attr = attrMap.item(i);

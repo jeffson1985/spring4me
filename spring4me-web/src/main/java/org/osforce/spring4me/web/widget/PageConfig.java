@@ -1,9 +1,9 @@
 package org.osforce.spring4me.web.widget;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import org.osforce.spring4me.commons.collection.CollectionUtil;
 
 /**
  * 
@@ -18,7 +18,7 @@ public class PageConfig {
 
 	private String parent;
 	private String qualifier;
-	private Map<String, List<WidgetConfig>> placeholders = new HashMap<String, List<WidgetConfig>>();
+	private Map<String, List<WidgetConfig>> placeholders = CollectionUtil.newHashMap();
 
 	public PageConfig(String parent, String qualifier) {
 		this.parent = parent;
@@ -44,7 +44,7 @@ public class PageConfig {
 	public void add(String placeholder, WidgetConfig widgetConfig) {
 		List<WidgetConfig> widgetConfigList = placeholders.get(placeholder);
 		if(widgetConfigList==null) {
-			widgetConfigList = new ArrayList<WidgetConfig>();
+			widgetConfigList = CollectionUtil.newArrayList();
 			placeholders.put(placeholder, widgetConfigList);
 		}
 		widgetConfigList.add(widgetConfig);
