@@ -1,6 +1,5 @@
 package org.osforce.spring4me.dao;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -12,6 +11,7 @@ import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaQuery;
 
 import org.apache.commons.lang.StringUtils;
+import org.osforce.spring4me.commons.collection.CollectionUtil;
 import org.osforce.spring4me.entity.IdEntity;
 
 /**
@@ -118,7 +118,7 @@ public abstract class AbstractDao<E extends IdEntity>
 		query.setFirstResult(page.getFirst()-1);
 		query.setMaxResults(page.getPageSize());
 		List<Object> resultList = query.getResultList();
-		List<E> tmp = new ArrayList<E>();
+		List<E> tmp = CollectionUtil.newArrayList();
 		for(Object result : resultList) {
 			if(result!=null && result instanceof Object[]) {
 				for(Object value : (Object[])result) {
@@ -141,7 +141,7 @@ public abstract class AbstractDao<E extends IdEntity>
 	}
 
 	private Object[] getParameterValues(TypedQuery<?> query) {
-		List<Object> values = new ArrayList<Object>();
+		List<Object> values = CollectionUtil.newArrayList();
 		int size = query.getParameters().size();
 		for(int p = 1; p<=size; p++) {
 			values.add(query.getParameterValue(p));

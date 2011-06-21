@@ -3,7 +3,6 @@ package org.osforce.spring4me.web.widget.impl;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
@@ -11,6 +10,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import org.apache.commons.lang.StringUtils;
+import org.osforce.spring4me.commons.collection.CollectionUtil;
 import org.osforce.spring4me.web.widget.ConfigFactory;
 import org.osforce.spring4me.web.widget.ConfigParser;
 import org.osforce.spring4me.web.widget.PageConfig;
@@ -28,7 +28,7 @@ import org.springframework.core.io.ResourceLoader;
  */
 public class DefaultConfigFactory implements ConfigFactory, ResourceLoaderAware {
 
-	private Map<String, PageConfig> simpleCache = new HashMap<String, PageConfig>();
+	private Map<String, PageConfig> simpleCache = CollectionUtil.newHashMap();
 	
 	private String prefix = "/WEB-INF/pages/";
 	private String sitePrefix = "/WEB-INF/sites/";
@@ -140,7 +140,7 @@ public class DefaultConfigFactory implements ConfigFactory, ResourceLoaderAware 
 	}
 	
 	protected Map<String, String> getParamMap(String path) {
-		Map<String, String> paramMap = new HashMap<String, String>();
+		Map<String, String> paramMap = CollectionUtil.newHashMap();
 		if(StringUtils.contains(path, "?")) {
 			String paramStr = StringUtils.substringAfter(path, "?");
 			String[] params = StringUtils.split(paramStr, "&");
