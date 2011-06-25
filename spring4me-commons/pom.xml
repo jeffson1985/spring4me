@@ -3,7 +3,7 @@
 	<parent>
 		<artifactId>spring4me</artifactId>
 		<groupId>org.osforce</groupId>
-		<version>0.2.2-SNAPSHOT</version>
+		<version>0.2.2</version>
 	</parent>
 	<artifactId>spring4me-commons</artifactId>
 	<name>Spring4Me Commons</name>
