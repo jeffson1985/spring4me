@@ -6,7 +6,6 @@
 		<groupId>org.osforce</groupId>
 		<version>0.2.2-SNAPSHOT</version>
 	</parent>
-	<groupId>org.osforce</groupId>
 	<artifactId>spring4me-dao</artifactId>
 	<name>Spring4me Dao</name>
 

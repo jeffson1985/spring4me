@@ -5,7 +5,6 @@
 		<groupId>org.osforce</groupId>
 		<version>0.2.2-SNAPSHOT</version>
 	</parent>
-	<groupId>org.osforce</groupId>
 	<artifactId>spring4me-commons</artifactId>
 	<name>Spring4Me Commons</name>
 
