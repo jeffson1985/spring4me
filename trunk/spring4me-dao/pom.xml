@@ -3,7 +3,7 @@
 	<parent>
 		<artifactId>spring4me</artifactId>
 		<groupId>org.osforce</groupId>
-		<version>0.2.2</version>
+		<version>0.2.3-SNAPSHOT</version>
 	</parent>
 	<artifactId>spring4me-dao</artifactId>
 	<name>Spring4me Dao</name>
