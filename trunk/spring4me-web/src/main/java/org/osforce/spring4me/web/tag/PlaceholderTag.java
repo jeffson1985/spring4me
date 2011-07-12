@@ -76,7 +76,7 @@ public class PlaceholderTag extends TagSupport {
 					pageContext.getRequest().getRequestDispatcher(widgetConfig.getPath())
 							.include(request, new GenericResponseWrapper(response, baos));
 					//
-					value = (baos.toString());
+					value = (baos.toString("UTF-8"));
 				} catch (ServletException e) {
 					e.printStackTrace();
 				} catch (IOException e) {
