@@ -21,7 +21,7 @@ import net.sf.ehcache.constructs.web.filter.PageFragmentCachingFilter;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.math.NumberUtils;
-import org.osforce.spring4me.web.widget.WidgetConfig;
+import org.osforce.spring4me.web.widget.config.WidgetConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

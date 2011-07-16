@@ -5,8 +5,8 @@ import java.util.Locale;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang.StringUtils;
-import org.osforce.spring4me.web.widget.ConfigFactory;
-import org.osforce.spring4me.web.widget.PageConfig;
+import org.osforce.spring4me.web.widget.config.ConfigFactory;
+import org.osforce.spring4me.web.widget.config.PageConfig;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.servlet.support.RequestContextUtils;
 

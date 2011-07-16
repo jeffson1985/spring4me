@@ -32,7 +32,7 @@
 	<!-- Handles all requests into the application -->
 	<servlet>
 		<servlet-name>dispatcherServlet</servlet-name>
-		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+		<servlet-class>org.osforce.spring4me.web.dispatcher.DispatcherServlet</servlet-class>
 		<init-param>
 			<param-name>contextConfigLocation</param-name>
 			<param-value>/WEB-INF/spring/dispatcherServletContext.xml</param-value>

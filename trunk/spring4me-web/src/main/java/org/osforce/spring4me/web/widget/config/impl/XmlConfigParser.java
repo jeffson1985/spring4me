@@ -1,4 +1,4 @@
-package org.osforce.spring4me.web.widget.impl;
+package org.osforce.spring4me.web.widget.config.impl;
 
 import java.io.File;
 import java.util.List;
@@ -6,9 +6,9 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.osforce.spring4me.commons.xml.XMLUtil;
-import org.osforce.spring4me.web.widget.ConfigParser;
-import org.osforce.spring4me.web.widget.PageConfig;
-import org.osforce.spring4me.web.widget.WidgetConfig;
+import org.osforce.spring4me.web.widget.config.ConfigParser;
+import org.osforce.spring4me.web.widget.config.PageConfig;
+import org.osforce.spring4me.web.widget.config.WidgetConfig;
 import org.w3c.dom.Element;
 
 /**

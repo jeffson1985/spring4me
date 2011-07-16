@@ -14,8 +14,8 @@ import net.sf.ehcache.constructs.web.GenericResponseWrapper;
 
 import org.apache.commons.lang.StringUtils;
 import org.osforce.spring4me.web.cache.WidgetCacheService;
-import org.osforce.spring4me.web.widget.PageConfig;
-import org.osforce.spring4me.web.widget.WidgetConfig;
+import org.osforce.spring4me.web.widget.config.PageConfig;
+import org.osforce.spring4me.web.widget.config.WidgetConfig;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.NoSuchBeanDefinitionException;
 import org.springframework.web.context.WebApplicationContext;

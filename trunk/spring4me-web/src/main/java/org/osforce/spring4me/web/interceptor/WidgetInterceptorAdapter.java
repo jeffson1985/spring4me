@@ -4,23 +4,33 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.osforce.spring4me.web.stereotype.Widget;
+import org.osforce.spring4me.web.widget.core.HttpWidgetRequest;
+import org.osforce.spring4me.web.widget.core.HttpWidgetResponse;
 import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
+/**
+ * 
+ * @author <a href="mailto:haozhonghu@hotmail.com">gavin</a>
+ * @since 0.3.0
+ * @create Jul 12, 2011 - 10:29:07 PM
+ * <a href="http://www.opensourceforce.org">开源力量</a>
+ */
 public abstract class WidgetInterceptorAdapter implements HandlerInterceptor {
 
 	public boolean preHandle(HttpServletRequest request,
 			HttpServletResponse response, Object handler) throws Exception {
 		Widget widget = AnnotationUtils.findAnnotation(handler.getClass(), Widget.class);
 		if(widget!=null) {
-			return preHandleWidget(request, response, handler);
+			return preHandleWidget(new HttpWidgetRequest(request), 
+					new HttpWidgetResponse(response), handler);
 		}
 		return true;
 	}
 	
-	protected boolean preHandleWidget(HttpServletRequest request,
-			HttpServletResponse response, Object handler) throws Exception {
+	protected boolean preHandleWidget(HttpWidgetRequest request,
+			HttpWidgetResponse response, Object handler) throws Exception {
 		return true;
 	}
 	
@@ -29,12 +39,13 @@ public abstract class WidgetInterceptorAdapter implements HandlerInterceptor {
 			ModelAndView modelAndView) throws Exception {
 		Widget widget = AnnotationUtils.findAnnotation(handler.getClass(), Widget.class);
 		if(widget!=null) {
-			postHandleWidget(request, response, handler, modelAndView);
+			postHandleWidget(new HttpWidgetRequest(request), 
+					new HttpWidgetResponse(response), handler, modelAndView);
 		}
 	}
 
-	public void postHandleWidget(HttpServletRequest request,
-			HttpServletResponse response, Object handler,
+	public void postHandleWidget(HttpWidgetRequest request,
+			HttpWidgetResponse response, Object handler,
 			ModelAndView modelAndView) throws Exception {
 	}
 	
@@ -43,12 +54,13 @@ public abstract class WidgetInterceptorAdapter implements HandlerInterceptor {
 			throws Exception {
 		Widget widget = AnnotationUtils.findAnnotation(handler.getClass(), Widget.class);
 		if(widget!=null) {
-			afterHandleCompletion(request, response, handler, ex);
+			afterCompletionWidget(new HttpWidgetRequest(request), 
+					new HttpWidgetResponse(response), handler, ex);
 		}
 	}
 	
-	public void afterHandleCompletion(HttpServletRequest request,
-			HttpServletResponse response, Object handler, Exception ex)
+	public void afterCompletionWidget(HttpWidgetRequest request,
+			HttpWidgetResponse response, Object handler, Exception ex)
 			throws Exception {
 	}
 	

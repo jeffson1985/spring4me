@@ -10,7 +10,7 @@ import net.sf.ehcache.constructs.blocking.BlockingCache;
 
 import org.apache.commons.lang.StringUtils;
 import org.osforce.spring4me.web.cache.WidgetCacheService;
-import org.osforce.spring4me.web.widget.WidgetConfig;
+import org.osforce.spring4me.web.widget.config.WidgetConfig;
 import org.springframework.context.ResourceLoaderAware;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;

@@ -1,4 +1,4 @@
-package org.osforce.spring4me.web.widget;
+package org.osforce.spring4me.web.widget.config;
 
 import java.io.File;
 import java.util.Map;

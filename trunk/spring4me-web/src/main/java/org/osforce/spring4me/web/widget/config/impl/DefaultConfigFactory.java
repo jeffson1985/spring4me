@@ -1,4 +1,4 @@
-package org.osforce.spring4me.web.widget.impl;
+package org.osforce.spring4me.web.widget.config.impl;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -11,10 +11,10 @@ import java.util.Map.Entry;
 
 import org.apache.commons.lang.StringUtils;
 import org.osforce.spring4me.commons.collection.CollectionUtil;
-import org.osforce.spring4me.web.widget.ConfigFactory;
-import org.osforce.spring4me.web.widget.ConfigParser;
-import org.osforce.spring4me.web.widget.PageConfig;
-import org.osforce.spring4me.web.widget.WidgetConfig;
+import org.osforce.spring4me.web.widget.config.ConfigFactory;
+import org.osforce.spring4me.web.widget.config.ConfigParser;
+import org.osforce.spring4me.web.widget.config.PageConfig;
+import org.osforce.spring4me.web.widget.config.WidgetConfig;
 import org.springframework.context.ResourceLoaderAware;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
