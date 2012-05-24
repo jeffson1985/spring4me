@@ -1,0 +1,3 @@
+#auto generate by remote serive exporter!
+#Thu May 24 17:10:27 CST 2012
+DefaultHelloService=org.osforce.spring4me.support.service.HelloService
