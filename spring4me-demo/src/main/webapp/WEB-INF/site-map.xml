@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<site>
+	<navigation id="index" path="/index">
+		<event on="do-login" to="index" />
+		<event on="success-login" to="profile" />
+	</navigation>
+	
+	<navigation id="profile" path="/profile">
+	</navigation>
+</site>

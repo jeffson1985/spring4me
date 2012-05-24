@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns="http://www.opensourceforce.org/schema/remoting"
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.opensourceforce.org/schema/remoting">
+
+	<!-- Remoting Exporter -->
+	<xsd:element name="autoExporter">
+
+		<xsd:complexType>
+			<xsd:attribute name="base-package" use="required" />
+			<xsd:attribute name="exporter" use="required" />
+		</xsd:complexType>
+	</xsd:element>
+
+	<!-- Remoting Importer -->
+	<xsd:element name="autoImporter">
+
+		<xsd:complexType>
+			<xsd:attribute name="base-package" use="required" />
+			<xsd:attribute name="importer" use="required" />
+		</xsd:complexType>
+	</xsd:element>
+
+</xsd:schema>

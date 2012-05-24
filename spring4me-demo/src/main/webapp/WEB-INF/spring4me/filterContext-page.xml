@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean class="org.osforce.spring4me.web.navigation.config.xml.XmlSiteConfigFactory">
+		<property name="cacheable" value="false" />
+		<property name="configLocation" value="/WEB-INF/site-map.xml"/>
+	</bean>
+
+    <bean class="org.osforce.spring4me.web.page.config.xml.XmlPageConfigFactory">
+        <property name="cacheable" value="false" />
+    </bean>
+
+    <bean class="org.osforce.spring4me.web.page.render.impl.DefaultPageRender" />
+    
+</beans>
