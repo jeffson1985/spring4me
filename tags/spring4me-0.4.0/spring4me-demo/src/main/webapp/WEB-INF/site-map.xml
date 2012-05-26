@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<site>
+	<navigation id="index" path="/index">
+		<event on="do-login" to="index" />
+		<event on="login-success" to="loginSuccess" />
+		<event on="login-error" to="loginError" />
+	</navigation>
+	
+	<navigation id="loginSuccess" path="/login-success">
+	</navigation>
+	
+	<navigation id="loginError" path="/login-error">
+	</navigation>
+</site>
