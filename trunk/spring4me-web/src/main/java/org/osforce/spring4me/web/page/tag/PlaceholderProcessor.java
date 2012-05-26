@@ -22,7 +22,6 @@ import org.osforce.spring4me.web.page.config.GroupConfig;
 import org.osforce.spring4me.web.page.config.PageConfig;
 import org.osforce.spring4me.web.widget.config.WidgetConfig;
 import org.osforce.spring4me.web.widget.http.HttpWidget;
-import org.springframework.util.StringUtils;
 
 /**
  * 
@@ -43,34 +42,51 @@ public class PlaceholderProcessor {
 		this.callback = callback;
 	}
 	
-	public void process(Writer writer, String groupId, String widgetId) throws Exception {
-		// include widget
-        if(StringUtils.hasText(widgetId)) {
-            WidgetConfig widgetConfig = pageConfig.getWidgetConfig(groupId, widgetId);
-            includeWidget(writer, widgetConfig);
-        }
-        //
+	public void process(Writer writer, String groupId) throws Exception {
         GroupConfig groupConfig = pageConfig.getGroupConfig(groupId);
         includeGroup(writer, groupConfig);
 	}
 	
 	protected void includeGroup(Writer writer, GroupConfig groupConfig) throws Exception {
 		if(groupConfig!=null) { 
-	    	for(WidgetConfig widgetConfig : groupConfig.getAllWidgetConfig()) {
-	            includeWidget(writer, widgetConfig); 
+	    	for(int i=0, len=groupConfig.getAllWidgetConfig().size(); i<len; i++) {
+	    		WidgetConfig widgetConfig = groupConfig.getAllWidgetConfig().get(i);
+	    		boolean first = (i==0);
+	    		boolean last = (i==len-1);
+	    		//
+	            includeWidget(writer, widgetConfig, first, last);
 	    	}
 		}
     }
     
-    protected void includeWidget(Writer writer, WidgetConfig widgetConfig) throws Exception {
+    protected void includeWidget(Writer writer, WidgetConfig widgetConfig, boolean first, boolean last) throws Exception {
     	HttpWidget widget = callback.getHttpWidget(widgetConfig);
     	String htmlFragment = widget.getWidgetResponse().getResponseAsString();
-        appendToPage(writer, htmlFragment);
+        appendToPage(widgetConfig, writer, htmlFragment, first, last);
     }
     
-    protected void appendToPage(Writer writer, String fragment) throws Exception {
+    protected void appendToPage(WidgetConfig widgetConfig, Writer writer, 
+    		String fragment, boolean first, boolean last) throws Exception {
     	if(fragment!=null) {
+    		writer.append("<div");
+    		writer.append(" id=\"" + widgetConfig.getId() + "\"");
+    		writer.append(" class=\"widget-wrapper");
+    		// append class only
+    		if(first && last) {
+    			writer.append(" widget-only");
+    		}
+    		// append class first
+    		if(first && !last) {
+    			writer.append(" widget-first");
+    		}
+    		// append class last
+    		if(last && !first) {
+    			writer.append(" widget-last");
+    		}
+    		//
+    		writer.append("\">");
     		writer.append(fragment);
+            writer.append("</div>");
     	}
     }
     

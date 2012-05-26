@@ -39,7 +39,6 @@ public class PlaceholderTag extends TagSupport {
 	private static final long serialVersionUID = 7410243473016617321L;
 	//
     private String groupId;
-    private String widgetId;
 
     public PlaceholderTag() {
     }
@@ -48,10 +47,6 @@ public class PlaceholderTag extends TagSupport {
         this.groupId = groupId;
     }
 
-    public void setWidgetId(String widgetId) {
-        this.widgetId = widgetId;
-    }
-    
     @Override
     public int doStartTag() throws JspException {
         PageConfig pageConfig = PageConfigUtils.getPageConfig((HttpServletRequest)pageContext.getRequest());
@@ -66,7 +61,7 @@ public class PlaceholderTag extends TagSupport {
 		});
         //
 		try {
-			pp.process(pageContext.getOut(), groupId, widgetId);
+			pp.process(pageContext.getOut(), groupId);
 			return SKIP_BODY;
 		} catch (Exception e) {
 			throw new PlaceholderException(e.getMessage(), e.getCause());

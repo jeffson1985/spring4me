@@ -16,7 +16,7 @@
 
 package org.osforce.spring4me.web.page.config;
 
-import java.util.Collection;
+import java.util.List;
 
 import org.osforce.spring4me.web.widget.config.WidgetConfig;
 
@@ -36,7 +36,7 @@ public interface GroupConfig {
     
     WidgetConfig getWidgetConfig(String widgetId);
     
-    Collection<WidgetConfig> getAllWidgetConfig();
+    List<WidgetConfig> getAllWidgetConfig();
     
     void addWidgetConfig(WidgetConfig widgetConfig);
     

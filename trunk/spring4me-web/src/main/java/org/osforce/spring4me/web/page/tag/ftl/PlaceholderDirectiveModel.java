@@ -44,7 +44,6 @@ import freemarker.template.TemplateModel;
 public class PlaceholderDirectiveModel implements TemplateDirectiveModel {
 
 	private static final String PARAM_GROUP_ID = "groupId";
-	private static final String PARAM_WIDGET_ID = "widgetId";
 	//
 	private ThreadLocal<Environment> local = new ThreadLocal<Environment>();
 	
@@ -54,13 +53,9 @@ public class PlaceholderDirectiveModel implements TemplateDirectiveModel {
 		local.set(env);
 		//
 		String groupId = null;
-		String widgetId = null;
 		//
 		if(params.containsKey(PARAM_GROUP_ID)) {
 			groupId = params.get(PARAM_GROUP_ID).toString();
-		}
-		if(params.containsKey(PARAM_WIDGET_ID)) {
-			widgetId = params.get(PARAM_WIDGET_ID).toString();
 		}
 		//
 		Assert.notNull(groupId, "Argument groupId can not be null!");
@@ -81,7 +76,7 @@ public class PlaceholderDirectiveModel implements TemplateDirectiveModel {
 		});
 		//
 		try {
-			pp.process(env.getOut(), groupId, widgetId);
+			pp.process(env.getOut(), groupId);
 		} catch (Exception e) {
 			throw new PlaceholderException(e.getMessage(), e.getCause());
 		}

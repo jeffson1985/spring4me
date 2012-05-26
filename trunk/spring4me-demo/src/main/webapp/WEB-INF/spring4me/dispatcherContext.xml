@@ -15,13 +15,25 @@
     
     <mvc:annotation-driven />
     
-    <bean class="org.osforce.spring4me.web.widget.bind.support.RequestMappingHandlerAdapterPostProcessor" />
+    <mvc:resources mapping="/themes/**" location="/WEB-INF/themes/" />
+    <mvc:resources mapping="/generate/**" location="/WEB-INF/generate/" />
+    <mvc:resources mapping="/resources/**" location="/WEB-INF/resources/" />
     
-    <!-- Configures Handler Interceptors -->
+     <!-- Configures Handler Interceptors -->
     <mvc:interceptors>
-        <!-- Changes the locale when a 'locale' request parameter is sent; e.g. /?locale=en_US -->
         <bean class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor"/>
+        <bean class="org.osforce.spring4me.demo.theme.JavaScriptGenerateInterceptor" />
     </mvc:interceptors>
+    
+    <bean id="themeResolver" class="org.springframework.web.servlet.theme.FixedThemeResolver">
+    	<property name="defaultThemeName" value="default" />
+    </bean>
+    
+    <bean id="themeSource" class="org.osforce.spring4me.demo.theme.support.ReloadableResourceBundleThemeSource">
+    	<property name="basenamePrefix" value="/WEB-INF/themes/default/" />
+    </bean>
+    
+    <bean class="org.osforce.spring4me.web.widget.bind.support.RequestMappingHandlerAdapterPostProcessor" />
     
     <!-- View Revolver Begin -->
     <bean id="freemarkerConfigurer"
@@ -46,7 +58,7 @@
         </property>
     </bean>
     
-    <!-- Widget View Resolver Begin -->
+    <!-- Widget View Resolver -->
     <bean id="widgetViewResolver" class="org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver">
         <property name="contentType" value="text/html;charset=UTF-8"/>
         <property name="prefix" value="/WEB-INF/widgets/"/>
@@ -54,12 +66,12 @@
         <property name="order" value="1"/>
     </bean>
     
-    <!-- Theme View Resolver Begin -->
+    <!-- Theme View Resolver -->
     <bean id="themeViewResolver" class="org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver">
         <property name="contentType" value="text/html;charset=UTF-8"/>
         <property name="prefix" value="/WEB-INF/themes/"/>
         <property name="suffix" value=".ftl"/>
-        <property name="order" value="2"/>
+        <property name="order" value="3"/>
     </bean>
     
 </beans>

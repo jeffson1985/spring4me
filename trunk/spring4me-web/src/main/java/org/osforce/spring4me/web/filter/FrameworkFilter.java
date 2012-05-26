@@ -55,7 +55,11 @@ public abstract class FrameworkFilter extends GenericFilterBean {
 
     public final void doFilter(ServletRequest request, ServletResponse response,
             FilterChain chain) throws IOException, ServletException {
-        doService((HttpServletRequest) request, (HttpServletResponse) response, chain);
+    	//
+    	HttpServletRequest httpRequest = (HttpServletRequest) request;
+    	HttpServletResponse httpResponse = (HttpServletResponse) response;
+    	//
+    	doService(httpRequest, httpResponse, chain);
     }
 
     public final void destroy()  {

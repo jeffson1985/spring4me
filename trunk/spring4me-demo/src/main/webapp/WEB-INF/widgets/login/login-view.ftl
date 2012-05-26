@@ -10,10 +10,10 @@
    			<label>密码：</label>
    			<input type="password" name="password" />
    			<br/>
-   			<input type="submit" value="登录" />
+   			<input id="submit" type="submit" value="登录" />
    		</form>
     </div>
     <div class="widget-foot">
-    
+    	
     </div>
 </div>
