@@ -2,7 +2,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.osforce</groupId>
 	<artifactId>spring4me</artifactId>
-	<version>0.4.0</version>
+	<version>0.5.0-SNAPSHOT</version>
 	<packaging>pom</packaging>
 
 	<modules>
@@ -24,8 +24,8 @@
 	</developers>
 
 	<scm>
-		<connection>scm:svn:http://spring4me.googlecode.com/svn/tags/spring4me-0.4.0</connection>
-		<developerConnection>scm:svn:https://spring4me.googlecode.com/svn/tags/spring4me-0.4.0</developerConnection>
+		<connection>scm:svn:http://spring4me.googlecode.com/svn/trunk/</connection>
+		<developerConnection>scm:svn:https://spring4me.googlecode.com/svn/trunk/</developerConnection>
 	</scm>
 
 	<properties>
