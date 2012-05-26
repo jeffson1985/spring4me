@@ -22,7 +22,9 @@ public class LoginController {
 		System.out.println("do login...");
 		//
 		if("gavin".equals(username) && "123456".equals(password)) {
-			EventPublisher.publish(webRequest, "success-login");
+			EventPublisher.publish(webRequest, "login-success");
+		} else {
+			EventPublisher.publish(webRequest, "login-error");
 		}
 	}
 	

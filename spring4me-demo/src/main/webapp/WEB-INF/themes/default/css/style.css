@@ -1,0 +1,50 @@
+html,body {
+	width: 100%;
+	height: 100%;
+	padding: 0;
+	margin: 0;
+	overflow: auto; /* when page gets too small */
+}
+
+#container {
+	height: 100%;
+	margin: 0 auto;
+	width: 100%;
+	max-width: 960px;
+	min-width: 700px;
+	_width: 700px; /* min-width for IE6 */
+}
+
+.widget-wrapper {
+	margin-bottom: 6px;
+}
+
+.widget-last,.widget-only {
+	margin: 0;
+}
+
+.widget {
+	border: 1px solid #ddd;
+	min-height: 100px;
+}
+
+.widget-head {
+	background: #eee;
+	padding: 5px;
+}
+
+.widget-head h3 {
+	margin-top: 10px;
+	margin-bottom: 10px;
+	line-height: 0;
+}
+
+.widget-body {
+	padding: 5px;
+}
+
+
+
+.ui-layout-west {
+	width: 300px;
+}

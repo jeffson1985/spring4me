@@ -57,15 +57,11 @@ public class PlaceholderDirective extends Directive {
 			Node node) throws IOException, ResourceNotFoundException,
 			ParseErrorException, MethodInvocationException {
 		String groupId = null;
-		String widgetId = null;
 		//
 		int num = node.jjtGetNumChildren();
 		//
 		if(num>0 && node.jjtGetChild(0)!=null) {
 			groupId = String.valueOf(node.jjtGetChild(0).value(context));
-		}
-		if(num>1 && node.jjtGetChild(1)!=null) {
-			widgetId = String.valueOf(node.jjtGetChild(1).value(context));
 		}
 		//
 		Assert.notNull(groupId, "Argument groupId can not be null!");
@@ -83,7 +79,7 @@ public class PlaceholderDirective extends Directive {
 		});
 		//
 		try {
-			pp.process(writer, groupId, widgetId);
+			pp.process(writer, groupId);
 			return true;
 		} catch (Exception e) {
 			throw new PlaceholderException(e.getMessage(), e.getCause());

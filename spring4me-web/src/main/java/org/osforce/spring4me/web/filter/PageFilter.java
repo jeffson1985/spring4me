@@ -117,7 +117,8 @@ public class PageFilter extends FrameworkFilter {
     		//
             this.pageRender.render(httpRequest, httpResponse);
             // forward this request and stop continue filter
-            httpRequest.getRequestDispatcher(pageConfig.getPath()).forward(httpRequest, httpResponse);
+            String pagePath = pageConfig.getPath() + ".page";
+            httpRequest.getRequestDispatcher(pagePath).forward(httpRequest, httpResponse);
             //
     	} catch(PageNotFoundException e) {
     		//

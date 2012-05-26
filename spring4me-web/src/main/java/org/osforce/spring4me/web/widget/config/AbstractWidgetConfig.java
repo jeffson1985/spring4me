@@ -45,7 +45,7 @@ public abstract class AbstractWidgetConfig implements WidgetConfig {
     private GroupConfig groupConfig;
     
     public String getId() {
-        return id;
+    	return id;
     }
 
     public String getName() {
@@ -84,7 +84,7 @@ public abstract class AbstractWidgetConfig implements WidgetConfig {
         if(StringUtils.hasText(id)) {
             this.id = id;
         } else {
-            this.id = UUID.randomUUID().toString();
+        	this.id = UUID.randomUUID().toString();
         }
     }
 

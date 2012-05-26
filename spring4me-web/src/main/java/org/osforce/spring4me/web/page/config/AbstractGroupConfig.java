@@ -30,7 +30,7 @@ import org.osforce.spring4me.web.widget.config.WidgetConfig;
  * @create Feb 12, 2012 - 11:27:56 AM
  */
 public abstract class AbstractGroupConfig implements GroupConfig {
-
+	
     private String id;
     private String layout;
     private boolean disabled;

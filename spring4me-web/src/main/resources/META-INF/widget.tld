@@ -16,9 +16,5 @@
             <name>groupId</name>
             <required>true</required>
         </attribute>
-        <attribute>
-            <name>widgetId</name>
-            <required>false</required>
-        </attribute>
     </tag>
 </taglib>

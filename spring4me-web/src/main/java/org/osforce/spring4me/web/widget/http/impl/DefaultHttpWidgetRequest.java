@@ -16,11 +16,13 @@
 
 package org.osforce.spring4me.web.widget.http.impl;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletRequestWrapper;
 
 import org.osforce.spring4me.web.widget.config.WidgetConfig;
 import org.osforce.spring4me.web.widget.http.HttpWidgetRequest;
+import org.springframework.web.util.WebUtils;
 
 /**
  * 
@@ -41,5 +43,11 @@ public class DefaultHttpWidgetRequest extends HttpServletRequestWrapper
     public WidgetConfig getWidgetConfig() {
 		return widgetConfig;
 	}
+    
+    @Override
+    public RequestDispatcher getRequestDispatcher(String path) {
+    	setAttribute(WebUtils.INCLUDE_PATH_INFO_ATTRIBUTE, path);
+    	return super.getRequestDispatcher(path);
+    }
     
 }

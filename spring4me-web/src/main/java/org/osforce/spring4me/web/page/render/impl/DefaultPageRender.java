@@ -60,8 +60,8 @@ public class DefaultPageRender extends AbstractPageRender {
 		    		HttpWidgetResponse widgetResponse = new DefaultHttpWidgetResponse(httpResponse);
 		    		//
 		    		if(!widgetConfig.isDisabled()) {
-		    			String requestPath = widgetConfig.getPath();
-		                widgetRequest.getRequestDispatcher(requestPath).include(widgetRequest, widgetResponse);
+		    			String widgetPath = widgetConfig.getPath() + ".widget";
+		                widgetRequest.getRequestDispatcher(widgetPath).include(widgetRequest, widgetResponse);
 		    		}
 		    		//
 		    		httpWidget = new DefaultHttpWidget(widgetConfig, widgetRequest, widgetResponse);
