@@ -16,26 +16,23 @@
 
 package org.osforce.spring4me.web.page.config.xml;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import org.osforce.spring4me.support.xml.XmlParser;
 import org.osforce.spring4me.web.page.PageNotFoundException;
 import org.osforce.spring4me.web.page.config.AbstractPageConfigFactory;
 import org.osforce.spring4me.web.page.config.GroupConfig;
 import org.osforce.spring4me.web.page.config.PageConfig;
-import org.springframework.beans.factory.xml.DefaultDocumentLoader;
-import org.springframework.beans.factory.xml.DocumentLoader;
-import org.springframework.beans.factory.xml.PluggableSchemaResolver;
+import org.osforce.spring4me.web.widget.config.WidgetConfig;
 import org.springframework.context.ResourceLoaderAware;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
-import org.springframework.util.ClassUtils;
-import org.springframework.util.xml.XmlValidationModeDetector;
+import org.springframework.util.StringUtils;
+import org.springframework.util.xml.DomUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
-import org.xml.sax.EntityResolver;
-import org.xml.sax.ErrorHandler;
-import org.xml.sax.InputSource;
-import org.xml.sax.helpers.DefaultHandler;
 
 /**
  * 
@@ -45,53 +42,127 @@ import org.xml.sax.helpers.DefaultHandler;
  */
 public class XmlPageConfigFactory extends AbstractPageConfigFactory
         implements ResourceLoaderAware {
-	private static final String SCHEMA_MAPPINGS_LOCATION = "META-INF/spring4me.schemas";
-	//
-	private DocumentLoader documentLoader = new DefaultDocumentLoader();
-	private ErrorHandler errorHandler = new DefaultHandler();
-	private XmlValidationModeDetector validationModeDetector = new XmlValidationModeDetector();
-	private EntityResolver entityResolver = new PluggableSchemaResolver(ClassUtils.getDefaultClassLoader(), SCHEMA_MAPPINGS_LOCATION);
-	//
-    private String prefix = "/WEB-INF/pages";
+	
+    private String prefix = "/WEB-INF/pages/";
     private String suffix = ".xml";
     
     private ResourceLoader resourceLoader;
+    //
+    private XmlParser xmlParser = new XmlParser();
     //
 	public void setResourceLoader(ResourceLoader resourceLoader) {
         this.resourceLoader = resourceLoader;
     }
 	
+	public void setPrefix(String prefix) {
+		this.prefix = prefix;
+	}
+	
+	public void setSuffix(String suffix) {
+		this.suffix = suffix;
+	}
+	
 	@Override
     protected PageConfig loadPage(String pagePath) {
-        String location = getPageLocation(pagePath);
+		try {
+	        String location = getPageLocation(pagePath);
+	        //
+	        Resource resource = resourceLoader.getResource(location);
+	        Document document = xmlParser.parseAndValidate(resource);
+	        //
+	        PageConfig pageConfig = parsePage(document.getDocumentElement(), pagePath);
+	        //
+	        return pageConfig;
+		} catch (Exception e) {
+			throw new PageNotFoundException(e.getMessage(), e.getCause());
+		}
+    }
+	
+	protected PageConfig parsePage(Element pageEle, String pagePath) {
+		String path = pagePath;
+		String id = pageEle.getAttribute("id");
+    	String parent = pageEle.getAttribute("parent");
+    	String template = pageEle.getAttribute("template");
+    	//
+    	PageConfig pageConfig = new PageConfig();
+    	pageConfig.setId(id);
+    	pageConfig.setPath(path);
+    	pageConfig.setParent(parent);
+    	pageConfig.setTemplate(template);
+    	//
+    	List<Element> groupEles = DomUtils.getChildElements(pageEle);
+        for(Element groupEle : groupEles) {
+        	GroupConfig groupConfig = parseGroup(groupEle);
+        	pageConfig.addGroupConfig(groupConfig);
+        }
+		//
+		return pageConfig;
+	}
+	
+	private GroupConfig parseGroup(Element groupEle) {
+		String gid = groupEle.getAttribute("id");
+        String disabled = groupEle.getAttribute("disabled");
         //
-        Document document = getPageDocument(location);
-        Element pageEle = document.getDocumentElement();
-        XmlPageConfig xmlPageConfig = new XmlPageConfig(pageEle, pagePath);
+        GroupConfig groupConfig = new GroupConfig();
+        groupConfig.setId(gid);
+        groupConfig.setDisabled("true".equals(disabled));
         //
-        List<GroupConfig> xmlGroupConfigCollection = xmlPageConfig.getAllGroupConfig();
-        for(GroupConfig groupConfig : xmlGroupConfigCollection) {
-        	XmlGroupConfig xmlGroupConfig = (XmlGroupConfig) groupConfig;
-        	xmlGroupConfig.getAllWidgetConfig();
+        List<Element> widgetEles = DomUtils.getChildElements(groupEle);
+        for(Element widgetEle : widgetEles) {
+            WidgetConfig widgetConfig = parseWidget(widgetEle);
+        	groupConfig.addWidgetConfig(widgetConfig);
+        }
+		return groupConfig;
+	}
+	
+	private WidgetConfig parseWidget(Element widgetEle) {
+		String id = widgetEle.getAttribute("id");
+        String name = widgetEle.getAttribute("name");
+        String path = widgetEle.getAttribute("path");
+        String cacheStr = widgetEle.getAttribute("cache");
+        String disabled = widgetEle.getAttribute("disabled");
+        //
+        int cache = -1;
+        if(StringUtils.hasText(cacheStr)) {
+        	cache = Integer.valueOf(cacheStr);
         }
         //
-        return xmlPageConfig;
-    }
+        WidgetConfig widgetConfig = new WidgetConfig();
+        widgetConfig.setId(id);
+        widgetConfig.setName(name);
+        widgetConfig.setPath(path);
+        widgetConfig.setCache(cache);
+        widgetConfig.setDisabled("true".equals(disabled));
+        //
+        Element titleEle = DomUtils.getChildElementByTagName(widgetEle, "title");
+        if (titleEle != null) {
+            String title = titleEle.getTextContent();
+            widgetConfig.setTitle(title);
+        }
+        //
+        Element descEle = DomUtils.getChildElementByTagName(widgetEle, "description");
+        if (descEle != null) {
+            String description = descEle.getTextContent();
+            widgetConfig.setDescription(description);
+        }
+        //
+        Map<String, String> preferences = new HashMap<String, String>();
+        Element prefEle = DomUtils.getChildElementByTagName(widgetEle, "preference");
+        if (prefEle != null) {
+            List<Element> keyValueEles = DomUtils.getChildElements(prefEle);
+            for (Element keyValueEle : keyValueEles) {
+                String key = keyValueEle.getTagName();
+                String value = keyValueEle.getTextContent();
+                preferences.put(key, value);
+            }
+            widgetConfig.setPreferences(preferences);
+        }
+        //
+        return widgetConfig;
+	}
     
     protected String getPageLocation(String pathPath) {
         return prefix + pathPath + suffix;
     }
     
-    private Document getPageDocument(String location) {
-        try {
-        	Resource resource = resourceLoader.getResource(location);
-            //
-            InputSource inputSource = new InputSource(resource.getInputStream());
-    		int validationMode = validationModeDetector.detectValidationMode(resource.getInputStream());
-    		return documentLoader.loadDocument(inputSource, entityResolver, errorHandler, validationMode, false);
-        } catch (Exception e) {
-            throw new PageNotFoundException(e.getMessage(), e.getCause());
-        } 
-    }
-	
 }

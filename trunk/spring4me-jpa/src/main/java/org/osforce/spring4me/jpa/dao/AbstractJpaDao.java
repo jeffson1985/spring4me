@@ -16,7 +16,6 @@
 
 package org.osforce.spring4me.jpa.dao;
 
-import java.beans.PropertyDescriptor;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -30,9 +29,11 @@ import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
+import javax.persistence.metamodel.Attribute;
+import javax.persistence.metamodel.EntityType;
+import javax.persistence.metamodel.Metamodel;
 
 import org.osforce.spring4me.dao.BaseDao;
-import org.osforce.spring4me.jpa.entity.IdEntity;
 import org.springframework.beans.BeanWrapper;
 import org.springframework.beans.PropertyAccessorFactory;
 
@@ -43,7 +44,7 @@ import org.springframework.beans.PropertyAccessorFactory;
  * @since 0.1.0
  * @create May 16, 2011 - 3:50:49 PM
  */
-public class AbstractJpaDao<E extends IdEntity> implements BaseDao<E> {
+public class AbstractJpaDao<E> implements BaseDao<E> {
 
 	private EntityManager entityManager;
 	private Class<E> entityClass;
@@ -84,6 +85,11 @@ public class AbstractJpaDao<E extends IdEntity> implements BaseDao<E> {
 	public void purge(E model) {
 		entityManager.remove(model);
 	}
+	
+	public void purge(Long id) {
+		E model = load(id);
+		entityManager.remove(model);
+	}
 
 	public List<E> fetchList(E model) {
 		CriteriaQuery<E> cq = getCriteriaBuilder().createQuery(entityClass);
@@ -118,11 +124,12 @@ public class AbstractJpaDao<E extends IdEntity> implements BaseDao<E> {
 	
 	protected Map<String, Object> getBeanParameters(E model) {
 		Map<String, Object> beanParameters = new HashMap<String, Object>();
-		//
 		BeanWrapper beanWrapper = PropertyAccessorFactory.forBeanPropertyAccess(model);
-		PropertyDescriptor[] pds = beanWrapper.getPropertyDescriptors();
-		for(PropertyDescriptor pd : pds) {
-			String name = pd.getName();
+		//
+		Metamodel metamodel = getEntityManager().getMetamodel();
+		EntityType<E> entityType = metamodel.entity(getEntityClass());
+		for(@SuppressWarnings("rawtypes") Attribute attribute : entityType.getAttributes()) {
+			String name = attribute.getName();
 			Object value = beanWrapper.getPropertyValue(name);
 			//
 			if(!"class".equals(name) && value!=null) {

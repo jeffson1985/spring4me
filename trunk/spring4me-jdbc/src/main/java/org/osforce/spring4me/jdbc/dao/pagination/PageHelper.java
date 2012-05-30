@@ -53,7 +53,7 @@ public abstract class PageHelper {
 		//
 		PreparedStatementCreator psc = newPreparedStatementCreator(selectString);
 		List<T> results = jdbcTemplate.query(psc, rse);
-		return page.setResults(results);
+		return page.setResult(results);
 	}
 
 	public static <T> Page<T> fetchPage(Page<T> page, JdbcTemplate jdbcTemplate, T model, 
@@ -77,7 +77,7 @@ public abstract class PageHelper {
 		//
 		PreparedStatementCreator psc = newPreparedStatementCreator(selectString, selectTypes, values);
 		List<T> results = jdbcTemplate.query(psc, rse);
-		return page.setResults(results);
+		return page.setResult(results);
 	}
 	
 	private static PreparedStatementCreator newPreparedStatementCreator(String sql) {

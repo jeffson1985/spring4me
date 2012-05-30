@@ -19,6 +19,7 @@ package org.osforce.spring4me.web.navigation.tag.ftl;
 import java.io.IOException;
 import java.util.Map;
 
+import org.osforce.spring4me.web.Keys;
 import org.osforce.spring4me.web.navigation.tag.NavigationProcessor;
 import org.osforce.spring4me.web.page.config.PageConfig;
 import org.springframework.util.Assert;
@@ -47,17 +48,21 @@ public class NavigationDirectiveModel implements TemplateDirectiveModel {
 	public void execute(Environment env, Map params, TemplateModel[] loopVars,
 			TemplateDirectiveBody body) throws TemplateException, IOException {
 		String event = params.get("event").toString();
-		String action = params.get("action").toString();
+		String action = null;
+		if(params.containsKey("action")) {
+			action = params.get("action").toString();
+		}
 		//
 		Assert.notNull("Argument event can not be null!", event);
 		//
 		BeanModel pageConfigBeanModel = (BeanModel) env.getDataModel().get(PageConfig.KEY);
 		PageConfig pageConfig = (PageConfig) pageConfigBeanModel.getWrappedObject();
 		//
+		String base = ((SimpleScalar)env.getDataModel().get(Keys.REQUEST_KEY_BASE)).getAsString();
 		String eventDrivenServiceUrl = ((SimpleScalar)env.getDataModel().get("eventDrivenServiceUrl")).getAsString();
 		//
 		NavigationProcessor processor = new NavigationProcessor(pageConfig, eventDrivenServiceUrl);
-		processor.process(env.getOut(), event, action);
+		processor.process(env.getOut(), event, base + action);
 	}
 
 }

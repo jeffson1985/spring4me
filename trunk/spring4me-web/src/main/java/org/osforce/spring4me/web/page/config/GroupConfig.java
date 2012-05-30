@@ -16,7 +16,10 @@
 
 package org.osforce.spring4me.web.page.config;
 
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.osforce.spring4me.web.widget.config.WidgetConfig;
 
@@ -26,18 +29,58 @@ import org.osforce.spring4me.web.widget.config.WidgetConfig;
  * @since 0.4.0
  * @create Feb 12, 2012 - 11:28:20 AM
  */
-public interface GroupConfig {
+public class GroupConfig {
     
-    String getId();
+	private String id;
+    private String layout;
+    private boolean disabled;
+    //
+    private PageConfig pageConfig;
+    //
+    private Map<String, WidgetConfig> widgetConfigMap = new LinkedHashMap<String, WidgetConfig>();
     
-    String getLayout();
+    public String getId() {
+        return id;
+    }
+
+    public String getLayout() {
+        return layout;
+    }
+
+    public boolean isDisabled() {
+        return disabled;
+    }
+
+    public List<WidgetConfig> getAllWidgetConfig() {
+    	return new ArrayList<WidgetConfig>(widgetConfigMap.values());
+    }
+
+    public WidgetConfig getWidgetConfig(String widgetId) {
+        return widgetConfigMap.get(widgetId);
+    }
     
-    boolean isDisabled();
-    
-    WidgetConfig getWidgetConfig(String widgetId);
-    
-    List<WidgetConfig> getAllWidgetConfig();
-    
-    void addWidgetConfig(WidgetConfig widgetConfig);
+    public void addWidgetConfig(WidgetConfig widgetConfig) {
+        this.widgetConfigMap.put(widgetConfig.getId(), widgetConfig);
+    }
+
+    public PageConfig getPageConfig() {
+        return pageConfig;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public void setLayout(String layout) {
+        this.layout = layout;
+    }
+
+    public void setDisabled(boolean disabled) {
+        this.disabled = disabled;
+    }
+
+    public void setPageConfig(PageConfig pageConfig) {
+        this.pageConfig = pageConfig;
+    }
     
 }

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sitemap xmlns="http://www.opensourceforce.org/schema/navigation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.opensourceforce.org/schema/navigation http://www.opensourceforce.org/schema/spring4me-navigation.xsd">
+	
+	<navigation id="index" path="/index">
+		<event on="view-profile" to="viewProfile"/>
+	</navigation>
+	<navigation id="viewProfile" path="/profile" />
+
+</sitemap>

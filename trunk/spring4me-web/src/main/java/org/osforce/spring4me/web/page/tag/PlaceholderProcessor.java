@@ -61,8 +61,10 @@ public class PlaceholderProcessor {
     
     protected void includeWidget(Writer writer, WidgetConfig widgetConfig, boolean first, boolean last) throws Exception {
     	HttpWidget widget = callback.getHttpWidget(widgetConfig);
-    	String htmlFragment = widget.getWidgetResponse().getResponseAsString();
-        appendToPage(widgetConfig, writer, htmlFragment, first, last);
+    	if(widget!=null) {
+	    	String htmlFragment = widget.getWidgetResponse().getResponseAsString();
+	        appendToPage(widgetConfig, writer, htmlFragment, first, last);
+    	}
     }
     
     protected void appendToPage(WidgetConfig widgetConfig, Writer writer, 

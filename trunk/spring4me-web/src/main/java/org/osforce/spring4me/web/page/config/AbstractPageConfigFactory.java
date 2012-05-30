@@ -49,7 +49,7 @@ public abstract class AbstractPageConfigFactory implements PageConfigFactory {
 		PageConfig pageConfig = loadPage(path);
 		if (StringUtils.hasText(pageConfig.getParent())) {
 			PageConfig parentPageConfig = loadPage(pageConfig.getParent());
-			margeToPageConfig(pageConfig, parentPageConfig);
+			margePageConfig(pageConfig, parentPageConfig);
 		}
 		//
 		return pageConfig;
@@ -72,14 +72,14 @@ public abstract class AbstractPageConfigFactory implements PageConfigFactory {
 		return pageConfig;
 	}
 
-	private void margeToPageConfig(PageConfig pageConfig,
-			PageConfig parentPageConfig) {
+	private void margePageConfig(PageConfig pageConfig, PageConfig parentPageConfig) {
 		for (GroupConfig groupConfig : parentPageConfig.getAllGroupConfig()) {
 			if (pageConfig.getGroupConfig(groupConfig.getId()) == null) {
 				pageConfig.addGroupConfig(groupConfig);
 			}
 		}
 	}
-
+	
 	protected abstract PageConfig loadPage(String pagePath);
+	
 }

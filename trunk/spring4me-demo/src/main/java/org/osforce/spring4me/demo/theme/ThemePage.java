@@ -12,7 +12,7 @@ import org.springframework.web.servlet.support.RequestContextUtils;
 @Page
 public class ThemePage {
 
-	@RequestMapping("*.page")
+	@RequestMapping({"*.page", "/*.page", "/**/*.page"})
 	public String beautifyPage(HttpServletRequest request) {
 		Theme theme = RequestContextUtils.getTheme(request);
 		PageConfig pageConfig = PageConfigUtils.getPageConfig(request);

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<page xmlns="http://www.hundsun.com/schema/page" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://www.opensourceforce.org/schema/page http://www.opensourceforce.org/schema/page/widget-page-0.4.0.xsd"
-	id="profile" template="template">
+<page xmlns="http://www.opensourceforce.org/schema/page" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.opensourceforce.org/schema/page http://www.opensourceforce.org/schema/spring4me-page.xsd"
+	id="login-success" template="template">
 	
 	<group id="top-side">
 		<widget id="helpWidget" name="helpWidget" path="/help">
@@ -23,6 +23,10 @@
 	<group id="main-body">
 		<widget id="helpWidget3" name="helpWidget" path="/help">
 			<title>登录成功</title>
+			<description>This is login widget used for login!</description>
+		</widget>
+		<widget name="loginWidget" path="/login">
+			<title>Login Widget</title>
 			<description>This is login widget used for login!</description>
 		</widget>
 	</group>

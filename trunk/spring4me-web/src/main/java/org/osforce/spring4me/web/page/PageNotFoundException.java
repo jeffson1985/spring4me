@@ -22,8 +22,8 @@ package org.osforce.spring4me.web.page;
  * @since 0.4.0
  * @create Feb 12, 2012 - 11:32:39 AM
  */
+@SuppressWarnings("serial")
 public class PageNotFoundException extends RuntimeException {
-	private static final long serialVersionUID = 491478431003036533L;
 	
 	public PageNotFoundException(String message, Throwable cause) {
 		super(message, cause);

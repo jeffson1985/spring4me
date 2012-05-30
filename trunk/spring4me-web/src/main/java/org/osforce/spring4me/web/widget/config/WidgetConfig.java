@@ -16,9 +16,12 @@
 
 package org.osforce.spring4me.web.widget.config;
 
+import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 import org.osforce.spring4me.web.page.config.GroupConfig;
+import org.springframework.util.StringUtils;
 
 /**
  * 
@@ -26,26 +29,112 @@ import org.osforce.spring4me.web.page.config.GroupConfig;
  * @since 0.4.0
  * @create Feb 12, 2012 - 11:28:39 AM
  */
-public interface WidgetConfig {
+public class WidgetConfig {
     
-    String KEY = WidgetConfig.class.getSimpleName();
+    public static final String KEY = WidgetConfig.class.getSimpleName();
     
-    String getId();
+    private String id;
+    private String name;
+    private String path;
+    private boolean disabled;
+    private int cache;
+    //
+    private String title;
+    private String description;
+    //
+    private Map<String, String> preferences = new HashMap<String, String>();
+    //
+    private GroupConfig groupConfig;
     
-    String getName();
+    public String getId() {
+    	return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getPath() {
+        return path;
+    }
+
+    public boolean isDisabled() {
+        return disabled;
+    }
+
+    public int getCache() {
+        return cache;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public Map<String, String> getPreferences() {
+        return preferences;
+    }
     
-    String getPath();
+    public GroupConfig getGroupConfig() {
+		return groupConfig;
+	}
     
-    boolean isDisabled();
+    public void setId(String id) {
+        if(StringUtils.hasText(id)) {
+            this.id = id;
+        } else {
+        	this.id = UUID.randomUUID().toString();
+        }
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setPath(String path) {
+        this.path = path;
+    }
+
+    public void setDisabled(boolean disabled) {
+        this.disabled = disabled;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public void setCache(int cache) {
+        this.cache = cache;
+    }
     
-    int getCache();
+    public void setPreferences(Map<String, String> preferences) {
+        this.preferences = preferences;
+    }
     
-    String getTitle();
+    public void setGroupConfig(GroupConfig groupConfig) {
+		this.groupConfig = groupConfig;
+	}
     
-    String getDescription();
-    
-    Map<String, String> getPreferences();
-    
-    GroupConfig getGroupConfig();
+    @Override
+    public String toString() {
+    	StringBuilder sb = new StringBuilder();
+    	sb.append("{");
+    	sb.append("id:").append("id");
+    	sb.append(" | ");
+    	sb.append("name:").append(name);
+    	sb.append(" | ");
+    	sb.append("path:").append("path");
+    	sb.append(" | ");
+    	sb.append("}");
+    	//
+    	return sb.toString();
+    }
     
 }

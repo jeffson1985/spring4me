@@ -46,6 +46,14 @@ public class UserDaoTest {
 	}
 	
 	@Test
+	public void testFetchByUsername() {
+		User user = new User("aimy", "123123", "haozhonghu@hotmail.com");
+		userDao.persist(user);
+		//
+		userDao.fetchByUsername("aimy");
+	}
+	
+	@Test
 	public void testFetchList() {
 		User gavin = new User("gavin", "123456", "haozhonghu@hotmail.com");
 		User aimy = new User("aimy", "123123", "haozhonghu@hotmail.com");
@@ -68,13 +76,13 @@ public class UserDaoTest {
 		//
 		Page<User> page = new Page<User>(10);
 		userDao.fetchPage(page);
-		Assert.assertEquals(2, page.getResults().size());
+		Assert.assertEquals(2, page.getResult().size());
 		//
 		User template = new User();
 		template.setPassword("123456");
 		template.setUsername("gavin");
 		userDao.fetchPage(page, template);
-		Assert.assertEquals(1, page.getResults().size());
+		Assert.assertEquals(1, page.getResult().size());
 	}
 	
 }

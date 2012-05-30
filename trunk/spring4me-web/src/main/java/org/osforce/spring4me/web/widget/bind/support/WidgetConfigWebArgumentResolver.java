@@ -18,6 +18,7 @@ package org.osforce.spring4me.web.widget.bind.support;
 
 import org.osforce.spring4me.web.widget.config.WidgetConfig;
 import org.osforce.spring4me.web.widget.http.HttpWidgetRequest;
+import org.osforce.spring4me.web.widget.utils.WidgetConfigUtils;
 import org.springframework.core.MethodParameter;
 import org.springframework.web.bind.support.WebArgumentResolver;
 import org.springframework.web.context.request.NativeWebRequest;
@@ -40,7 +41,7 @@ public class WidgetConfigWebArgumentResolver implements WebArgumentResolver {
     
     private WidgetConfig getWidgetConfig(NativeWebRequest webRequest) {
         HttpWidgetRequest widgetRequest = webRequest.getNativeRequest(HttpWidgetRequest.class);
-        return widgetRequest.getWidgetConfig();
+        return WidgetConfigUtils.getWidgetConfig(widgetRequest);
     }
     
 }

@@ -2,9 +2,12 @@
 	<head>
 		<title>Layout Example</title>
 		<script type="text/javascript" src="${base}/resources/js/jquery.js"></script>
-		<script type="text/javascript" src="${base}/generate/js/${PageConfig.path}.js"></script>
+		<script type="text/javascript" src="${base}/resources/js/jquery.validate.js"></script>
+		<script type="text/javascript" src="${base}/resources/js/validate.additional.js"></script>
+		<script type="text/javascript" src="${base}/generate/js/validate/user.validate.js"></script>
 		<script type="text/javascript" src="${base}/themes/default/js/jquery.layout.js"></script>
 		<script type="text/javascript" src="${base}/themes/default/js/layout.default.js"></script>
+		<script type="text/javascript" src="${base}/generate/js/${PageConfig.path}.js"></script>
 		<link type="text/css" rel="stylesheet" href="${base}/themes/default/css/style.css">
 	</head>
 	<body>

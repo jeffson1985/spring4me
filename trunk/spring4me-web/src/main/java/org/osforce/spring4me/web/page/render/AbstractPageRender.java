@@ -24,11 +24,17 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.osforce.spring4me.web.page.PageRenderException;
 import org.osforce.spring4me.web.page.cache.CacheProvider;
-import org.osforce.spring4me.web.page.cache.simple.SimpleCacheProvider;
+import org.osforce.spring4me.web.page.cache.simple.HttpWidgetCacheProvider;
 import org.osforce.spring4me.web.page.config.GroupConfig;
 import org.osforce.spring4me.web.page.config.PageConfig;
+import org.osforce.spring4me.web.page.utils.PageConfigUtils;
 import org.osforce.spring4me.web.widget.config.WidgetConfig;
 import org.osforce.spring4me.web.widget.http.HttpWidget;
+import org.osforce.spring4me.web.widget.http.HttpWidgetRequest;
+import org.osforce.spring4me.web.widget.http.HttpWidgetResponse;
+import org.osforce.spring4me.web.widget.http.impl.DefaultHttpWidget;
+import org.osforce.spring4me.web.widget.utils.WidgetConfigUtils;
+import org.osforce.spring4me.web.widget.utils.WidgetUtils;
 
 /**
  * 
@@ -38,35 +44,33 @@ import org.osforce.spring4me.web.widget.http.HttpWidget;
  */
 public abstract class AbstractPageRender implements PageRender {
     
-    private CacheProvider cacheProvider = new SimpleCacheProvider();
+    private CacheProvider httpWidgetCacheProvider = new HttpWidgetCacheProvider();
     //
     public AbstractPageRender() {
     }
     
-    public CacheProvider getCacheProvider() {
-		return cacheProvider;
+    public CacheProvider getHttpWidgetCacheProvider() {
+		return httpWidgetCacheProvider;
 	}
     
-    public void setCacheProvider(CacheProvider cacheProvider) {
-		this.cacheProvider = cacheProvider;
+    public void setHttpWidgetCacheProvider(CacheProvider httpWidgetCacheProvider) {
+		this.httpWidgetCacheProvider = httpWidgetCacheProvider;
 	}
     
     protected HttpWidget getCachedWidget(WidgetConfig widgetConfig) {
-    	return (HttpWidget) this.cacheProvider.getCache().get(widgetConfig);
-    }
-    
-    protected void cacheWidget(WidgetConfig widgetConfig, HttpWidget httpWidget) {
-    	this.cacheProvider.getCache().put(widgetConfig, httpWidget);
+    	return (HttpWidget) this.httpWidgetCacheProvider.getCache().get(widgetConfig);
     }
     
     public final void render(HttpServletRequest httpRequest, 
     		HttpServletResponse httpResponse) throws PageRenderException {
-    	// hook for previous page render
-    	preRender(httpRequest, httpResponse);
     	//
-    	nativeRender(httpRequest, httpResponse);
+    	PageConfig pageConfig = PageConfigUtils.getPageConfig(httpRequest);
+    	// hook for previous page render
+    	prePageRender(pageConfig, httpRequest, httpResponse);
+    	//
+    	nativePageRender(pageConfig, httpRequest, httpResponse);
     	// hook for after page render
-    	postRender(httpRequest, httpResponse);
+    	postPageRender(pageConfig, httpRequest, httpResponse);
     }
     
     protected List<WidgetConfig> getWidgetConfigList(PageConfig pageConfig) {
@@ -87,12 +91,30 @@ public abstract class AbstractPageRender implements PageRender {
         return widgetConfigList;
     }
     
-    protected abstract void nativeRender(HttpServletRequest httpRequest, HttpServletResponse httpResponse);
+    protected abstract void nativePageRender(PageConfig pageConfig, 
+    		HttpServletRequest httpRequest, HttpServletResponse httpResponse);
     
-    protected void preRender(HttpServletRequest httpRequest, HttpServletResponse httpResponse){
+    protected void prePageRender(PageConfig pageConfig, 
+    		HttpServletRequest httpRequest, HttpServletResponse httpResponse){
     }
     
-    protected void postRender(HttpServletRequest httpRequest, HttpServletResponse httpResponse){
+    protected void postPageRender(PageConfig pageConfig, 
+    		HttpServletRequest httpRequest, HttpServletResponse httpResponse){
+    }
+    
+    protected void preWidgetRender(WidgetConfig widgetConfig,
+    		HttpWidgetRequest widgetRequest, HttpWidgetResponse widgetResponse) {
+    	WidgetConfigUtils.setWidgetConfig(widgetRequest, widgetConfig);
+    }
+    
+    protected void postWidgetRender(WidgetConfig widgetConfig,
+    		HttpWidgetRequest widgetRequest, HttpWidgetResponse widgetResponse) {
+    	//
+        HttpWidget httpWidget = new DefaultHttpWidget(widgetRequest, widgetResponse);
+        //
+        WidgetUtils.setWidget(widgetRequest, widgetConfig, httpWidget);
+        // cache http widget if needs
+        getHttpWidgetCacheProvider().getCache().put(widgetConfig, httpWidget);
     }
     
 }

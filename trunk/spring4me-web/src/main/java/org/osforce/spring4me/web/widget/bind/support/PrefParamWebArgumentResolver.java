@@ -19,6 +19,7 @@ package org.osforce.spring4me.web.widget.bind.support;
 import org.osforce.spring4me.web.widget.bind.annotation.PrefParam;
 import org.osforce.spring4me.web.widget.config.WidgetConfig;
 import org.osforce.spring4me.web.widget.http.HttpWidgetRequest;
+import org.osforce.spring4me.web.widget.utils.WidgetConfigUtils;
 import org.springframework.core.MethodParameter;
 import org.springframework.core.convert.ConversionService;
 import org.springframework.core.convert.TypeDescriptor;
@@ -68,7 +69,7 @@ public class PrefParamWebArgumentResolver implements WebArgumentResolver  {
     
     private String getValue(NativeWebRequest nativeRequest, String key) {
         HttpWidgetRequest widgetRequest = nativeRequest.getNativeRequest(HttpWidgetRequest.class);
-        WidgetConfig widgetConfig = widgetRequest.getWidgetConfig();
+        WidgetConfig widgetConfig = WidgetConfigUtils.getWidgetConfig(widgetRequest);
         return widgetConfig.getPreferences().get(key);
     }
     

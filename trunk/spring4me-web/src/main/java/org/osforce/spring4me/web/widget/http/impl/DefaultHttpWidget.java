@@ -16,7 +16,6 @@
 
 package org.osforce.spring4me.web.widget.http.impl;
 
-import org.osforce.spring4me.web.widget.config.WidgetConfig;
 import org.osforce.spring4me.web.widget.http.HttpWidget;
 import org.osforce.spring4me.web.widget.http.HttpWidgetRequest;
 import org.osforce.spring4me.web.widget.http.HttpWidgetResponse;
@@ -29,19 +28,13 @@ import org.osforce.spring4me.web.widget.http.HttpWidgetResponse;
  */
 public class DefaultHttpWidget implements HttpWidget {
 	
-	private WidgetConfig widgetConfig;
 	private HttpWidgetRequest widgetRequest;
 	private HttpWidgetResponse widgetResponse;
 	
-	public DefaultHttpWidget(WidgetConfig widgetConfig,
-			HttpWidgetRequest widgetRequest, HttpWidgetResponse widgetResponse) {
-		this.widgetConfig = widgetConfig;
+	public DefaultHttpWidget(HttpWidgetRequest widgetRequest, 
+			HttpWidgetResponse widgetResponse) {
 		this.widgetRequest = widgetRequest;
 		this.widgetResponse = widgetResponse;
-	}
-
-	public WidgetConfig getWidgetConfig() {
-		return widgetConfig;
 	}
 
 	public HttpWidgetRequest getWidgetRequest() {

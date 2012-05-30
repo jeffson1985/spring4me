@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<site>
-	<navigation id="index" path="/index">
-		<event on="view-profile" to="viewProfile"/>
-	</navigation>
-	<navigation id="viewProfile" path="/profile" />
-</site>
