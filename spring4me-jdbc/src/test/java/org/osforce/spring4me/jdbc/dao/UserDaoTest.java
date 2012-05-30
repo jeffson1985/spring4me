@@ -82,11 +82,11 @@ public class UserDaoTest {
 		//
 		Page<User> page = new Page<User>(1);
 		page = userDao.fetchPage(page);
-		Assert.assertEquals(1, page.getResults().size());
+		Assert.assertEquals(1, page.getResult().size());
 		//
 		page.setPageNo(2);
 		page = userDao.fetchPage(page);
-		Assert.assertEquals(1, page.getResults().size());
+		Assert.assertEquals(1, page.getResult().size());
 	}
 	
 }

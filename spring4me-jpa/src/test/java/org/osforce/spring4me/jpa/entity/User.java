@@ -1,13 +1,8 @@
 package org.osforce.spring4me.jpa.entity;
 
-import javax.persistence.Entity;
-import javax.persistence.Table;
+public class User {
 
-@Entity
-@Table(name = "tb_users")
-public class User extends IdEntity {
-	private static final long serialVersionUID = -3996959839157968813L;
-
+	private Long id;
 	private String username;
 	private String password;
 	private String email;
@@ -20,6 +15,14 @@ public class User extends IdEntity {
 		this.username = username;
 		this.password = password;
 		this.email = email;
+	}
+	
+	public Long getId() {
+		return id;
+	}
+	
+	public void setId(Long id) {
+		this.id = id;
 	}
 
 	public String getUsername() {

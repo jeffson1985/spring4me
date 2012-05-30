@@ -16,9 +16,14 @@
 
 package org.osforce.spring4me.web.page.config;
 
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 
 import org.osforce.spring4me.web.widget.config.WidgetConfig;
+import org.springframework.util.StringUtils;
 
 /**
  * 
@@ -26,28 +31,90 @@ import org.osforce.spring4me.web.widget.config.WidgetConfig;
  * @since 0.4.0
  * @create Feb 12, 2012 - 11:28:26 AM
  */
-public interface PageConfig {
+public class PageConfig {
     
-    final String KEY = PageConfig.class.getSimpleName();
+    public static final String KEY = PageConfig.class.getSimpleName();
     
-    String getId();
+    private String id;
+    private String path;
+    private String parent;
+    private String template;
+    //
+    private Map<String, GroupConfig> groupConfigMap = new LinkedHashMap<String, GroupConfig>();
     
-    String getPath();
+    public String getId() {
+    	if(!StringUtils.hasText(id)) {
+    		this.id = UUID.randomUUID().toString();
+    	}
+    	return id;
+    }
     
-    String getParent();
+    public String getPath() {
+        return path;
+    }
     
-    String getTemplate();
+    public String getParent() {
+		return parent;
+	}
+
+    public String getTemplate() {
+        return template;
+    }
     
-    List<WidgetConfig> getAllWidgetConfig();
+    public List<WidgetConfig> getAllWidgetConfig() {
+        List<WidgetConfig> allWidgetConfig = new ArrayList<WidgetConfig>();
+        //
+        List<GroupConfig> allGroupConfig = new ArrayList<GroupConfig>(groupConfigMap.values());
+        for(GroupConfig groupConfig : allGroupConfig) {
+            allWidgetConfig.addAll(groupConfig.getAllWidgetConfig());
+        }
+        return allWidgetConfig;
+    }
+
+    public WidgetConfig getWidgetConfig(String groupId, String widgetId) {
+        GroupConfig groupConfig = groupConfigMap.get(groupId);
+        if(groupConfig==null) {
+            return null;
+        }
+        WidgetConfig widgetConfig = groupConfig.getWidgetConfig(widgetId);
+        if(widgetConfig==null) {
+            return null;
+        }
+        return widgetConfig;
+    }
+
+    public void addWidgetConfig(String groupId, WidgetConfig widgetConfig) {
+    	GroupConfig groupConfig = this.groupConfigMap.get(groupId);
+    	groupConfig.addWidgetConfig(widgetConfig);
+    }
     
-    WidgetConfig getWidgetConfig(String groupId, String widgetId);
+    public List<GroupConfig> getAllGroupConfig() {
+        return new ArrayList<GroupConfig>(groupConfigMap.values());
+    }
+
+    public GroupConfig getGroupConfig(String groupId) {
+        return groupConfigMap.get(groupId);
+    }
     
-    void addWidgetConfig(String groupId, WidgetConfig widgetConfig);
+
+	public void addGroupConfig(GroupConfig groupConfig) {
+		this.groupConfigMap.put(groupConfig.getId(), groupConfig);
+	}
+	
+	public void setId(String id) {
+		this.id = id;
+	}
+
+    public void setPath(String path) {
+        this.path = path;
+    }
     
-    GroupConfig getGroupConfig(String groupId);
-    
-    List<GroupConfig> getAllGroupConfig();
-    
-    void addGroupConfig(GroupConfig groupConfig);
+    public void setParent(String parent) {
+		this.parent = parent;
+	}
+
+    public void setTemplate(String template) {
+        this.template = template;
+    }
     
 }

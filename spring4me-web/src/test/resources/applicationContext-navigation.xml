@@ -5,8 +5,8 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.1.xsd">
 
-	<bean class="org.osforce.spring4me.web.navigation.config.xml.XmlSiteConfigFactory">
-		<property name="configLocation" value="site-map.xml"/>
+	<bean class="org.osforce.spring4me.web.navigation.config.xml.XmlNavigationConfigFactory">
+		<property name="configLocation" value="sitemap.xml"/>
 	</bean>
 
 </beans>

@@ -31,7 +31,6 @@ import javax.persistence.criteria.Root;
 import org.osforce.spring4me.dao.pagination.Page;
 import org.osforce.spring4me.dao.pagination.PageDao;
 import org.osforce.spring4me.jpa.dao.AbstractJpaDao;
-import org.osforce.spring4me.jpa.entity.IdEntity;
 
 /**
  * 
@@ -39,7 +38,7 @@ import org.osforce.spring4me.jpa.entity.IdEntity;
  * @since 0.4.0
  * @create 2012-5-24 - 上午10:36:59
  */
-public class AbstractJpaPageDao<E extends IdEntity> extends AbstractJpaDao<E> 
+public class AbstractJpaPageDao<E> extends AbstractJpaDao<E> 
 	implements PageDao<E> {
 
 	public AbstractJpaPageDao(Class<E> entityClass) {
@@ -111,7 +110,7 @@ public class AbstractJpaPageDao<E extends IdEntity> extends AbstractJpaDao<E>
 				tmp.add((E) result);
 			}
 		}
-		return page.setResults(tmp);
+		return page.setResult(tmp);
 	}
 	
 	private static String getCountQuery(String queryString) {

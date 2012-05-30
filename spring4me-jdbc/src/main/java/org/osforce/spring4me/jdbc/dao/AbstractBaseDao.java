@@ -104,6 +104,10 @@ public abstract class AbstractBaseDao<T> extends JdbcDaoSupport
 		JdbcTemplateUtils.delete(getJdbcTemplate(), model, tableMetaDataContext);
 	}
 	
+	public void purge(Long id) {
+		
+	}
+	
 	public List<T> fetchList(T model) {
 		String[] filterFields = ModelUtils.getFilterFields(model);
 		return JdbcTemplateUtils.select(getJdbcTemplate(), model, filterFields, rowMapper, tableMetaDataContext); 

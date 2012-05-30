@@ -3,15 +3,20 @@
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-	<bean class="org.osforce.spring4me.web.navigation.config.xml.XmlSiteConfigFactory">
+	<bean class="org.osforce.spring4me.web.navigation.config.xml.XmlNavigationConfigFactory">
 		<property name="cacheable" value="false" />
-		<property name="configLocation" value="/WEB-INF/site-map.xml"/>
+		<property name="configLocation" value="/WEB-INF/sitemap.xml"/>
 	</bean>
 
     <bean class="org.osforce.spring4me.web.page.config.xml.XmlPageConfigFactory">
         <property name="cacheable" value="false" />
     </bean>
-
-    <bean class="org.osforce.spring4me.web.page.render.impl.DefaultPageRender" />
+    
+    <bean class="org.osforce.spring4me.web.flow.config.xml.XmlFlowConfigFactory">
+    	<property name="cacheable" value="false" />
+    	<property name="configLocation" value="/WEB-INF/flows.xml"/>
+    </bean>
+	
+    <bean class="org.osforce.spring4me.web.page.render.impl.StandardPageFlowRender" />
     
 </beans>

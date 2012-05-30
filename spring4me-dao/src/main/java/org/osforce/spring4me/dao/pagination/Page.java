@@ -36,7 +36,7 @@ public class Page<T> {
 	protected List<String> ascOrderList = new ArrayList<String>();
 	protected List<String> descOrderList = new ArrayList<String>();
 
-	protected List<T> results = new ArrayList<T>();
+	protected List<T> result = new ArrayList<T>();
 	protected Long totalCount = -1L;
 
 	public Page() {
@@ -80,12 +80,12 @@ public class Page<T> {
 		return this;
 	}
 
-	public List<T> getResults() {
-		return results;
+	public List<T> getResult() {
+		return result;
 	}
 
-	public Page<T> setResults(List<T> results) {
-		this.results = results;
+	public Page<T> setResult(List<T> results) {
+		this.result = results;
 		return this;
 	}
 

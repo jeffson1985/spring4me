@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.zip.GZIPInputStream;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -17,6 +16,7 @@ import org.osforce.spring4me.web.page.config.PageConfig;
 import org.osforce.spring4me.web.page.utils.PageConfigUtils;
 import org.osforce.spring4me.web.widget.config.WidgetConfig;
 import org.osforce.spring4me.web.widget.http.HttpWidgetRequest;
+import org.osforce.spring4me.web.widget.utils.WidgetConfigUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ResourceLoaderAware;
 import org.springframework.core.io.Resource;
@@ -64,9 +64,9 @@ public class JavaScriptGenerateInterceptor extends HandlerInterceptorAdapter
 		String pathInfo = request.getPathInfo();
 		if(request instanceof HttpWidgetRequest) {
 			//
-			HttpWidgetRequest widgetRequest = (HttpWidgetRequest) request;
+			WidgetConfig widgetConfig = WidgetConfigUtils.getWidgetConfig(request);
 			//
-			addWidgetConfigToThreadLocal(widgetRequest.getWidgetConfig());
+			addWidgetConfigToThreadLocal(widgetConfig);
 			//
 			addWidgetViewNameToThreadLocal(modelAndView.getViewName());
 			//

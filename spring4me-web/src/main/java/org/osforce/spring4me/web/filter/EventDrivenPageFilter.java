@@ -23,12 +23,14 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.osforce.spring4me.web.Keys;
-import org.osforce.spring4me.web.event.EventConstants;
+import org.osforce.spring4me.web.event.EventReceiver;
 import org.osforce.spring4me.web.navigation.config.EventConfig;
 import org.osforce.spring4me.web.navigation.config.NavigationConfig;
-import org.osforce.spring4me.web.navigation.config.SiteConfig;
-import org.osforce.spring4me.web.navigation.config.SiteConfigFactory;
+import org.osforce.spring4me.web.navigation.config.NavigationConfigFactory;
+import org.osforce.spring4me.web.page.config.PageConfig;
 import org.springframework.util.StringUtils;
 import org.springframework.web.util.UrlPathHelper;
 
@@ -40,12 +42,13 @@ import org.springframework.web.util.UrlPathHelper;
  */
 public class EventDrivenPageFilter extends PageFilter {
 	
-	private static final String EVENT_DRIVEN_SERVICE_PATH = "/dispatch/event";
+	private static final Log log = LogFactory.getLog(EventDrivenPageFilter.class);
 	
+	private static final String EVENT_DRIVEN_SERVICE_PATH = "/dispatch/event";
 	//
 	private enum EventType {ACTION, PAGE, UNKNOW}
 	//
-	private SiteConfigFactory siteConfigFactory;
+	private NavigationConfigFactory navigationConfigFactory;
 	//
 	private UrlPathHelper urlPathHelper = new UrlPathHelper();
 	
@@ -53,23 +56,25 @@ public class EventDrivenPageFilter extends PageFilter {
 	protected void initFramework() throws ServletException {
 		super.initFramework();
 		//
-		this.siteConfigFactory = getPageApplicationContext().getBean(SiteConfigFactory.class);
+		this.navigationConfigFactory = getPageApplicationContext().getBean(NavigationConfigFactory.class);
 	}
 	
 	@Override
-	protected void doService(HttpServletRequest httpRequest,
-			HttpServletResponse httpResponse, FilterChain chain)
-			throws IOException, ServletException {
+	protected void doService(HttpServletRequest httpRequest, HttpServletResponse httpResponse, 
+			FilterChain chain) throws IOException, ServletException {
 		//
 		exportEventDrivenServiceUrl(httpRequest);
 		//
 		EventType eventType = parseEventType(httpRequest);
+		httpRequest.setAttribute("eventType", eventType.toString());
 		//
 		if(eventType==EventType.PAGE) {
-			processPageEvent(httpRequest, httpResponse);
-		} else if(eventType==EventType.ACTION) {
-			processActionEvent(httpRequest, httpResponse);
-		} else {
+			processPageEvent(httpRequest, httpResponse, chain);
+		} 
+		else if(eventType==EventType.ACTION) {
+			processActionEvent(httpRequest, httpResponse, chain);
+		} 
+		else {
 			super.doService(httpRequest, httpResponse, chain);
 		}
 	}
@@ -85,36 +90,41 @@ public class EventDrivenPageFilter extends PageFilter {
 		return EventType.UNKNOW;
 	}
 	
-	protected void processPageEvent(HttpServletRequest httpRequest, HttpServletResponse httpResponse) throws IOException {
+	protected void processPageEvent(HttpServletRequest httpRequest, 
+			HttpServletResponse httpResponse, FilterChain chain) throws IOException, ServletException {
 		String event = httpRequest.getParameter(Keys.PARAMETER_KEY_EVENT);
-		int separatorPosition = event.indexOf("|");
-		//
-		String navId = event.substring(0, separatorPosition);
-		String eventId = event.substring(separatorPosition+1);
-		//
-		String publishedEvent = (String) httpRequest.getSession().getAttribute(EventConstants.EVENT);
-		if(StringUtils.hasText(publishedEvent)) {
-			eventId = publishedEvent;
-			//
-			httpRequest.getSession().removeAttribute(EventConstants.EVENT);
+		if(log.isDebugEnabled()) {
+			log.debug("Process event " + event);
 		}
 		//
-		SiteConfig siteConfig = siteConfigFactory.findSite();
+		int separatorPosition = event.indexOf("|");
+		String navPath = event.substring(0, separatorPosition);
+		String eventId = event.substring(separatorPosition+1);
 		//
-		NavigationConfig originalNavigationConfig = siteConfig.getNavigationConfig(navId);
+		String publishedEvent = EventReceiver.receive(httpRequest, true);
+		if(StringUtils.hasText(publishedEvent)) {
+			eventId = publishedEvent;
+		}
+		//
+		NavigationConfig originalNavigationConfig = navigationConfigFactory.findNavigation(navPath);
+		//
 		EventConfig originalEventConfig = originalNavigationConfig.getEventConfig(eventId);
-		NavigationConfig currentNavigationConfig = siteConfig.getNavigationConfig(originalEventConfig.getTo());
+		NavigationConfig currentNavigationConfig = navigationConfigFactory.findNavigation(originalEventConfig.getTo());
 		//
-		String redirectUri = urlPathHelper.getContextPath(httpRequest) + currentNavigationConfig.getPath();
-		httpResponse.sendRedirect(redirectUri);
+		PageConfig originalPageConfig = getPageConfigFactory().findPage(originalNavigationConfig.getPath());
+		httpRequest.setAttribute(Keys.REQUEST_KEY_ORIGINAL_PAGE_CONFIG, originalPageConfig);
+		//
+		String redirectLocation = urlPathHelper.getContextPath(httpRequest) + currentNavigationConfig.getPath();
+		httpResponse.sendRedirect(redirectLocation);
 	}
 	
-	protected void processActionEvent(HttpServletRequest httpRequest, HttpServletResponse httpResponse) throws ServletException, IOException {
+	protected void processActionEvent(HttpServletRequest httpRequest, 
+			HttpServletResponse httpResponse, FilterChain chain) throws ServletException, IOException {
 		//
 		String requestPath = urlPathHelper.getLookupPathForRequest(httpRequest);
 		httpRequest.getRequestDispatcher(requestPath).include(httpRequest, httpResponse);
 		//
-		processPageEvent(httpRequest, httpResponse);
+		processPageEvent(httpRequest, httpResponse, chain);
 	}
 	
 	private void exportEventDrivenServiceUrl(HttpServletRequest httpRequest) {

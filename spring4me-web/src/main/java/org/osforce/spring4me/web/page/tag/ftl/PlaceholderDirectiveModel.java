@@ -69,7 +69,10 @@ public class PlaceholderDirectiveModel implements TemplateDirectiveModel {
 			public HttpWidget getHttpWidget(WidgetConfig widgetConfig) throws Exception {
 				String httpWidgetKey = WidgetUtils.generateHttpWidgetKey(widgetConfig);
 				BeanModel httpWidgetBeanModel = (BeanModel) env.getDataModel().get(httpWidgetKey);
-				HttpWidget httpWidget = (HttpWidget) httpWidgetBeanModel.getWrappedObject();
+				HttpWidget httpWidget = null;
+				if(httpWidgetBeanModel!=null) {
+					httpWidget = (HttpWidget) httpWidgetBeanModel.getWrappedObject();
+				}
 				return httpWidget;
 			}
 			

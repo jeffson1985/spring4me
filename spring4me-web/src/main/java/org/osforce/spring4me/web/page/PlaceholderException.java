@@ -22,8 +22,8 @@ package org.osforce.spring4me.web.page;
  * @since 0.4.0
  * @create Feb 12, 2012 - 11:32:56 AM
  */
+@SuppressWarnings("serial")
 public class PlaceholderException extends RuntimeException {
-	private static final long serialVersionUID = -3185058766803731605L;
 	
 	public PlaceholderException(String message, Throwable cause) {
 		super(message, cause);

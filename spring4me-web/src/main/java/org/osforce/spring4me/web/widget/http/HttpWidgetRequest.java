@@ -16,9 +16,9 @@
 
 package org.osforce.spring4me.web.widget.http;
 
-import javax.servlet.http.HttpServletRequest;
+import java.util.Map;
 
-import org.osforce.spring4me.web.widget.config.WidgetConfig;
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * 
@@ -28,6 +28,8 @@ import org.osforce.spring4me.web.widget.config.WidgetConfig;
  */
 public interface HttpWidgetRequest extends HttpServletRequest {
     
-	WidgetConfig getWidgetConfig();
+	Map<String, ?> getWidgetModel();
 	
+	void bindWidgetModel(Map<String, ?> widgetModel);
+
 }

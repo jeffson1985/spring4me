@@ -1,0 +1,7 @@
+http\://www.opensourceforce.org/schema/spring4me-page.xsd=org/osforce/spring4me/web/page/config/xml/spring4me-page-0.5.0.xsd
+http\://www.opensourceforce.org/schema/spring4me-page-0.4.0.xsd=org/osforce/spring4me/web/page/config/xml/spring4me-page-0.4.0.xsd
+http\://www.opensourceforce.org/schema/spring4me-page-0.5.0.xsd=org/osforce/spring4me/web/page/config/xml/spring4me-page-0.5.0.xsd
+http\://www.opensourceforce.org/schema/spring4me-flow.xsd=org/osforce/spring4me/web/flow/config/xml/spring4me-flow-0.5.0.xsd
+http\://www.opensourceforce.org/schema/spring4me-flow-0.5.0.xsd=org/osforce/spring4me/web/flow/config/xml/spring4me-flow-0.5.0.xsd
+http\://www.opensourceforce.org/schema/spring4me-navigation.xsd=org/osforce/spring4me/web/navigation/config/xml/spring4me-navigation-0.5.0.xsd
+http\://www.opensourceforce.org/schema/spring4me-navigation-0.5.0.xsd=org/osforce/spring4me/web/navigation/config/xml/spring4me-navigation-0.5.0.xsd

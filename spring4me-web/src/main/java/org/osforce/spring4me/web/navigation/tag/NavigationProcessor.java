@@ -50,7 +50,7 @@ public class NavigationProcessor {
 	}
 	
 	private String getEventParameter(PageConfig pageConfig, String event) {
-		return "event=" + pageConfig.getId() + "|" + event;
+		return "event=" + pageConfig.getPath() + "|" + event;
 	}
 	
 }

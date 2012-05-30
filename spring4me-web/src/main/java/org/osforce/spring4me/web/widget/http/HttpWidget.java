@@ -16,6 +16,7 @@
 
 package org.osforce.spring4me.web.widget.http;
 
+
 /**
  * 
  * @author gavin
@@ -23,7 +24,7 @@ package org.osforce.spring4me.web.widget.http;
  * @create Feb 12, 2012 - 11:30:53 AM
  */
 public interface HttpWidget {
-
+	
 	HttpWidgetRequest getWidgetRequest();
 	
 	HttpWidgetResponse getWidgetResponse();

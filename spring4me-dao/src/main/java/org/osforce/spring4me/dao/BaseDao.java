@@ -34,6 +34,8 @@ public interface BaseDao<T> {
 	
 	void purge(T model);
 	
+	void purge(Long id);
+	
 	List<T> fetchList(T model);
 	
 	T fetchOne(T model);

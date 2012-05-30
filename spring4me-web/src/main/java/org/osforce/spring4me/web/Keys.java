@@ -16,8 +16,10 @@
 
 package org.osforce.spring4me.web;
 
+import org.osforce.spring4me.web.flow.config.FlowConfig;
 import org.osforce.spring4me.web.page.config.PageConfig;
 import org.osforce.spring4me.web.widget.config.WidgetConfig;
+import org.springframework.util.StringUtils;
 
 /**
  * 
@@ -39,9 +41,15 @@ public interface Keys {
 	
 	String REQUEST_KEY_EVENT_DRIVEN_SERVICE_URL = "eventDrivenServiceUrl";
 	
-	String REQUEST_KEY_WIDGET_CONFIG = WidgetConfig.KEY;
+	String REQUEST_KEY_WIDGET_CONFIG = StringUtils.uncapitalize(WidgetConfig.KEY);
 	
-	String REQUEST_KEY_PAGE_CONFIG = PageConfig.KEY;
+	String REQUEST_KEY_PAGE_CONFIG = StringUtils.uncapitalize(PageConfig.KEY);
+	
+	String REQUEST_KEY_CURRENT_PAGE_CONFIG = "currentPageConfig";
+	
+	String REQUEST_KEY_ORIGINAL_PAGE_CONFIG = "originalPageConfig";
+	
+	String REQUEST_KEY_FLOW_CONFIG = FlowConfig.KEY;
 	
 	/**
 	 * Session Key Scope

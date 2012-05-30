@@ -1,9 +1,11 @@
 package org.osforce.spring4me.demo.login;
 
+import javax.validation.Valid;
+
 import org.osforce.spring4me.web.event.EventPublisher;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.context.request.WebRequest;
 
 /**
@@ -16,12 +18,11 @@ import org.springframework.web.context.request.WebRequest;
 public class LoginController {
 
 	@RequestMapping("/login.do")
-	public void doLoginAction(WebRequest webRequest, 
-			@RequestParam String username, @RequestParam String password) {
+	public void doLoginAction(@ModelAttribute @Valid User user, WebRequest webRequest) {
 		//
 		System.out.println("do login...");
 		//
-		if("gavin".equals(username) && "123456".equals(password)) {
+		if("haozhonghu@hotmail.com".equals(user.getUsername()) && "123456".equals(user.getPassword())) {
 			EventPublisher.publish(webRequest, "login-success");
 		} else {
 			EventPublisher.publish(webRequest, "login-error");

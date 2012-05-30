@@ -16,10 +16,44 @@
 
 package org.osforce.spring4me.web.navigation.config;
 
-public interface EventConfig {
+public class EventConfig {
 	
-	String getOn();
+	private String on;
+	private String to;
+
+	public EventConfig(String on, String to) {
+		this.on = on;
+		this.to = to;
+	}
 	
-	String getTo();
+	public String getOn() {
+		return on;
+	}
+
+	public String getTo() {
+		return to;
+	}
+	
+	public void setOn(String on) {
+		this.on = on;
+	}
+	
+	public void setTo(String to) {
+		this.to = to;
+	}
+	
+	/**
+	 * {event:view-profile | to:viewProfile}
+	 */
+	@Override
+	public String toString() {
+		StringBuilder sb = new StringBuilder();
+		sb.append("{");
+		sb.append("event:").append(on);
+		sb.append(" | ");
+		sb.append("to:").append(to);
+		sb.append("}");
+		return sb.toString();
+	}
 
 }

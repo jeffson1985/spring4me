@@ -61,10 +61,11 @@ public class NavigationDirective extends Directive {
 		Assert.notNull(event, "Argument event can not be null!");
 		//
 		PageConfig pageConfig = (PageConfig) context.get(PageConfig.KEY);
+		String base = (String) context.get(Keys.REQUEST_KEY_BASE);
 		String eventDrivenServiceUrl = (String) context.get(Keys.REQUEST_KEY_EVENT_DRIVEN_SERVICE_URL);
 		//
 		NavigationProcessor processor = new NavigationProcessor(pageConfig, eventDrivenServiceUrl);
-		processor.process(writer, event, action);
+		processor.process(writer, event, base + action);
 		return true;
 	}
 

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<flows xmlns="http://www.opensourceforce.org/schema/flow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.opensourceforce.org/schema/flow http://www.opensourceforce.org/schema/spring4me-flow.xsd">
+	
+	<flow name="declare">
+		<start page="index" />
+		
+		<step page="valid">
+			<subflow name="validate" />
+		</step>
+		
+		<finish page="end"/>
+	</flow>
+	
+	<flow name="validate">
+		<start page="start" />
+		
+		<finish page="finish"/>
+	</flow>
+</flows>

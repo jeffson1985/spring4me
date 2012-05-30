@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<widgets>
-	<widget name="loginWidget" path="/login" cache="5">
-		<title></title>
-		<description></description>
-	</widget>
-</widgets>

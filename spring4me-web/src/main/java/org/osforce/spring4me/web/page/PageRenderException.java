@@ -22,8 +22,8 @@ package org.osforce.spring4me.web.page;
  * @since 0.4.0
  * @create Feb 12, 2012 - 11:32:50 AM
  */
+@SuppressWarnings("serial")
 public class PageRenderException extends RuntimeException {
-	private static final long serialVersionUID = -2931201117820694673L;
 
 	public PageRenderException(String message, Throwable cause) {
         super(message, cause);
