@@ -27,7 +27,7 @@ import org.apache.velocity.runtime.directive.Directive;
 import org.apache.velocity.runtime.parser.node.Node;
 import org.osforce.spring4me.web.Keys;
 import org.osforce.spring4me.web.navigation.tag.NavigationProcessor;
-import org.osforce.spring4me.web.page.config.PageConfig;
+import org.osforce.spring4me.web.widget.config.WidgetConfig;
 import org.springframework.util.Assert;
 
 public class NavigationDirective extends Directive {
@@ -55,17 +55,17 @@ public class NavigationDirective extends Directive {
 			event = String.valueOf(node.jjtGetChild(0).value(context));
 		}
 		if(num>1 && node.jjtGetChild(1)!=null) {
-			action = String.valueOf(node.jjtGetChild(1).value(context));
+			String base = (String) context.get(Keys.REQUEST_KEY_BASE);
+			action = base + String.valueOf(node.jjtGetChild(1).value(context));
 		}
 		//
 		Assert.notNull(event, "Argument event can not be null!");
 		//
-		PageConfig pageConfig = (PageConfig) context.get(PageConfig.KEY);
-		String base = (String) context.get(Keys.REQUEST_KEY_BASE);
+		WidgetConfig widgetConfig = (WidgetConfig) context.get(Keys.REQUEST_KEY_WIDGET_CONFIG);
 		String eventDrivenServiceUrl = (String) context.get(Keys.REQUEST_KEY_EVENT_DRIVEN_SERVICE_URL);
 		//
-		NavigationProcessor processor = new NavigationProcessor(pageConfig, eventDrivenServiceUrl);
-		processor.process(writer, event, base + action);
+		NavigationProcessor processor = new NavigationProcessor(widgetConfig, eventDrivenServiceUrl);
+		processor.process(writer, event, action);
 		return true;
 	}
 

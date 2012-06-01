@@ -65,5 +65,17 @@ public class FlowConfig {
 		//
 		return target;
 	}
+	
+	public int indexOf(StepConfig stepConfig) {
+		int index = 0;
+		for(StepConfig tmp : stepConfigMap.values()) {
+			if(tmp.equals(stepConfig)) {
+				break;
+			}
+			//
+			index++;
+		}
+		return index;
+	}
 
 }

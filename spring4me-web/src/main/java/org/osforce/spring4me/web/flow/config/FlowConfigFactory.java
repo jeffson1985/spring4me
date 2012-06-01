@@ -8,8 +8,28 @@ package org.osforce.spring4me.web.flow.config;
  */
 public interface FlowConfigFactory {
 
+	/**
+	 * find flow by flow name
+	 * @param name
+	 * @return
+	 */
 	FlowConfig findFlow(String name);
 	
-	FlowConfig findFlow(String step1, String step2);
+	/**
+	 * find flow by from and to
+	 * @param from
+	 * @param to
+	 * @return
+	 */
+	FlowConfig findFlow(String from, String to);
+	
+	/**
+	 * 
+	 * @param name parent flow name
+	 * @param from
+	 * @param to
+	 * @return a subflow
+	 */
+	FlowConfig findSubFlow(String name, String from, String to);
 	
 }

@@ -22,9 +22,9 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.osforce.spring4me.web.cache.CacheProvider;
+import org.osforce.spring4me.web.cache.simple.HttpWidgetCacheProvider;
 import org.osforce.spring4me.web.page.PageRenderException;
-import org.osforce.spring4me.web.page.cache.CacheProvider;
-import org.osforce.spring4me.web.page.cache.simple.HttpWidgetCacheProvider;
 import org.osforce.spring4me.web.page.config.GroupConfig;
 import org.osforce.spring4me.web.page.config.PageConfig;
 import org.osforce.spring4me.web.page.utils.PageConfigUtils;

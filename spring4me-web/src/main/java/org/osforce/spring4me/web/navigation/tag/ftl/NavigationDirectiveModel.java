@@ -21,7 +21,7 @@ import java.util.Map;
 
 import org.osforce.spring4me.web.Keys;
 import org.osforce.spring4me.web.navigation.tag.NavigationProcessor;
-import org.osforce.spring4me.web.page.config.PageConfig;
+import org.osforce.spring4me.web.widget.config.WidgetConfig;
 import org.springframework.util.Assert;
 
 import freemarker.core.Environment;
@@ -49,20 +49,21 @@ public class NavigationDirectiveModel implements TemplateDirectiveModel {
 			TemplateDirectiveBody body) throws TemplateException, IOException {
 		String event = params.get("event").toString();
 		String action = null;
+		//
+		String base = ((SimpleScalar)env.getDataModel().get(Keys.REQUEST_KEY_BASE)).getAsString();
 		if(params.containsKey("action")) {
-			action = params.get("action").toString();
+			action = base + params.get("action").toString();
 		}
 		//
 		Assert.notNull("Argument event can not be null!", event);
 		//
-		BeanModel pageConfigBeanModel = (BeanModel) env.getDataModel().get(PageConfig.KEY);
-		PageConfig pageConfig = (PageConfig) pageConfigBeanModel.getWrappedObject();
+		BeanModel widgetConfigBeanModel = (BeanModel) env.getDataModel().get(Keys.REQUEST_KEY_WIDGET_CONFIG);
+		WidgetConfig widgetConfig = (WidgetConfig) widgetConfigBeanModel.getWrappedObject();
 		//
-		String base = ((SimpleScalar)env.getDataModel().get(Keys.REQUEST_KEY_BASE)).getAsString();
 		String eventDrivenServiceUrl = ((SimpleScalar)env.getDataModel().get("eventDrivenServiceUrl")).getAsString();
 		//
-		NavigationProcessor processor = new NavigationProcessor(pageConfig, eventDrivenServiceUrl);
-		processor.process(env.getOut(), event, base + action);
+		NavigationProcessor processor = new NavigationProcessor(widgetConfig, eventDrivenServiceUrl);
+		processor.process(env.getOut(), event, action);
 	}
 
 }

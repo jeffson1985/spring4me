@@ -1,6 +1,7 @@
 package org.osforce.spring4me.web.flow.config.xml;
 
 import java.util.List;
+import java.util.Set;
 
 import org.osforce.spring4me.support.xml.XmlParser;
 import org.osforce.spring4me.web.flow.FlowNotFoundException;
@@ -39,27 +40,18 @@ public class XmlFlowConfigFactory extends AbstractFlowConfigFactory {
 		try {
 			Element flowEle = findFlowElement(name, null, null);
 			//
-			if(flowEle==null) {
-				throw new FlowNotFoundException(
-						String.format("Flow %s not found, please check flow configuration!", name));
-			}
-			//
 			return parseFlow(flowEle);
 		} catch (Exception e) {
 			throw new FlowNotFoundException(e.getMessage(), e.getCause());
 		}
 	}
 	
-	public FlowConfig findFlow(String step1, String step2) {
+	public FlowConfig findFlow(String from, String to) {
 		try {
-			step1 = (step1==null ? "":step1);
-			step2 = (step2==null ? "":step2);
+			from = (from==null ? "":from);
+			to = (to==null ? "":to);
 			//
-			Element flowEle = findFlowElement(null, step1, step2);
-			if(flowEle==null) {
-				throw new FlowNotFoundException(
-						String.format("Flow is not found, please check flow configuration!"));
-			}
+			Element flowEle = findFlowElement(null, from, to);
 			//
 			return parseFlow(flowEle);
 		} catch (Exception e) {
@@ -67,10 +59,28 @@ public class XmlFlowConfigFactory extends AbstractFlowConfigFactory {
 		}
 	}
 	
-	private Element findFlowElement(String name, String step1, String step2) throws Exception {
-		Element targetEle = null;
+	public FlowConfig findSubFlow(String name, String from, String to) {
+		try {
+			FlowConfig flowConfig = findFlow(name);
+			StepConfig stepFrom = flowConfig.getStepConfig(from);
+			Set<String> subFlowNames = stepFrom.getSubFlowNames();
+			for(String subFlowName : subFlowNames) {
+				try {
+					Element flowEle = findFlowElement(subFlowName, null, to);
+					return parseFlow(flowEle);
+				} catch (NullPointerException e) {
+					// skip
+				}
+			}
+			//
+			throw new NullPointerException();
+		} catch (Exception e) {
+			throw new FlowNotFoundException("SubFlow is not found, please check flow configuration!", e);
+		}
+	}
+	
+	private Element findFlowElement(String name, String from, String to) throws Exception {
 		//
-		outer:
 		for(Resource configLocation : configLocations) {
 			if(configLocation.isReadable()) {
 				Document document = xmlParser.parseAndValidate(configLocation);
@@ -78,8 +88,17 @@ public class XmlFlowConfigFactory extends AbstractFlowConfigFactory {
 				for(Element flowEle : flowEles) {
 					if(StringUtils.hasText(name)) {
 						if(name.equals(flowEle.getAttribute("name"))) {
-							targetEle = flowEle;
-							break outer;
+							//
+							if(StringUtils.hasText(to)) {
+								Element stepEle = DomUtils.getChildElements(flowEle).get(0);
+								if(to.equals(stepEle.getAttribute("page"))) {
+									return flowEle;
+								}
+								//
+								continue;
+							}
+							//
+							return flowEle;
 						}
 					} else {
 						List<Element> stepEles = DomUtils.getChildElements(flowEle);
@@ -87,24 +106,21 @@ public class XmlFlowConfigFactory extends AbstractFlowConfigFactory {
 							Element stepEle1 = stepEles.get(i);
 							Element stepEle2 = stepEles.get(i+1);
 							//
-							if(!step1.equals(stepEle1.getAttribute("page"))
-									&& step2.equals(stepEle1.getAttribute("page"))
+							if(!from.equals(stepEle1.getAttribute("page"))
+									&& to.equals(stepEle1.getAttribute("page"))
 									&& "start".equals(stepEle1.getNodeName())) {
-								targetEle = flowEle;
-								break outer;
+								return flowEle;
 							}
 							//
-							if(step1.equals(stepEle1.getAttribute("page"))
-									&& step2.equals(stepEle2.getAttribute("page"))) {
-								targetEle = flowEle;
-								break outer;
+							if(from.equals(stepEle1.getAttribute("page"))
+									&& to.equals(stepEle2.getAttribute("page"))) {
+								return flowEle;
 							}
 							//
-							if(step1.equals(stepEle2.getAttribute("page"))
-									&& !step2.equals(stepEle2.getAttribute("page"))
+							if(from.equals(stepEle2.getAttribute("page"))
+									&& !to.equals(stepEle2.getAttribute("page"))
 									&& "finish".equals(stepEle2.getNodeName())) {
-								targetEle = flowEle;
-								break outer;
+								return flowEle;
 							}
 						}
 					}
@@ -112,7 +128,7 @@ public class XmlFlowConfigFactory extends AbstractFlowConfigFactory {
 			}
 		}
 		//
-		return targetEle;
+		throw new NullPointerException("Flow element not found!");
 	}
 	
 	private FlowConfig parseFlow(Element flowEle) {
@@ -135,9 +151,7 @@ public class XmlFlowConfigFactory extends AbstractFlowConfigFactory {
 				List<Element> subflowEles = DomUtils.getChildElements(stepEle);
 				for(Element subflowEle : subflowEles) {
 					String name = subflowEle.getAttribute("name");
-					FlowConfig subFlowConfig = findFlow(name);
-					//
-					stepConfig.addSubFlowConfig(subFlowConfig);
+					stepConfig.addSubFlow(name);
 				}
 			}
 			//

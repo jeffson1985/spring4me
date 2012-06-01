@@ -52,8 +52,8 @@ public class StandardPageRender extends AbstractPageRender {
 	    		HttpWidget httpWidget = getCachedWidget(widgetConfig);
 	    		if(httpWidget==null && !widgetConfig.isDisabled()) {
 		    		// new widget request and response
-		    		HttpWidgetRequest widgetRequest = new DefaultHttpWidgetRequest(httpRequest);
-		    		HttpWidgetResponse widgetResponse = new DefaultHttpWidgetResponse(httpResponse);
+		    		HttpWidgetRequest widgetRequest = createHttpWidgetRequest(httpRequest);
+		    		HttpWidgetResponse widgetResponse = createHttpWidgetResponse(httpResponse);
 		    		//
 		    		preWidgetRender(widgetConfig, widgetRequest, widgetResponse);
 		    		//
@@ -66,6 +66,14 @@ public class StandardPageRender extends AbstractPageRender {
     	} catch(Exception e) {
     		throw new PageRenderException("Page render exception!", e);
     	}
+	}
+	
+	protected HttpWidgetRequest createHttpWidgetRequest(HttpServletRequest httpRequest) {
+		return new DefaultHttpWidgetRequest(httpRequest);
+	}
+	
+	protected HttpWidgetResponse createHttpWidgetResponse(HttpServletResponse httpResponse) {
+		return new DefaultHttpWidgetResponse(httpResponse);
 	}
 	
 }

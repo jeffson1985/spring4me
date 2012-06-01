@@ -1,13 +1,16 @@
 package org.osforce.spring4me.demo.login;
 
+import javax.validation.constraints.Min;
+
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
-
 
 public class User {
 
 	@Email
+	@NotEmpty
 	private String username;
+	@Min(6)
 	@NotEmpty
 	private String password;
 

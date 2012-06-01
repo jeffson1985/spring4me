@@ -93,6 +93,7 @@ public class XmlPageConfigFactory extends AbstractPageConfigFactory
     	List<Element> groupEles = DomUtils.getChildElements(pageEle);
         for(Element groupEle : groupEles) {
         	GroupConfig groupConfig = parseGroup(groupEle);
+        	groupConfig.setPageConfig(pageConfig);
         	pageConfig.addGroupConfig(groupConfig);
         }
 		//
@@ -110,6 +111,7 @@ public class XmlPageConfigFactory extends AbstractPageConfigFactory
         List<Element> widgetEles = DomUtils.getChildElements(groupEle);
         for(Element widgetEle : widgetEles) {
             WidgetConfig widgetConfig = parseWidget(widgetEle);
+            widgetConfig.setGroupConfig(groupConfig);
         	groupConfig.addWidgetConfig(widgetConfig);
         }
 		return groupConfig;
