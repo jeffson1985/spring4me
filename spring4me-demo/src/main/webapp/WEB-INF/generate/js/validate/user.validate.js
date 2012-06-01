@@ -1,23 +1,22 @@
 var userValidateOptions = {
 	rules:{
-		username: {
-			required:true,
-			minlength:10
-		},
 		password: {
-			required:true,
-			minlength:6
+			min:'6',
+			notempty:true
+		},
+		username: {
+			notempty:true,
+			email:true
 		}
 	},
-	//
 	messages: {
-		username: {
-			required:'用户名是必填项！',
-			minlength:'请输入有效的Email！'
-		},
 		password: {
-			required:'密码是必填项！',
-			minlength:'密码长度必须大于6！',
+			min:'must be greater than or equal to 6',
+			notempty:'may not be empty'
+		},
+		username: {
+			notempty:'may not be empty',
+			email:'not a well-formed email address'
 		}
 	}
 };

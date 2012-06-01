@@ -2,19 +2,21 @@
 <flows xmlns="http://www.opensourceforce.org/schema/flow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.opensourceforce.org/schema/flow http://www.opensourceforce.org/schema/spring4me-flow.xsd">
 	
-	<flow name="declare">
-		<start page="index" />
+	<flow name="flowA">
+		<start page="flowA_step1" />
 		
-		<step page="valid">
-			<subflow name="validate" />
+		<step page="flowA_step2">
+			<subflow name="flowB" />
 		</step>
 		
-		<finish page="end"/>
+		<finish page="flowA_step3"/>
 	</flow>
 	
-	<flow name="validate">
-		<start page="start" />
+	<flow name="flowB">
+		<start page="flowB_step1" />
 		
-		<finish page="finish"/>
+		<step page="flowB_step2"/>
+		
+		<finish page="flowB_step3"/>
 	</flow>
 </flows>
