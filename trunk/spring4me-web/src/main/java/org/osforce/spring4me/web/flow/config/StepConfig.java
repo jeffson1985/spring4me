@@ -1,7 +1,7 @@
 package org.osforce.spring4me.web.flow.config;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 /**
  * 
@@ -16,7 +16,7 @@ public class StepConfig {
 	private Type type;
 	private String page;
 	//
-	private Map<String, FlowConfig> subflowConfigMap = new HashMap<String, FlowConfig>();
+	private Set<String> subFlowNames = new LinkedHashSet<String>();
 	
 	public StepConfig(Type type, String page) {
 		this.type = type;
@@ -31,14 +31,6 @@ public class StepConfig {
 		return page;
 	}
 	
-	public boolean hasSubFlow() {
-		return subflowConfigMap.isEmpty();
-	}
-
-	public FlowConfig getSubflow(String name) {
-		return subflowConfigMap.get(name);
-	}
-	
 	public void setType(Type type) {
 		this.type = type;
 	}
@@ -47,8 +39,16 @@ public class StepConfig {
 		this.page = page;
 	}
 	
-	public void addSubFlowConfig(FlowConfig subFlowConfig) {
-		this.subflowConfigMap.put(subFlowConfig.getName(), subFlowConfig);
+	public boolean hasSubFlow() {
+		return !subFlowNames.isEmpty();
 	}
-
+	
+	public Set<String> getSubFlowNames() {
+		return subFlowNames;
+	}
+	
+	public void addSubFlow(String name) {
+		this.subFlowNames.add(name);
+	}
+	
 }

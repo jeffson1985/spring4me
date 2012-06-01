@@ -17,6 +17,7 @@
 package org.osforce.spring4me.web.page.config;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -40,6 +41,7 @@ public class PageConfig {
     private String parent;
     private String template;
     //
+    private Map<String, WidgetConfig> widgetConfigMap = new HashMap<String, WidgetConfig>();
     private Map<String, GroupConfig> groupConfigMap = new LinkedHashMap<String, GroupConfig>();
     
     public String getId() {
@@ -82,6 +84,10 @@ public class PageConfig {
         }
         return widgetConfig;
     }
+    
+    public WidgetConfig getWidgetConfig(String path) {
+    	return this.widgetConfigMap.get(path);
+    }
 
     public void addWidgetConfig(String groupId, WidgetConfig widgetConfig) {
     	GroupConfig groupConfig = this.groupConfigMap.get(groupId);
@@ -98,6 +104,11 @@ public class PageConfig {
     
 
 	public void addGroupConfig(GroupConfig groupConfig) {
+		//
+		for(WidgetConfig widgetConfig : groupConfig.getAllWidgetConfig()) {
+			this.widgetConfigMap.put(widgetConfig.getPath(), widgetConfig);
+		}
+		//
 		this.groupConfigMap.put(groupConfig.getId(), groupConfig);
 	}
 	

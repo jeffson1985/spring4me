@@ -19,6 +19,7 @@ package org.osforce.spring4me.web.page.config;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.util.StringUtils;
 
 /**
@@ -37,6 +38,7 @@ public abstract class AbstractPageConfigFactory implements PageConfigFactory {
 		return cacheable;
 	}
 
+	@Value("${application.cacheable}")
 	public void setCacheable(boolean cacheable) {
 		this.cacheable = cacheable;
 	}

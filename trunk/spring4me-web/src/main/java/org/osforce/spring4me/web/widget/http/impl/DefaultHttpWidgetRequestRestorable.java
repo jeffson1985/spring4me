@@ -55,9 +55,8 @@ public class DefaultHttpWidgetRequestRestorable extends DefaultHttpWidgetRequest
 	@Override
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public Map getParameterMap() {
-		Map parameterMap = new HashMap(getParameterMap());
-		parameterMap.putAll(this.widgetParameters);
-		return parameterMap;
+		this.widgetParameters.putAll(super.getParameterMap());
+		return widgetParameters;
 	}
 	
 	@Override

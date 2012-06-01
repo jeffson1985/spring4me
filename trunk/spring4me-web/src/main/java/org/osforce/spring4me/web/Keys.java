@@ -17,6 +17,7 @@
 package org.osforce.spring4me.web;
 
 import org.osforce.spring4me.web.flow.config.FlowConfig;
+import org.osforce.spring4me.web.flow.engine.FlowEvent;
 import org.osforce.spring4me.web.page.config.PageConfig;
 import org.osforce.spring4me.web.widget.config.WidgetConfig;
 import org.springframework.util.StringUtils;
@@ -45,11 +46,13 @@ public interface Keys {
 	
 	String REQUEST_KEY_PAGE_CONFIG = StringUtils.uncapitalize(PageConfig.KEY);
 	
-	String REQUEST_KEY_CURRENT_PAGE_CONFIG = "currentPageConfig";
+	String REQUEST_KEY_FROM_NAVIGATION_CONFIG = "fromNavigationConfig";
 	
-	String REQUEST_KEY_ORIGINAL_PAGE_CONFIG = "originalPageConfig";
+	String REQUEST_KEY_TO_NAVIGATION_CONFIG = "toNavigationConfig";
 	
 	String REQUEST_KEY_FLOW_CONFIG = FlowConfig.KEY;
+	
+	String REQUEST_KEY_FLOW_EVENT = FlowEvent.KEY;
 	
 	/**
 	 * Session Key Scope

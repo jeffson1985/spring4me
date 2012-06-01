@@ -1,50 +1,50 @@
 package org.osforce.spring4me.demo.theme;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.ValidatorFactory;
 
-import org.osforce.spring4me.web.page.config.PageConfig;
-import org.osforce.spring4me.web.page.utils.PageConfigUtils;
-import org.osforce.spring4me.web.widget.config.WidgetConfig;
-import org.osforce.spring4me.web.widget.http.HttpWidgetRequest;
-import org.osforce.spring4me.web.widget.utils.WidgetConfigUtils;
+import org.osforce.spring4me.demo.theme.support.AbstractClassFinder;
+import org.osforce.spring4me.demo.theme.support.ValidationBeanClassFinder;
+import org.osforce.spring4me.support.validation.BeanValidationHelper;
+import org.osforce.spring4me.support.validation.ValidateBean;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ResourceLoaderAware;
-import org.springframework.core.io.Resource;
-import org.springframework.core.io.ResourceLoader;
+import org.springframework.ui.freemarker.FreeMarkerTemplateUtils;
 import org.springframework.util.FileCopyUtils;
-import org.springframework.web.servlet.ModelAndView;
+import org.springframework.util.StringUtils;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 import org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer;
-import org.springframework.web.util.WebUtils;
 
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
 
-public class JavaScriptGenerateInterceptor extends HandlerInterceptorAdapter
-	implements ResourceLoaderAware {
-
+public class JavaScriptGenerateInterceptor extends HandlerInterceptorAdapter {
+	
+	private static final Pattern pattern = Pattern.compile("generate/js/validate/(\\w*?)\\.validate\\.js");
+	
+	private String basePackage = "/**/";
+	
+	private ValidatorFactory validatorFactory;
+	
 	private FreeMarkerConfigurer freeMarkerConfigurer;
 	
-	private ResourceLoader resourceLoader;
+	private AbstractClassFinder validationBeanClassFinder = new ValidationBeanClassFinder();
 	
-	private String prefix = "/WEB-INF/widgets/";
-
-	private String suffix = ".js";
+	public void setBasePackage(String basePackage) {
+		this.basePackage = basePackage;
+	}
 	
-	private ThreadLocal<List<String>> widgetViewNameLocal = new ThreadLocal<List<String>>();
-	//
-	private ThreadLocal<List<WidgetConfig>> widgetConfigLocal = new ThreadLocal<List<WidgetConfig>>();
-	
+	@Autowired
+	public void setValidatorFactory(ValidatorFactory validatorFactory) {
+		this.validatorFactory = validatorFactory;
+	}
 	
 	@Autowired
 	public void setFreeMarkerConfigurer(
@@ -52,110 +52,42 @@ public class JavaScriptGenerateInterceptor extends HandlerInterceptorAdapter
 		this.freeMarkerConfigurer = freeMarkerConfigurer;
 	}
 	
-	public void setResourceLoader(ResourceLoader resourceLoader) {
-		this.resourceLoader = resourceLoader;
-	}
-	
 	@Override
-	public void postHandle(HttpServletRequest request,
-			HttpServletResponse response, Object handler,
-			ModelAndView modelAndView) throws Exception {
+	public boolean preHandle(HttpServletRequest request,
+			HttpServletResponse response, Object handler) throws Exception {
 		//
-		String pathInfo = request.getPathInfo();
-		if(request instanceof HttpWidgetRequest) {
+		String requestUri = request.getRequestURI();
+		Matcher matcher = pattern.matcher(requestUri);
+		if(matcher.find()) {
+			String shortClassName = StringUtils.capitalize(matcher.group(1));
+			String classPattern = "classpath:" + basePackage + shortClassName + ".class";
+			Class<?> validationBeanClass = validationBeanClassFinder.findOne(classPattern);
 			//
-			WidgetConfig widgetConfig = WidgetConfigUtils.getWidgetConfig(request);
-			//
-			addWidgetConfigToThreadLocal(widgetConfig);
-			//
-			addWidgetViewNameToThreadLocal(modelAndView.getViewName());
-			//
-			pathInfo = (String) request.getAttribute(WebUtils.INCLUDE_PATH_INFO_ATTRIBUTE);
-		}
-		//
-		if(pathInfo!=null && pathInfo.endsWith(".page")) {
-			//
-			generateAndMergeJavaScript(request);
-			//
-			clearWidgetViewNameLocal();
-			//
-			clearWidgetConfigLocal();
-		}
-	}
-	
-	private void addWidgetConfigToThreadLocal(WidgetConfig widgetConfig) {
-		List<WidgetConfig> widgetConfigList = widgetConfigLocal.get();
-		if(widgetConfigList==null) {
-			widgetConfigList = new ArrayList<WidgetConfig>();
-		}
-		//
-		widgetConfigList.add(widgetConfig);
-		//
-		widgetConfigLocal.set(widgetConfigList);
-	}
-	
-	private void clearWidgetConfigLocal() {
-		widgetConfigLocal.remove();
-	}
-	
-	private void addWidgetViewNameToThreadLocal(String viewName) {
-		List<String> widgetViewNames = widgetViewNameLocal.get();
-		if(widgetViewNames==null) {
-			widgetViewNames = new ArrayList<String>();
-		}
-		//
-		widgetViewNames.add(viewName);
-		//
-		widgetViewNameLocal.set(widgetViewNames);
-	}
-	
-	private void clearWidgetViewNameLocal() {
-		widgetViewNameLocal.remove();
-	}
-	
-	private void generateAndMergeJavaScript(HttpServletRequest request) 
-			throws IOException, TemplateException {
-		ByteArrayOutputStream baos = new ByteArrayOutputStream();
-		baos.write("jQuery(function($){\n".getBytes());
-		List<String> widgetViewNames = widgetViewNameLocal.get();
-		List<WidgetConfig> widgetConfigList = widgetConfigLocal.get();
-		for(int i=0; i<widgetViewNames.size(); i++) {
-			String widgetViewName = widgetViewNames.get(i);
-			WidgetConfig widgetConfig = widgetConfigList.get(i);
-			String widgetJSLocation = prefix + widgetViewName + suffix;
-			//
-			Resource widgetJSResource = resourceLoader.getResource(widgetJSLocation);
-			if(widgetJSResource.isReadable()) {
-				baos.write(("// "+ widgetJSLocation + "\n").getBytes());
-				//
-				Map<String, Object> rootMap = new HashMap<String, Object>();
-				rootMap.put("id", widgetConfig.getId());
-				Template template = freeMarkerConfigurer.getConfiguration().getTemplate(widgetJSLocation);
-				template.process(rootMap, new PrintWriter(baos));
-				//
-				baos.write("\n".getBytes());
+			if(validationBeanClass!=null) {
+				generateJavaScript(request, validationBeanClass);
 			}
 		}
-		baos.write("});\n".getBytes());
-		//
-		copyGeneratedJavaScript(request, baos.toByteArray());
+		
+		return super.preHandle(request, response, handler);
 	}
 	
-	private void copyGeneratedJavaScript(HttpServletRequest request, byte[] javascript) throws IOException {
-		PageConfig pageConfig = PageConfigUtils.getPageConfig(request);
-		String jsFileName = pageConfig.getPath().substring(pageConfig.getPath().lastIndexOf("/")+1);
-		String jsDirPath = pageConfig.getPath().substring(0, pageConfig.getPath().lastIndexOf("/"));
+	private static final String TEMPLATE_VALIDATE = "/WEB-INF/templates/validate/ValidateOptionsTemplate.ftl";
+	private void generateJavaScript(HttpServletRequest request, Class<?> clazz) throws IOException, TemplateException {
+		ValidateBean validateBean = BeanValidationHelper.createForClass(validatorFactory, clazz);
+		Map<String, Object> model = new HashMap<String, Object>();
+		model.put("validateBean", validateBean);
 		//
-		String jsBase = request.getSession().getServletContext().getRealPath("/WEB-INF/generate/js/");
-		File jsDir = new File(jsBase + jsDirPath);
-		jsDir.mkdirs();
+		Template t = freeMarkerConfigurer.getConfiguration().getTemplate(TEMPLATE_VALIDATE);
+		String result = FreeMarkerTemplateUtils.processTemplateIntoString(t, model);
 		//
-		File jsFile = new File(jsDir, jsFileName + ".js");
-		if(!jsFile.exists()) {
-			jsFile.createNewFile();
-		}
+		String jsValidatePath = request.getSession().getServletContext().getRealPath("/WEB-INF/generate/js/validate");
+		String jsValidateName = validateBean.getBeanName() + ".validate.js";
+		File baseDir = new File(jsValidatePath);
+		baseDir.mkdirs();
 		//
-		FileCopyUtils.copy(javascript, jsFile);
+		File out = new File(baseDir, jsValidateName);
+		out.createNewFile();
+		FileCopyUtils.copy(result.getBytes(), out);
 	}
 	
 }

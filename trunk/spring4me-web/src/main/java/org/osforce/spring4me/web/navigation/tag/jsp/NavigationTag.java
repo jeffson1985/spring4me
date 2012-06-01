@@ -23,8 +23,9 @@ import javax.servlet.jsp.tagext.TagSupport;
 
 import org.osforce.spring4me.web.Keys;
 import org.osforce.spring4me.web.navigation.tag.NavigationProcessor;
-import org.osforce.spring4me.web.page.config.PageConfig;
-import org.osforce.spring4me.web.page.utils.PageConfigUtils;
+import org.osforce.spring4me.web.widget.config.WidgetConfig;
+import org.osforce.spring4me.web.widget.utils.WidgetConfigUtils;
+import org.springframework.util.StringUtils;
 
 /**
  * 
@@ -55,14 +56,18 @@ public class NavigationTag extends TagSupport {
 	
 	@Override
 	public int doStartTag() throws JspException {
-		PageConfig pageConfig = PageConfigUtils.getPageConfig(pageContext.getRequest());
+		WidgetConfig widgetConfig = WidgetConfigUtils.getWidgetConfig(pageContext.getRequest());
 		String base = (String) pageContext.getRequest().getAttribute(Keys.REQUEST_KEY_BASE);
 		String eventDrivenServiceUrl = (String) pageContext.getRequest().getAttribute(
 				Keys.REQUEST_KEY_EVENT_DRIVEN_SERVICE_URL);
 		//
-		NavigationProcessor processor = new NavigationProcessor(pageConfig, eventDrivenServiceUrl);
+		if(StringUtils.hasText(action)) {
+			action = base + action;
+		}
+		//
+		NavigationProcessor processor = new NavigationProcessor(widgetConfig, eventDrivenServiceUrl);
 		try {
-			processor.process(pageContext.getOut(), event, base + action);
+			processor.process(pageContext.getOut(), event, action);
 		} catch (IOException e) {
 			throw new JspException(e.getMessage(), e.getCause());
 		}

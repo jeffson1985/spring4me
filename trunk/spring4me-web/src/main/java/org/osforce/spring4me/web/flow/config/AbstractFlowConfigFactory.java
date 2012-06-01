@@ -3,6 +3,8 @@ package org.osforce.spring4me.web.flow.config;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Value;
+
 /**
  * 
  * @author Gavin
@@ -11,7 +13,7 @@ import java.util.Map;
  */
 public abstract class AbstractFlowConfigFactory implements FlowConfigFactory {
 
-	private boolean cacheable;
+	private boolean cacheable = true;
 	//
 	private Map<String, FlowConfig> cache = new HashMap<String, FlowConfig>();
 	
@@ -19,6 +21,7 @@ public abstract class AbstractFlowConfigFactory implements FlowConfigFactory {
 		return cacheable;
 	}
 	
+	@Value("${application.cacheable}")
 	public void setCacheable(boolean cacheable) {
 		this.cacheable = cacheable;
 	}

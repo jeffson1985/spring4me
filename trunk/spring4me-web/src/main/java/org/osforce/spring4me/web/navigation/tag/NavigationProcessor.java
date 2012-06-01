@@ -19,7 +19,10 @@ package org.osforce.spring4me.web.navigation.tag;
 import java.io.IOException;
 import java.io.Writer;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.osforce.spring4me.web.page.config.PageConfig;
+import org.osforce.spring4me.web.widget.config.WidgetConfig;
 import org.springframework.util.StringUtils;
 
 /**
@@ -29,17 +32,19 @@ import org.springframework.util.StringUtils;
  * @create 2012-5-24 - 上午9:20:28
  */
 public class NavigationProcessor {
+	
+	private static final Log log = LogFactory.getLog(NavigationProcessor.class);
 
-	private PageConfig pageConfig;
+	private WidgetConfig widgetConfig;
 	private String eventDrivenServiceUrl;
 	
-	public NavigationProcessor(PageConfig pageConfig, String eventDrivenServiceUrl) {
-		this.pageConfig = pageConfig;
+	public NavigationProcessor(WidgetConfig widgetConfig, String eventDrivenServiceUrl) {
+		this.widgetConfig = widgetConfig;
 		this.eventDrivenServiceUrl = eventDrivenServiceUrl;
 	}
 	
 	public void process(Writer writer, String event, String action) throws IOException {
-		String eventParameter = getEventParameter(pageConfig, event);
+		String eventParameter = getEventParameter(widgetConfig, event);
 		//
 		String requestUrl = this.eventDrivenServiceUrl;
 		if(StringUtils.hasText(action)) {
@@ -49,8 +54,19 @@ public class NavigationProcessor {
 		writer.write(requestUrl +"?"+ eventParameter);
 	}
 	
-	private String getEventParameter(PageConfig pageConfig, String event) {
-		return "event=" + pageConfig.getPath() + "|" + event;
+	private String getEventParameter(WidgetConfig widgetConfig, String event) {
+		PageConfig pageConfig = widgetConfig.getGroupConfig().getPageConfig();
+		StringBuilder sb = new StringBuilder("event=");
+		sb.append(pageConfig.getPath());
+		sb.append("|");
+		sb.append(widgetConfig.getPath());
+		sb.append("|");
+		sb.append(event);
+		//
+		if(log.isDebugEnabled()) {
+			log.debug("Event parameter is " + sb.toString());
+		}
+		return sb.toString();
 	}
 	
 }

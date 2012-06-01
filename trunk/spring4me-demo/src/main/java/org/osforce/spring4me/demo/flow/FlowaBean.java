@@ -1,6 +1,6 @@
 package org.osforce.spring4me.demo.flow;
 
-public class FlowBean {
+public class FlowaBean {
 
 	private String name;
 	

@@ -26,11 +26,16 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.osforce.spring4me.web.Keys;
+import org.osforce.spring4me.web.cache.CacheProvider;
+import org.osforce.spring4me.web.cache.simple.RequestBackup;
 import org.osforce.spring4me.web.event.EventReceiver;
 import org.osforce.spring4me.web.navigation.config.EventConfig;
 import org.osforce.spring4me.web.navigation.config.NavigationConfig;
 import org.osforce.spring4me.web.navigation.config.NavigationConfigFactory;
+import org.osforce.spring4me.web.navigation.utils.NavigationConfigUtils;
 import org.osforce.spring4me.web.page.config.PageConfig;
+import org.osforce.spring4me.web.page.utils.EventParameter;
+import org.osforce.spring4me.web.widget.config.WidgetConfig;
 import org.springframework.util.StringUtils;
 import org.springframework.web.util.UrlPathHelper;
 
@@ -52,11 +57,14 @@ public class EventDrivenPageFilter extends PageFilter {
 	//
 	private UrlPathHelper urlPathHelper = new UrlPathHelper();
 	
+	private CacheProvider requestBackupCacheProvider;
+	
 	@Override
 	protected void initFramework() throws ServletException {
 		super.initFramework();
 		//
 		this.navigationConfigFactory = getPageApplicationContext().getBean(NavigationConfigFactory.class);
+		this.requestBackupCacheProvider = getPageApplicationContext().getBean("requestBackupCacheProvider", CacheProvider.class);
 	}
 	
 	@Override
@@ -69,10 +77,10 @@ public class EventDrivenPageFilter extends PageFilter {
 		httpRequest.setAttribute("eventType", eventType.toString());
 		//
 		if(eventType==EventType.PAGE) {
-			processPageEvent(httpRequest, httpResponse, chain);
+			processPageEvent(httpRequest, httpResponse, createEventParameter(httpRequest));
 		} 
 		else if(eventType==EventType.ACTION) {
-			processActionEvent(httpRequest, httpResponse, chain);
+			processActionEvent(httpRequest, httpResponse, createEventParameter(httpRequest));
 		} 
 		else {
 			super.doService(httpRequest, httpResponse, chain);
@@ -91,40 +99,58 @@ public class EventDrivenPageFilter extends PageFilter {
 	}
 	
 	protected void processPageEvent(HttpServletRequest httpRequest, 
-			HttpServletResponse httpResponse, FilterChain chain) throws IOException, ServletException {
-		String event = httpRequest.getParameter(Keys.PARAMETER_KEY_EVENT);
+			HttpServletResponse httpResponse, EventParameter eventParameter) throws IOException, ServletException {
+		//String event = httpRequest.getParameter(Keys.PARAMETER_KEY_EVENT);
 		if(log.isDebugEnabled()) {
-			log.debug("Process event " + event);
+			log.debug("Process event " + eventParameter.getEvent());
 		}
 		//
-		int separatorPosition = event.indexOf("|");
-		String navPath = event.substring(0, separatorPosition);
-		String eventId = event.substring(separatorPosition+1);
+		NavigationConfig fromNavigationConfig = navigationConfigFactory.findNavigation(eventParameter.getPagePath());
+		EventConfig fromEventConfig = fromNavigationConfig.getEventConfig(eventParameter.getEvent());
+		NavigationConfig toNavigationConfig = navigationConfigFactory.findNavigation(fromEventConfig.getTo());
 		//
-		String publishedEvent = EventReceiver.receive(httpRequest, true);
-		if(StringUtils.hasText(publishedEvent)) {
-			eventId = publishedEvent;
+		NavigationConfigUtils.setFromNavigationConfig(httpRequest, fromNavigationConfig);
+		NavigationConfigUtils.setToNavigationConfig(httpRequest, toNavigationConfig);
+		//
+		String redirectLocation = urlPathHelper.getContextPath(httpRequest) + toNavigationConfig.getPath();
+		if(StringUtils.hasText(httpRequest.getParameter("flowId"))) {
+			redirectLocation += "?flowId=" + httpRequest.getParameter("flowId");
 		}
-		//
-		NavigationConfig originalNavigationConfig = navigationConfigFactory.findNavigation(navPath);
-		//
-		EventConfig originalEventConfig = originalNavigationConfig.getEventConfig(eventId);
-		NavigationConfig currentNavigationConfig = navigationConfigFactory.findNavigation(originalEventConfig.getTo());
-		//
-		PageConfig originalPageConfig = getPageConfigFactory().findPage(originalNavigationConfig.getPath());
-		httpRequest.setAttribute(Keys.REQUEST_KEY_ORIGINAL_PAGE_CONFIG, originalPageConfig);
-		//
-		String redirectLocation = urlPathHelper.getContextPath(httpRequest) + currentNavigationConfig.getPath();
 		httpResponse.sendRedirect(redirectLocation);
 	}
 	
 	protected void processActionEvent(HttpServletRequest httpRequest, 
-			HttpServletResponse httpResponse, FilterChain chain) throws ServletException, IOException {
+			HttpServletResponse httpResponse, EventParameter eventParameter) throws ServletException, IOException {
 		//
 		String requestPath = urlPathHelper.getLookupPathForRequest(httpRequest);
 		httpRequest.getRequestDispatcher(requestPath).include(httpRequest, httpResponse);
 		//
-		processPageEvent(httpRequest, httpResponse, chain);
+		String publishedEvent = EventReceiver.receive(httpRequest, true);
+		if(StringUtils.hasText(publishedEvent)) {
+			eventParameter.setEvent(publishedEvent);
+		}
+		//
+		PageConfig pageConfig = getPageConfigFactory().findPage(eventParameter.getPagePath());
+		WidgetConfig widgetConfig = pageConfig.getWidgetConfig(eventParameter.getWidgetPath());
+		String key = generateKey(httpRequest, widgetConfig);
+		RequestBackup requestBackup = (RequestBackup) requestBackupCacheProvider.getCache().get(key);
+		if(requestBackup==null) {
+			requestBackup = new RequestBackup(httpRequest);
+		} else {
+			requestBackup.mergeRequest(httpRequest);
+		}
+		requestBackupCacheProvider.getCache().put(key, requestBackup);
+		//
+		processPageEvent(httpRequest, httpResponse, eventParameter);
+	}
+	
+	private String generateKey(HttpServletRequest httpRequest, WidgetConfig widgetConfig) {
+		return httpRequest.getSession().getId() + "T" + widgetConfig.getPath();
+	}
+	
+	private EventParameter createEventParameter(HttpServletRequest httpRequest) {
+		String event = httpRequest.getParameter(Keys.PARAMETER_KEY_EVENT);
+		return new EventParameter(event);
 	}
 	
 	private void exportEventDrivenServiceUrl(HttpServletRequest httpRequest) {

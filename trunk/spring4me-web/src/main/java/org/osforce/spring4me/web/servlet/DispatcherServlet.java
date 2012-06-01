@@ -65,6 +65,10 @@ public class DispatcherServlet extends org.springframework.web.servlet.Dispatche
 			throws Exception {
 		HandlerExecutionChain mappedHandler =  super.getHandler(request);
 		//
+		if(mappedHandler==null) {
+			return null;
+		}
+		//
 		Object handler = mappedHandler.getHandler();
 		if(handler instanceof HandlerMethod) {
 			HandlerMethod handlerMethod = (HandlerMethod) handler;

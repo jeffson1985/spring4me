@@ -5,13 +5,13 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping("/flow")
-public class FlowController {
+@RequestMapping("/flowa")
+public class FlowaController {
 
 	@RequestMapping("/process")
-	public void doProcessAction(@ModelAttribute FlowBean flowBean) {
-		System.out.println(flowBean.getName());
-		System.out.println(flowBean.getExtras());
+	public void doProcessAction(@ModelAttribute FlowaBean flowaBean) {
+		System.out.println(flowaBean.getName());
+		System.out.println(flowaBean.getExtras());
 	}
 	
 }
