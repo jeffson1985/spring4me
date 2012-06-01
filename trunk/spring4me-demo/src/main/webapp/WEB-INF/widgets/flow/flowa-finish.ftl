@@ -6,6 +6,7 @@
    		${widgetConfig.description}
     </div>
     <div class="widget-foot">
-    <a href='<@navigation event="enter-flowA"/>'>Enter Flow A</a>
+    	<a href='<@navigation event="prev-step" />&flowId=${flowId}'>Pre Step!</a>
+    	<a href='<@navigation event="next-step" />&flowId=${flowId}'>Next Step!</a>
     </div>
 </div>

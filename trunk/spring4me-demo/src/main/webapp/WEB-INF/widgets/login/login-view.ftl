@@ -3,7 +3,7 @@
     	<h3>${widgetConfig.title}</h3>
     </div>
     <div class="widget-body">
-   		<form id="loginForm" method="POST" action='<@navigation event="do-login" action="${base}/login.do" />'>
+   		<form id="loginForm" method="POST" action='<@navigation event="do-login" action="/login.do" />'>
    			<label>账号：</label>
    			<input name="username"/>
    			<br/>

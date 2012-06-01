@@ -21,7 +21,7 @@
 		</widget>
 	</group>
 	<group id="main-body">
-		<widget name="flowWidget" path="/flow/start">
+		<widget name="flowbWidget" path="/flowb/start">
 			<title>Flow Widget</title>
 			<description>This is flow widget used for flow demo!</description>
 		</widget>

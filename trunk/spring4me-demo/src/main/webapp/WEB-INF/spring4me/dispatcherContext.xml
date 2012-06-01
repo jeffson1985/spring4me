@@ -8,6 +8,8 @@
 		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
 
+	<context:property-placeholder location="classpath:/application.properties"/>
+
     <context:component-scan base-package="org.osforce.spring4me.demo" resource-pattern="/**/*Page.class" />
     <context:component-scan base-package="org.osforce.spring4me.demo" resource-pattern="/**/*Widget.class" />
     <context:component-scan base-package="org.osforce.spring4me.demo" resource-pattern="/**/*Controller.class" />
@@ -16,7 +18,9 @@
     
     <bean id="customValidator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean">
     	<property name="providerClass" value="org.hibernate.validator.HibernateValidator" />
+    	<!-- 
     	<property name="mappingLocations" value="classpath:/constraint/user.xml"/>
+    	 -->
     </bean>
     
     <mvc:resources mapping="/themes/**" location="/WEB-INF/themes/" />
@@ -26,6 +30,7 @@
      <!-- Configures Handler Interceptors -->
     <mvc:interceptors>
         <bean class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor"/>
+        <bean class="org.osforce.spring4me.demo.theme.JavaScriptMergeInterceptor" />
         <bean class="org.osforce.spring4me.demo.theme.JavaScriptGenerateInterceptor" />
     </mvc:interceptors>
     
