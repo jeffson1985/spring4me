@@ -1,1 +1,0 @@
-jQuery('#${id}').find('#loginForm').validate(userValidateOptions);

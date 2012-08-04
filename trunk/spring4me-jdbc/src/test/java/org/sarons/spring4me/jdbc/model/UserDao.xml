@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dao class="org.sarons.spring4me.jdbc.dao.UserDao" mapper="UserMapper">
+	<select id="findByUsernameAndPassword"><![CDATA[
+		select * from tb_users u 
+		#if ($username || $password)
+		where
+		#end
+		#if ($username)
+		u.c_username = ?{username}
+		#end
+		#if ($password)
+		and u.c_password = ?{password}
+		#end
+	]]></select>
+	<select id="findByAge">
+		select * from tb_users u where u.i_age between ?{beginAge} and ?{endAge}
+	</select>
+	<select id="findPage">
+		select * from tb_users u
+	</select>
+</dao>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mapper class="org.sarons.spring4me.jdbc.model.User">
+	<property name="username">
+		<column name="c_username" type="VARCHAR" />
+	</property>
+	<property name="password">
+		<column name="c_password" type="VARCHAR" />
+	</property>
+	<property name="age">
+		<column name="i_age" type="VARCHAR" />
+	</property>
+</mapper>

@@ -10,46 +10,33 @@
 
 	<context:property-placeholder location="classpath:/application.properties"/>
 
-    <context:component-scan base-package="org.osforce.spring4me.demo" resource-pattern="/**/*Page.class" />
-    <context:component-scan base-package="org.osforce.spring4me.demo" resource-pattern="/**/*Widget.class" />
-    <context:component-scan base-package="org.osforce.spring4me.demo" resource-pattern="/**/*Controller.class" />
+    <context:component-scan base-package="org.sarons.spring4me.demo" resource-pattern="/**/*Widget.class" />
+    <context:component-scan base-package="org.sarons.spring4me.demo" resource-pattern="/**/*Page.class" />
     
-    <mvc:annotation-driven validator="customValidator" />
+    <mvc:annotation-driven />
     
-    <bean id="customValidator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean">
-    	<property name="providerClass" value="org.hibernate.validator.HibernateValidator" />
-    	<!-- 
-    	<property name="mappingLocations" value="classpath:/constraint/user.xml"/>
-    	 -->
-    </bean>
+    <mvc:resources mapping="/resources/**" location="/WEB-INF/resources/" cache-period="360" />
+    <mvc:resources mapping="/themes/**" location="/WEB-INF/themes/" cache-period="360" />
     
-    <mvc:resources mapping="/themes/**" location="/WEB-INF/themes/" />
-    <mvc:resources mapping="/generate/**" location="/WEB-INF/generate/" />
-    <mvc:resources mapping="/resources/**" location="/WEB-INF/resources/" />
-    
-     <!-- Configures Handler Interceptors -->
+    <!-- Configures Handler Interceptors -->
     <mvc:interceptors>
         <bean class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor"/>
-        <bean class="org.osforce.spring4me.demo.theme.JavaScriptMergeInterceptor" />
-        <bean class="org.osforce.spring4me.demo.theme.JavaScriptGenerateInterceptor" />
     </mvc:interceptors>
     
-    <bean id="flashMapManager" class="org.osforce.spring4me.web.servlet.support.SessionFlashMapManager"></bean>
+    <bean id="flashMapManager" class="org.sarons.spring4me.web.servlet.support.SessionFlashMapManager" />
     
     <bean id="themeResolver" class="org.springframework.web.servlet.theme.FixedThemeResolver">
-    	<property name="defaultThemeName" value="default" />
+    	<property name="defaultThemeName" value="${application.theme}" />
     </bean>
-    
+    <!-- 
     <bean id="themeSource" class="org.osforce.spring4me.demo.theme.support.ReloadableResourceBundleThemeSource">
     	<property name="basenamePrefix" value="/WEB-INF/themes/default/" />
     </bean>
-    
-    <bean class="org.osforce.spring4me.web.widget.bind.support.RequestMappingHandlerAdapterPostProcessor" />
+     -->
     
     <!-- View Revolver Begin -->
-    <bean id="freemarkerConfigurer"
-          class="org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer">
-        <property name="templateLoaderPath" value="/"/>
+    <bean id="freemarkerConfigurer" class="org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer">
+        <property name="templateLoaderPath" value="/" />
         <property name="freemarkerSettings">
             <props>
                 <prop key="number_format">0.######</prop>
@@ -57,32 +44,21 @@
                 <prop key="template_update_delay">0</prop>
             </props>
         </property>
-        <property name="freemarkerVariables">
-        	<map>
-        		<entry key="placeholder">
-					<bean class="org.osforce.spring4me.web.page.tag.ftl.PlaceholderDirectiveModel" />        		    
-        		</entry>
-        		<entry key="navigation">
-					<bean class="org.osforce.spring4me.web.navigation.tag.ftl.NavigationDirectiveModel" />        		    
-        		</entry>
-        	</map>
-        </property>
     </bean>
     
-    <!-- Widget View Resolver -->
-    <bean id="widgetViewResolver" class="org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver">
+    <!-- View Resolver -->
+    <bean id="widgetViewResolver" class="org.sarons.spring4me.web.servlet.view.freemarker.FreeMarkerViewResolver">
+    	<property name="viewClass" value="org.sarons.spring4me.web.servlet.view.freemarker.FreeMarkerView"/>
         <property name="contentType" value="text/html;charset=UTF-8"/>
         <property name="prefix" value="/WEB-INF/widgets/"/>
         <property name="suffix" value=".ftl"/>
-        <property name="order" value="1"/>
     </bean>
     
-    <!-- Theme View Resolver -->
-    <bean id="themeViewResolver" class="org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver">
+    <bean id="themeViewResolver" class="org.sarons.spring4me.web.servlet.view.freemarker.FreeMarkerViewResolver">
+    	<property name="viewClass" value="org.sarons.spring4me.web.servlet.view.freemarker.FreeMarkerView"/>
         <property name="contentType" value="text/html;charset=UTF-8"/>
-        <property name="prefix" value="/WEB-INF/themes/"/>
+        <property name="prefix" value="/WEB-INF/themes/${application.theme}/"/>
         <property name="suffix" value=".ftl"/>
-        <property name="order" value="3"/>
     </bean>
     
 </beans>
