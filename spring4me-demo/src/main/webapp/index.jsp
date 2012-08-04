@@ -4,12 +4,11 @@
 <html>
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-		<meta  http-equiv="refresh" content="5;URL=<spring:url value="/index"/>">
-		<title>Focus SNS</title>
+		<meta  http-equiv="refresh" content="5;URL=<spring:url value="/component/test"/>">
+		<title>Framework Demo</title>
 	</head>
 	<body style="text-align: center;">
-		<h1>You are welcome to use Focus SNS!</h1>
-		
+		<h1>You are welcome to use Framework Demo!</h1>
 		<p>
 			Automatically jump after 5 seconds!
 		</p>

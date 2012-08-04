@@ -1,19 +1,11 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>org.osforce</groupId>
+	<groupId>org.sarons</groupId>
 	<artifactId>spring4me</artifactId>
-	<version>0.5.0-SNAPSHOT</version>
+	<version>1.0.0-SNAPSHOT</version>
 	<packaging>pom</packaging>
-
-	<modules>
-		<module>spring4me-jdbc</module>
-		<module>spring4me-dao</module>
-		<module>spring4me-support</module>
-		<module>spring4me-social</module>
-		<module>spring4me-web</module>
-		<module>spring4me-jpa</module>
-		<module>spring4me-demo</module>
-	</modules>
+	<name>Spring4Me</name>
 
 	<developers>
 		<developer>
@@ -48,27 +40,17 @@
 		<dependencies>
 			<!--Spring4Me -->
 			<dependency>
-				<groupId>org.osforce</groupId>
-				<artifactId>spring4me-dao</artifactId>
-				<version>${project.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.osforce</groupId>
+				<groupId>org.sarons</groupId>
 				<artifactId>spring4me-jdbc</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>org.osforce</groupId>
-				<artifactId>spring4me-jpa</artifactId>
-				<version>${project.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.osforce</groupId>
+				<groupId>org.sarons</groupId>
 				<artifactId>spring4me-support</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>org.osforce</groupId>
+				<groupId>org.sarons</groupId>
 				<artifactId>spring4me-web</artifactId>
 				<version>${project.version}</version>
 			</dependency>
@@ -185,7 +167,7 @@
 				<version>2.2</version>
 			</dependency>
 			<!-- CGLib End -->
-			
+
 			<!-- Java Validation -->
 			<dependency>
 				<groupId>javax.validation</groupId>
@@ -215,6 +197,13 @@
 				<groupId>org.glassfish.web</groupId>
 				<artifactId>jsp-impl</artifactId>
 				<version>${servlet.jsp.version}</version>
+			</dependency>
+
+			<!-- http component -->
+			<dependency>
+				<groupId>org.apache.httpcomponents</groupId>
+				<artifactId>httpclient</artifactId>
+				<version>4.2.1</version>
 			</dependency>
 
 			<!-- cache -->
@@ -268,6 +257,16 @@
 				<groupId>org.slf4j</groupId>
 				<artifactId>slf4j-log4j12</artifactId>
 				<version>${slf4j.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>commons-logging</groupId>
+				<artifactId>commons-logging</artifactId>
+				<version>1.1.1</version>
+			</dependency>
+			<dependency>
+				<groupId>log4j</groupId>
+				<artifactId>log4j</artifactId>
+				<version>1.2.17</version>
 			</dependency>
 
 			<!-- junit -->
@@ -336,4 +335,10 @@
 			</plugins>
 		</pluginManagement>
 	</build>
+	<modules>
+		<module>spring4me-jdbc</module>
+		<module>spring4me-support</module>
+		<module>spring4me-web</module>
+		<module>spring4me-demo</module>
+	</modules>
 </project>

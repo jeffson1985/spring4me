@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns="http://www.sarons.org/schema/page"
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.sarons.org/schema/page"
+	elementFormDefault="qualified" attributeFormDefault="unqualified">
+
+	<xsd:element name="page">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="group" maxOccurs="unbounded" type="groupType" />
+			</xsd:sequence>
+
+			<xsd:attribute name="id" type="xsd:string" />
+			<xsd:attribute name="path" type="xsd:string" />
+			<xsd:attribute name="parent" type="xsd:string" />
+			<xsd:attribute name="layout" type="xsd:string" />
+		</xsd:complexType>
+	</xsd:element>
+
+	<xsd:complexType name="groupType">
+
+		<xsd:sequence>
+			<xsd:element name="widget" maxOccurs="unbounded" type="widgetType" />
+		</xsd:sequence>
+
+		<xsd:attribute name="id" type="xsd:string" use="required" />
+		<xsd:attribute name="disabled" type="xsd:boolean" use="optional" />
+	</xsd:complexType>
+
+	<xsd:complexType name="widgetType">
+		<xsd:sequence>
+			<xsd:element name="title" />
+			<xsd:element name="description" minOccurs="0" />
+			<xsd:element name="events" minOccurs="0" maxOccurs="1" />
+			<xsd:element name="preferences" minOccurs="0" maxOccurs="1" />
+		</xsd:sequence>
+
+		<xsd:attribute name="id" type="xsd:string"/>
+		<xsd:attribute name="name" type="xsd:string" use="required" />
+		<xsd:attribute name="path" type="xsd:string" use="required" />
+		<xsd:attribute name="cache" type="xsd:int" use="optional" />
+		<xsd:attribute name="disabled" type="xsd:boolean" />
+	</xsd:complexType>
+</xsd:schema>
